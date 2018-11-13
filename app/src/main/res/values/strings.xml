@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Friendly letters</string>
+    <string name="app_game_activity_name">Friendly letters</string>
+    <string name="app_setting_activity_name">Friendly letters - settings</string>
+</resources>
