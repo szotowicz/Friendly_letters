@@ -1,4 +1,4 @@
-package com.pg.eti.mikszo.friendlyletters;
+package com.pg.mikszo.friendlyletters;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("com.pg.eti.mikszo.friendlyletters", appContext.getPackageName());
+        assertEquals("com.pg.mikszotters", appContext.getPackageName());
     }
 }

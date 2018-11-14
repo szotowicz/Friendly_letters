@@ -1,4 +1,4 @@
-package com.pg.eti.mikszo.friendlyletters;
+package com.pg.mikszo.friendlyletters;
 
 import org.junit.Test;
 
