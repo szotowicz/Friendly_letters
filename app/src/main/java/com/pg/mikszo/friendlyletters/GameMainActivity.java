@@ -4,9 +4,11 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 
+import com.pg.mikszo.friendlyletters.drawing.AddingShapeView;
+
 public class GameMainActivity extends Activity {
 
-    private CanvasView canvasView;
+    private AddingShapeView canvasView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

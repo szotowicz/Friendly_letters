@@ -1,4 +1,4 @@
-package com.pg.mikszo.friendlyletters;
+package com.pg.mikszo.friendlyletters.drawing;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -9,19 +9,19 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.os.Environment;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
 
+import com.pg.mikszo.friendlyletters.R;
+
 import java.io.File;
-import java.io.FileOutputStream;
 
 public class CanvasView extends View {
-    private Canvas canvas;
-    private Paint paint = new Paint();
-    private Path path = new Path();
-    private final float STROKE_WIDTH = 25f;
+    protected Canvas canvas;
+    protected Paint paint = new Paint();
+    protected Path path = new Path();
+    protected final float STROKE_WIDTH = 25f;
 
     public CanvasView(Context context, AttributeSet attributeSet) {
         super(context, attributeSet);
@@ -70,31 +70,39 @@ public class CanvasView extends View {
     }
 
     public void cleanScreen() {
-        path.reset();
+        this.path.reset();
         invalidate();
     }
 
-    public void saveScreenImage() {
-        try {
-            final View view = this;
-            Bitmap bitmap = Bitmap.createBitmap(view.getWidth(), view.getHeight(), Bitmap.Config.ARGB_8888);
-            Canvas canvas = new Canvas(bitmap);
-            view.draw(canvas);
-            File root = Environment.getExternalStorageDirectory();
-            File appFolder = new File(root.getAbsolutePath() + File.separator + "DCIM" + File.separator + "FriendlyLetters");
-            if (!appFolder.exists()) {
-                if (!appFolder.mkdirs()){
-                    Toast.makeText(getContext(), "[ERROR] Problem with saving the file, check the permissions", Toast.LENGTH_SHORT).show();
-                    return;
-                }
+    protected Bitmap makeBitmapTransparent(Bitmap bitmap, int trackColor) {
+        final int width = bitmap.getWidth();
+        final int height = bitmap.getHeight();
+        int[] allPixels = new int[width * height];
+        bitmap.getPixels(allPixels, 0, width, 0, 0, width, height);
+
+        for (int i = 0; i < width * height; i++) {
+            if (allPixels[i] != trackColor) {
+                allPixels[i] = Color.alpha(Color.TRANSPARENT);
             }
-            File imageFile = new File(appFolder + File.separator + "FriendlyLetters.jpg");
-            FileOutputStream fileOutputStream = new FileOutputStream(imageFile);
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fileOutputStream);
-            fileOutputStream.close();
-            Toast.makeText(getContext(), "The picture was saved: " + appFolder.getAbsolutePath(), Toast.LENGTH_SHORT).show();
-        } catch (Exception ex) {
-            Log.e("[ERROR]", ex.getMessage());
         }
+
+        Bitmap transparentBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        transparentBitmap.setPixels(allPixels, 0, width, 0, 0, width, height);
+        return transparentBitmap;
+    }
+
+    protected String getAppFolderPath() {
+        File root = Environment.getExternalStorageDirectory();
+        File appFolder = new File(root.getAbsolutePath() +
+                File.separator + getContext().getString(R.string.resources_parent_dir_name) +
+                File.separator + getContext().getString(R.string.resources_dir_name));
+        if (!appFolder.exists()) {
+            if (!appFolder.mkdirs()) {
+                Toast.makeText(getContext(), "[ERROR] Problem with saving the file, check the permissions", Toast.LENGTH_SHORT).show();
+                return null;
+            }
+        }
+
+        return appFolder.getAbsolutePath();
     }
 }

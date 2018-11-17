@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFF"
+    android:background="#AAAAAA"
     tools:context=".GameMainActivity">
 
     <TextView
@@ -16,14 +16,14 @@
         android:text="Poziom: 2/5"
         android:textColor="#000000" />
 
-    <com.pg.mikszo.friendlyletters.CanvasView
+    <com.pg.mikszo.friendlyletters.drawing.AddingShapeView
         android:id="@+id/canvasView"
         android:layout_width="280dp"
         android:layout_height="280dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="5dp"
-        android:background="#AAA" />
+        android:background="#FFFFFF" />
 
     <Button
         android:id="@+id/button"
