@@ -9,6 +9,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.pg.mikszo.friendlyletters.R;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.text.SimpleDateFormat;
@@ -20,19 +22,25 @@ public class AddingShapeView extends CanvasView {
         super(context, attributeSet);
     }
 
+    @Override
+    protected void onDraw(Canvas c) {
+        super.onDraw(c);
+        canvas.drawPath(path, paint);
+    }
+
     public void saveScreenImage() {
         try {
             final View view = this;
             Bitmap bitmap = Bitmap.createBitmap(view.getWidth(), view.getHeight(), Bitmap.Config.ARGB_8888);
-            Canvas canvas = new Canvas(bitmap);
-            view.draw(canvas);
+            Canvas c = new Canvas(bitmap);
+            view.draw(c);
 
             String imagePath = getPathForNewImage();
             if (imagePath != null && !imagePath.trim().equals("")) {
-                File imageFile = new File(getPathForNewImage());
+                File imageFile = new File(imagePath);
                 FileOutputStream fileOutputStream = new FileOutputStream(imageFile);
 
-                Bitmap transparentBitmap = makeBitmapTransparent(bitmap, Color.WHITE);
+                Bitmap transparentBitmap = makeBitmapTransparent(bitmap);
                 transparentBitmap.compress(Bitmap.CompressFormat.PNG, 100, fileOutputStream);
                 fileOutputStream.close();
                 Toast.makeText(getContext(), "The picture was saved", Toast.LENGTH_SHORT).show();
@@ -47,7 +55,7 @@ public class AddingShapeView extends CanvasView {
 
         if (appFolder != null && !appFolder.trim().equals("")) {
             final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss", Locale.US);
-            String fileName  = "FLshape_" + dateFormat.format(new Date()) + ".png";
+            String fileName  = getContext().getString(R.string.prefix_shape_file_name) + dateFormat.format(new Date()) + ".png";
 
             return appFolder + File.separator + fileName;
         } else {

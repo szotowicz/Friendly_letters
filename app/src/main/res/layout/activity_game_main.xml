@@ -1,39 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#AAAAAA"
+    android:background="#DDDDDD"
     tools:context=".GameMainActivity">
 
+    <com.pg.mikszo.friendlyletters.drawing.DrawingInGameView
+        android:id="@+id/drawing_in_game_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
     <TextView
+        android:id="@+id/game_current_level"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_marginLeft="20dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
-        android:text="Poziom: 2/5"
-        android:textColor="#000000" />
-
-    <com.pg.mikszo.friendlyletters.drawing.AddingShapeView
-        android:id="@+id/canvasView"
-        android:layout_width="280dp"
-        android:layout_height="280dp"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="5dp"
-        android:background="#FFFFFF" />
+        android:layout_marginLeft="15dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="15dp"
+        android:padding="5dp"
+        android:textColor="#000000"
+        android:background="#AAAAAA"/>
 
     <Button
-        android:id="@+id/button"
+        android:layout_width="@dimen/game_exit_button_size"
+        android:layout_height="@dimen/game_exit_button_size"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginEnd="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="15dp"
+        android:onClick="cleanScreenOnClick"
+        android:text=" X " />
+
+    <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_marginEnd="12dp"
-        android:layout_marginRight="12dp"
-        android:onClick="saveScreenImageOnClick"
-        android:text="Button" />
+        android:layout_marginEnd="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="65dp"
+        android:onClick="analysisScreenOnClick"
+        android:text="Analysis" />
 
 </RelativeLayout>

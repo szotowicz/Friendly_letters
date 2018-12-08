@@ -22,16 +22,38 @@ public class CanvasView extends View {
     protected Paint paint = new Paint();
     protected Path path = new Path();
     protected final float STROKE_WIDTH = 25f;
+    protected int trackColor = Color.BLUE;
 
     public CanvasView(Context context, AttributeSet attributeSet) {
         super(context, attributeSet);
 
         paint.setAntiAlias(true);
-        paint.setColor(Color.BLACK);
+        paint.setColor(trackColor);
         paint.setStrokeJoin(Paint.Join.ROUND);
         paint.setStrokeCap(Paint.Cap.ROUND);
         paint.setStyle(Paint.Style.STROKE);
         paint.setStrokeWidth(STROKE_WIDTH);
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        float xPosition = event.getX();
+        float yPosition = event.getY();
+
+        switch (event.getAction()) {
+        case MotionEvent.ACTION_DOWN:
+            path.moveTo(xPosition, yPosition);
+        case MotionEvent.ACTION_MOVE:
+            path.lineTo(xPosition, yPosition);
+            break;
+        case MotionEvent.ACTION_UP:
+            break;
+        default:
+            return false;
+        }
+        invalidate();
+        return true;
     }
 
     @Override
@@ -45,28 +67,6 @@ public class CanvasView extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         this.canvas = canvas;
-        this.canvas.drawPath(path, paint);
-    }
-
-    @SuppressLint("ClickableViewAccessibility")
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        float xPosition = event.getX();
-        float yPosition = event.getY();
-
-        switch (event.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                path.moveTo(xPosition, yPosition);
-            case MotionEvent.ACTION_MOVE:
-                path.lineTo(xPosition, yPosition);
-                break;
-            case MotionEvent.ACTION_UP:
-                break;
-            default:
-                return false;
-        }
-        invalidate();
-        return true;
     }
 
     public void cleanScreen() {
@@ -74,7 +74,7 @@ public class CanvasView extends View {
         invalidate();
     }
 
-    protected Bitmap makeBitmapTransparent(Bitmap bitmap, int trackColor) {
+    protected Bitmap makeBitmapTransparent(Bitmap bitmap) {
         final int width = bitmap.getWidth();
         final int height = bitmap.getHeight();
         int[] allPixels = new int[width * height];
@@ -93,16 +93,20 @@ public class CanvasView extends View {
 
     protected String getAppFolderPath() {
         File root = Environment.getExternalStorageDirectory();
-        File appFolder = new File(root.getAbsolutePath() +
-                File.separator + getContext().getString(R.string.resources_parent_dir_name) +
+        File appFolder = new File(root.getAbsolutePath() + File.separator + getContext().getString(R.string.resources_parent_dir_name) +
                 File.separator + getContext().getString(R.string.resources_dir_name));
         if (!appFolder.exists()) {
             if (!appFolder.mkdirs()) {
-                Toast.makeText(getContext(), "[ERROR] Problem with saving the file, check the permissions", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "[ERROR] Problem with saving the file, " +
+                        "check the permissions", Toast.LENGTH_SHORT).show();
                 return null;
             }
         }
 
         return appFolder.getAbsolutePath();
+    }
+
+    protected void setTrackColor(int trackColor) {
+        this.trackColor = trackColor;
     }
 }

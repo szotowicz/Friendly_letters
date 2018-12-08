@@ -3,7 +3,9 @@
     <string name="app_game_activity_name">Friendly letters</string>
     <string name="app_setting_activity_name">Friendly letters - settings</string>
 
-
     <string name="resources_parent_dir_name">DCIM</string>
     <string name="resources_dir_name">FriendlyLetters</string>
+    <string name="prefix_shape_file_name">FLshape_</string>
+
+    <string name="game_level_label">Poziom</string>
 </resources>
