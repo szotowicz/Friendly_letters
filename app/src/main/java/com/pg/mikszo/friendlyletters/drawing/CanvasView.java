@@ -22,7 +22,7 @@ public class CanvasView extends View {
     protected Paint paint = new Paint();
     protected Path path = new Path();
     protected final float STROKE_WIDTH = 25f;
-    protected int trackColor = Color.BLUE;
+    protected int trackColor = Color.BLACK;
 
     public CanvasView(Context context, AttributeSet attributeSet) {
         super(context, attributeSet);
@@ -74,6 +74,11 @@ public class CanvasView extends View {
         invalidate();
     }
 
+    public void setTrackColor(int trackColor) {
+        this.trackColor = trackColor;
+        this.paint.setColor(trackColor);
+    }
+
     protected Bitmap makeBitmapTransparent(Bitmap bitmap) {
         final int width = bitmap.getWidth();
         final int height = bitmap.getHeight();
@@ -93,20 +98,17 @@ public class CanvasView extends View {
 
     protected String getAppFolderPath() {
         File root = Environment.getExternalStorageDirectory();
-        File appFolder = new File(root.getAbsolutePath() + File.separator + getContext().getString(R.string.resources_parent_dir_name) +
+        File appFolder = new File(root.getAbsolutePath() + File.separator +
+                getContext().getString(R.string.resources_parent_dir_name) +
                 File.separator + getContext().getString(R.string.resources_dir_name));
         if (!appFolder.exists()) {
             if (!appFolder.mkdirs()) {
-                Toast.makeText(getContext(), "[ERROR] Problem with saving the file, " +
-                        "check the permissions", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), getContext().getString(R.string.error_message_saving_failed),
+                        Toast.LENGTH_SHORT).show();
                 return null;
             }
         }
 
         return appFolder.getAbsolutePath();
-    }
-
-    protected void setTrackColor(int trackColor) {
-        this.trackColor = trackColor;
     }
 }

@@ -1,26 +1,24 @@
 package com.pg.mikszo.friendlyletters;
 
-import android.app.Activity;
+import android.content.res.AssetManager;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.v7.widget.AppCompatImageView;
 import android.view.View;
 import android.widget.TextView;
 
-import com.pg.mikszo.friendlyletters.drawing.AddingShapeView;
 import com.pg.mikszo.friendlyletters.drawing.DrawingInGameView;
 import com.pg.mikszo.friendlyletters.settings.Settings;
 import com.pg.mikszo.friendlyletters.settings.SettingsManager;
 
 import java.io.IOException;
+import java.util.List;
 
-public class GameMainActivity extends Activity {
+public class GameMainActivity extends BaseActivity {
 
     private DrawingInGameView drawingInGameView;
     private TextView currentLevelTextView;
     private Settings settings;
-    private int currentLevel;
+    private int currentLevel = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,12 +27,15 @@ public class GameMainActivity extends Activity {
         drawingInGameView = findViewById(R.id.drawing_in_game_view);
         currentLevelTextView = findViewById(R.id.game_current_level);
 
-        settings = new SettingsManager(this).getSettingsFromJSON();
-        currentLevel = 1;
+        if (!isAppFolderExists()) {
+            copyDefaultImages();
+        }
 
+        settings = new SettingsManager(this).getAppSettings();
         String currentLevelText = getResources().getString(R.string.game_level_label) + ": " +
                 currentLevel + "/" + settings.numberOfLevels;
         currentLevelTextView.setText(currentLevelText);
+        drawingInGameView.setTrackColor(Color.parseColor(settings.trackColor));
     }
 
     public void cleanScreenOnClick(View view) {

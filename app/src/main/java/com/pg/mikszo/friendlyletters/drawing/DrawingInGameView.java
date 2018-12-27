@@ -27,9 +27,9 @@ public class DrawingInGameView extends CanvasView {
         setBackgroundImageDimension();
 
         try {
-            // TODO: z Assets z plików "FLshape_*.png"
+            // TODO: from appfolder random file "FLshape_*.png"
             backgroundImage = Drawable.createFromStream(getContext().getAssets().open("FLshape_y.png"), null);
-            backgroundImage.setBounds(backgroundImageLeft, backgroundImageTop, backgroundImageRight, backgroundImageBottom); // TODO: calculate it!
+            backgroundImage.setBounds(backgroundImageLeft, backgroundImageTop, backgroundImageRight, backgroundImageBottom);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -101,7 +101,7 @@ public class DrawingInGameView extends CanvasView {
     }
 
     private void setBackgroundImageDimension() {
-        // TODO: calculate
+        // TODO: calculate it
         backgroundImageLeft = 200;
         backgroundImageRight = 600;
         backgroundImageTop = 100;
