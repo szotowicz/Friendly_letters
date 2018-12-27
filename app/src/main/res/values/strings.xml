@@ -1,11 +1,14 @@
 <resources>
-    <string name="app_name">Friendly letters</string>
-    <string name="app_game_activity_name">Friendly letters</string>
-    <string name="app_setting_activity_name">Friendly letters - settings</string>
+    <string name="app_name" translatable="false">Friendly letters</string>
+    <string name="app_game_activity_name" translatable="false">Friendly letters</string>
+    <string name="app_setting_activity_name" translatable="false">Friendly letters - settings</string>
 
-    <string name="resources_parent_dir_name">DCIM</string>
-    <string name="resources_dir_name">FriendlyLetters</string>
-    <string name="prefix_shape_file_name">FLshape_</string>
+    <string name="resources_parent_dir_name" translatable="false">DCIM</string>
+    <string name="resources_dir_name" translatable="false">FriendlyLetters</string>
+    <string name="prefix_shape_file_name" translatable="false">FLshape_</string>
+
+    <string name="error_message_copying_failed">[ERROR] Kopiowanie domyślnego zestawu kształtów zakończone niepowodzeniem. Sprawdź uprawnienia aplikacji</string>
+    <string name="error_message_saving_failed">[ERROR] Dodawanie nowego kształtu zakończone niepowodzeniem. Sprawdź uprawnienia aplikacji</string>
 
     <string name="game_level_label">Poziom</string>
 </resources>
