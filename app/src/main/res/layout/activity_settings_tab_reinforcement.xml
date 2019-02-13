@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_settings_background"
+    android:orientation="vertical"
+    tools:context=".SettingsMainActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="1.0">
+
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight=".25"
+            android:background="@color/color_settings_tab_background"
+            android:paddingTop="@dimen/settings_menu_bar_padding_size"
+            android:paddingBottom="@dimen/settings_menu_bar_padding_size">
+
+            <Button
+                android:id="@+id/aspectButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:onClick="tabAspectOnClick"
+                android:text="@string/settings_tab_aspect"
+                android:textColor="@color/color_settings_tab_unselected"
+                android:textSize="@dimen/settings_menu_bar_font_size" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight=".25"
+            android:background="@color/color_settings_tab_background"
+            android:paddingTop="@dimen/settings_menu_bar_padding_size"
+            android:paddingBottom="@dimen/settings_menu_bar_padding_size">
+
+            <Button
+                android:id="@+id/materialButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:onClick="tabMaterialOnClick"
+                android:text="@string/settings_tab_material"
+                android:textColor="@color/color_settings_tab_unselected"
+                android:textSize="@dimen/settings_menu_bar_font_size" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight=".25"
+            android:background="@color/color_settings_tab_background"
+            android:paddingTop="@dimen/settings_menu_bar_padding_size"
+            android:paddingBottom="@dimen/settings_menu_bar_padding_size">
+
+            <Button
+                android:id="@+id/learningButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:onClick="tabLearningOnClick"
+                android:text="@string/settings_tab_learning"
+                android:textColor="@color/color_settings_tab_unselected"
+                android:textSize="@dimen/settings_menu_bar_font_size" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight=".25"
+            android:background="@drawable/settings_menu_border"
+            android:paddingTop="@dimen/settings_menu_bar_padding_size"
+            android:paddingBottom="@dimen/settings_menu_bar_padding_size">
+
+            <Button
+                android:id="@+id/reinforcementButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:onClick="tabReinforcementOnClick"
+                android:text="@string/settings_tab_reinforcement"
+                android:textColor="@color/color_settings_tab_selected"
+                android:textStyle="bold"
+                android:textSize="@dimen/settings_menu_bar_font_size" />
+        </FrameLayout>
+
+
+    </LinearLayout>
+
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="addShapeToResourcesOnClick"
+        android:text="Add to resources" />
+
+</LinearLayout>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape android:shape="rectangle">
+            <size android:width="25dp" android:height="25dp"/>
+            <solid android:color="@color/color_settings_background_selected" />
+        </shape>
+    </item>
+    <item android:top="@dimen/settings_aspect_selected_border"
+        android:bottom="@dimen/settings_aspect_selected_border"
+        android:left="@dimen/settings_aspect_selected_border"
+        android:right="@dimen/settings_aspect_selected_border">
+        <shape android:shape="rectangle">
+            <size android:width="25dp" android:height="25dp"/>
+            <solid android:color="@color/color_settings_background_2" />
+        </shape>
+    </item>
+</layer-list>

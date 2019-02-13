@@ -13,8 +13,8 @@
         android:textColor="#000000"
         android:text="SETTINGS" />
 
-    <com.pg.mikszo.friendlyletters.drawing.AddingShapeView
-        android:id="@+id/adding_shape_view"
+    <com.pg.mikszo.friendlyletters.drawing.configurationApp.AddingShapeView
+        android:id="@+id/addingShapeView"
         android:layout_width="280dp"
         android:layout_height="280dp"
         android:layout_alignParentBottom="true"

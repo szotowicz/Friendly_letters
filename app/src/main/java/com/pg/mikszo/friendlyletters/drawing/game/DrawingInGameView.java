@@ -1,4 +1,4 @@
-package com.pg.mikszo.friendlyletters.drawing;
+package com.pg.mikszo.friendlyletters.drawing.game;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -10,9 +10,14 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.pg.mikszo.friendlyletters.drawing.CanvasView;
+import com.pg.mikszo.friendlyletters.settings.Settings;
+import com.pg.mikszo.friendlyletters.settings.SettingsManager;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Random;
 
 public class DrawingInGameView extends CanvasView {
     private Drawable backgroundImage;
@@ -27,9 +32,14 @@ public class DrawingInGameView extends CanvasView {
         setBackgroundImageDimension();
 
         try {
-            // TODO: from appfolder random file "FLshape_*.png"
-            backgroundImage = Drawable.createFromStream(getContext().getAssets().open("FLshape_y.png"), null);
-            backgroundImage.setBounds(backgroundImageLeft, backgroundImageTop, backgroundImageRight, backgroundImageBottom);
+            Settings settings = new SettingsManager(getContext()).getAppSettings();
+            String[] availableShapes = settings.availableShapes;
+            if (availableShapes.length == 0) {
+                //TODO toast
+            } else {
+                backgroundImage = Drawable.createFromStream(getContext().getAssets().open(randomShape(availableShapes)), null);
+                backgroundImage.setBounds(backgroundImageLeft, backgroundImageTop, backgroundImageRight, backgroundImageBottom);
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -106,5 +116,11 @@ public class DrawingInGameView extends CanvasView {
         backgroundImageRight = 600;
         backgroundImageTop = 100;
         backgroundImageBottom = 450;
+    }
+
+    private String randomShape(String[] availableShapes) {
+        int random = new Random().nextInt(availableShapes.length);
+        // TODO: check if exist
+        return availableShapes[random];
     }
 }

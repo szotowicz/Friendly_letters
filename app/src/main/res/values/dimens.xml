@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="game_exit_button_size">50dp</dimen>
+    <dimen name="settings_menu_bar_padding_size">15dp</dimen>
+    <dimen name="settings_menu_bar_font_size">17sp</dimen>
+    <dimen name="settings_aspect_content_font_size">15sp</dimen>
+    <dimen name="settings_aspect_selected_border">2dp</dimen>
 </resources>
