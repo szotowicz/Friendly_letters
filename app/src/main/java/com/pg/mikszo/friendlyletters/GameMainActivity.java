@@ -1,19 +1,16 @@
 package com.pg.mikszo.friendlyletters;
 
-import android.content.res.AssetManager;
+import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
-import com.pg.mikszo.friendlyletters.drawing.DrawingInGameView;
+import com.pg.mikszo.friendlyletters.drawing.game.DrawingInGameView;
 import com.pg.mikszo.friendlyletters.settings.Settings;
 import com.pg.mikszo.friendlyletters.settings.SettingsManager;
 
-import java.io.IOException;
-import java.util.List;
-
-public class GameMainActivity extends BaseActivity {
+public class GameMainActivity extends Activity {
 
     private DrawingInGameView drawingInGameView;
     private TextView currentLevelTextView;
@@ -27,8 +24,8 @@ public class GameMainActivity extends BaseActivity {
         drawingInGameView = findViewById(R.id.drawing_in_game_view);
         currentLevelTextView = findViewById(R.id.game_current_level);
 
-        if (!isAppFolderExists()) {
-            copyDefaultImages();
+        if (!FileHelper.isAppFolderExists(this)) {
+            FileHelper.copyDefaultImages(this);
         }
 
         settings = new SettingsManager(this).getAppSettings();

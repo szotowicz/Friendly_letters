@@ -1,4 +1,4 @@
-package com.pg.mikszo.friendlyletters.drawing;
+package com.pg.mikszo.friendlyletters.drawing.configurationApp;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.pg.mikszo.friendlyletters.R;
+import com.pg.mikszo.friendlyletters.drawing.CanvasView;
 
 import java.io.File;
 import java.io.FileOutputStream;

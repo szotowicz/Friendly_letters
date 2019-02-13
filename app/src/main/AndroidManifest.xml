@@ -14,12 +14,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".GameMainActivity"
+            android:name=".SettingsMainActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="@string/app_game_activity_name"
+            android:label="@string/app_setting_activity_name"
             android:screenOrientation="sensorLandscape"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
-            android:taskAffinity="com.pg.mikszo.gameactivity"
+            android:taskAffinity="com.pg.mikszo.settingsactivity"
             android:icon="@mipmap/ic_launcher">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -27,12 +27,12 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".SettingsMainActivity"
+            android:name=".GameMainActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="@string/app_setting_activity_name"
+            android:label="@string/app_game_activity_name"
             android:screenOrientation="sensorLandscape"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
-            android:taskAffinity="com.pg.mikszo.settingsactivity"
+            android:taskAffinity="com.pg.mikszo.gameactivity"
             android:icon="@mipmap/ic_launcher">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -2,6 +2,7 @@ package com.pg.mikszo.friendlyletters;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Context;
 import android.content.res.AssetManager;
 import android.os.Environment;
 import android.util.Log;
@@ -16,42 +17,41 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
-@SuppressLint("Registered")
-public class BaseActivity extends Activity {
-    protected boolean isAppFolderExists() {
+public class FileHelper {
+    public static boolean isAppFolderExists(Context context) {
         File root = Environment.getExternalStorageDirectory();
         File appFolder = new File(root.getAbsolutePath() + File.separator +
-                getString(R.string.resources_parent_dir_name) + File.separator +
-                getString(R.string.resources_dir_name));
+                context.getString(R.string.resources_parent_dir_name) + File.separator +
+                context.getString(R.string.resources_dir_name));
         return appFolder.exists();
     }
 
-    protected void copyDefaultImages() {
+    public static void copyDefaultImages(Context context) {
         File root = Environment.getExternalStorageDirectory();
         File appFolder = new File(root.getAbsolutePath() + File.separator +
-                getString(R.string.resources_parent_dir_name) + File.separator +
-                getString(R.string.resources_dir_name));
+                context.getString(R.string.resources_parent_dir_name) + File.separator +
+                context.getString(R.string.resources_dir_name));
 
         if (!appFolder.exists()) {
             if (!appFolder.mkdirs()) {
-                Toast.makeText(this, getString(R.string.error_message_copying_failed),
+                Toast.makeText(context, context.getString(R.string.error_message_copying_failed),
                         Toast.LENGTH_SHORT).show();
             }
         }
 
         try {
-            AssetManager assetManager = getAssets();
-            List<String> images = getMatchesAssetsFile(assetManager.list(""));
+            AssetManager assetManager = context.getAssets();
+            List<String> images = getMatchesAssetsFile(assetManager.list(""), context);
             for (String img : images) {
-                copyFileAssets(appFolder.getAbsolutePath(), img);
+                copyFileAssets(appFolder.getAbsolutePath(), img, context);
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    private List<String> getMatchesAssetsFile(String[] strings) {
-        Pattern pattern = Pattern.compile(getString(R.string.prefix_shape_file_name) + "(.*?)png");
+    private static List<String> getMatchesAssetsFile(String[] strings, Context context) {
+        Pattern pattern = Pattern.compile(context.getString(R.string.prefix_shape_file_name) + "(.*?)png");
         List<String> matches = new ArrayList<>();
 
         for (String file : strings) {
@@ -63,8 +63,8 @@ public class BaseActivity extends Activity {
         return matches;
     }
 
-    private void copyFileAssets(String appFolder, String filename) {
-        AssetManager assetManager = getAssets();
+    private static void copyFileAssets(String appFolder, String filename, Context context) {
+        AssetManager assetManager = context.getAssets();
         InputStream in = null;
         OutputStream out = null;
         try {
@@ -81,7 +81,7 @@ public class BaseActivity extends Activity {
         }
     }
 
-    private void copyFile(InputStream in, OutputStream out) throws IOException {
+    private static void copyFile(InputStream in, OutputStream out) throws IOException {
         byte[] buffer = new byte[1024];
         int read;
         while((read = in.read(buffer)) != -1) {

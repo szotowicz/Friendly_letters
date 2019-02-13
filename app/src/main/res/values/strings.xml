@@ -11,4 +11,16 @@
     <string name="error_message_saving_failed">[ERROR] Dodawanie nowego kształtu zakończone niepowodzeniem. Sprawdź uprawnienia aplikacji</string>
 
     <string name="game_level_label">Poziom</string>
+
+    <string name="settings_tab_aspect">WYGLĄD</string>
+    <string name="settings_tab_aspect_material_color">Kolor materiału:</string>
+    <string name="settings_tab_aspect_trace_color">Kolor śladu:</string>
+    <string name="settings_tab_aspect_background">Tło:</string>
+
+    <string name="settings_tab_material">MATERIAŁ</string>
+
+    <string name="settings_tab_learning">SPOSÓB UCZENIA</string>
+
+    <string name="settings_tab_reinforcement">WZMOCNIENIA</string>
+
 </resources>
