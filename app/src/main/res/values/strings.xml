@@ -18,8 +18,22 @@
     <string name="settings_tab_aspect_background">Tło:</string>
 
     <string name="settings_tab_material">MATERIAŁ</string>
+    <string name="settings_tab_material_button_remove_material">Usuń materiał</string>
+    <string name="settings_tab_material_button_enable_material">Włącz materiał</string>
+    <string name="settings_tab_material_button_disable_material">Wyłącz materiał</string>
+    <string name="settings_tab_material_button_add_new_material">Dodaj nowy</string>
+    <string name="settings_tab_add_new_material_clean">Wyczyść</string>
+    <string name="settings_tab_add_new_material_add">Dodaj</string>
 
     <string name="settings_tab_learning">SPOSÓB UCZENIA</string>
+    <string name="settings_tab_learning_learning_mode">Tryb testu</string>
+    <string name="settings_tab_learning_difficulty_level">Poziom trudności:</string>
+    <string name="settings_tab_learning_difficulty_level_easy">Łatwy</string>
+    <string name="settings_tab_learning_difficulty_level_medium">Średni</string>
+    <string name="settings_tab_learning_difficulty_level_hard">Trudny</string>
+    <string name="settings_tab_learning_level_count">Liczba poziomów:</string>
+    <string name="settings_tab_learning_attempt_count">Liczba prób:</string>
+    <string name="settings_tab_learning_time_limit">Limit czasu:</string>
 
     <string name="settings_tab_reinforcement">WZMOCNIENIA</string>
 

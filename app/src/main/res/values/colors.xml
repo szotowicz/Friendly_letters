@@ -8,6 +8,7 @@
     <color name="color_settings_tab_selected">#FFFFFF</color>
     <color name="color_settings_tab_unselected">#DADADA</color>
     <color name="color_settings_background">#DFDFDF</color>
+    <color name="color_settings_background_tab_learning">#929292</color>
     <color name="color_settings_content_font">#000000</color>
 
     <color name="color_settings_material_selected">#000000</color>

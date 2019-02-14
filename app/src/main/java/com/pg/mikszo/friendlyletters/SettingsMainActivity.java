@@ -11,15 +11,24 @@ import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.SeekBar;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.pg.mikszo.friendlyletters.drawing.configurationApp.AddingShapeView;
+
+import java.util.List;
 
 public class SettingsMainActivity extends Activity {
 
     private AddingShapeView addingShapeView;
-    private enum availableTabs { aspect, material, learning, reinforcement}
+    private enum availableTabs { aspect, material, learning, reinforcement, addMaterial }
+    private enum availableAspectSections { materialSection, traceSection, backgroundSection }
     private availableTabs selectedTab;
     private Context context;
+    private List<Button> selectedMaterialColors;
+    private List<Button> selectedTraceColors;
+    private List<Button> selectedBackgroundColors;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,16 +37,11 @@ public class SettingsMainActivity extends Activity {
         loadMenuTabAspect();
 
         //Todo: change
-        addingShapeView = findViewById(R.id.addingShapeView);
+        //addingShapeView = findViewById(R.id.addingShapeView);
 
         if (!FileHelper.isAppFolderExists(this)) {
             FileHelper.copyDefaultImages(this);
         }
-    }
-
-    public void addShapeToResourcesOnClick(View view) {
-        addingShapeView.saveScreenImage();
-        addingShapeView.cleanScreen();
     }
 
     public void tabAspectOnClick(View view) {
@@ -64,6 +68,34 @@ public class SettingsMainActivity extends Activity {
         }
     }
 
+    public void removeMaterialOnClick(View view) {
+        //TODO
+    }
+
+    public void enableMaterialOnClick(View view) {
+        //TODO
+    }
+
+    public void addNewMaterialOnClick(View view) {
+        selectedTab = availableTabs.addMaterial;
+        setContentView(R.layout.activity_settings_add_material);
+        addingShapeView = findViewById(R.id.addingShapeView);
+        //TODO height = width
+    }
+
+    public void cleanNewMaterialOnClick(View view) {
+        addingShapeView.cleanScreen();
+    }
+
+    public void addMaterialToResourcesOnClick(View view) {
+        addingShapeView.saveScreenImage();
+        addingShapeView.cleanScreen();
+    }
+
+    public void setLevelOnClick(View view) {
+        //TODO from tag?
+    }
+
     private void loadMenuTabAspect() {
         selectedTab = availableTabs.aspect;
         setContentView(R.layout.activity_settings_tab_aspect);
@@ -77,7 +109,7 @@ public class SettingsMainActivity extends Activity {
                 ContextCompat.getDrawable(context, R.drawable.settings_material_color_2),
                 ContextCompat.getDrawable(context, R.drawable.settings_material_color_3)};
         LinearLayout materialColorsContainer = findViewById(R.id.settings_material_colors_container);
-        createTabAspectSection(materialColors, materialColorsDrawable, materialColorsContainer, true);
+        createTabAspectSection(materialColors, materialColorsDrawable, materialColorsContainer, availableAspectSections.materialSection);
 
         int[] traceColors = {
                 ContextCompat.getColor(context, R.color.color_settings_trace_1),
@@ -90,7 +122,7 @@ public class SettingsMainActivity extends Activity {
                 ContextCompat.getDrawable(context, R.drawable.settings_trace_color_3),
                 ContextCompat.getDrawable(context, R.drawable.settings_trace_color_4)};
         LinearLayout traceColorsContainer = findViewById(R.id.settings_trace_colors_container);
-        createTabAspectSection(traceColors, traceColorsDrawable, traceColorsContainer, true);
+        createTabAspectSection(traceColors, traceColorsDrawable, traceColorsContainer, availableAspectSections.traceSection);
 
         int[] backgroundColors = {
                 ContextCompat.getColor(context, R.color.color_settings_background_1),
@@ -101,30 +133,31 @@ public class SettingsMainActivity extends Activity {
                 ContextCompat.getDrawable(context, R.drawable.settings_background_color_2),
                 ContextCompat.getDrawable(context, R.drawable.settings_background_color_3)};
         LinearLayout backgroundColorsContainer = findViewById(R.id.settings_background_colors_container);
-        createTabAspectSection(backgroundColors, backgroundColorsDrawable, backgroundColorsContainer, false);
+        createTabAspectSection(backgroundColors, backgroundColorsDrawable, backgroundColorsContainer, availableAspectSections.backgroundSection);
     }
 
-    private void createTabAspectSection(final int[] buttonColors, final Drawable[] buttonColorsDrawable, final LinearLayout layoutContainer, final boolean isCircle) {
+    private void createTabAspectSection(final int[] buttonColors, final Drawable[] buttonColorsDrawable,
+                                        final LinearLayout layoutContainer, final availableAspectSections section) {
         if (buttonColors.length != buttonColorsDrawable.length) {
             return;
         }
 
         for (int colorId = 0; colorId < buttonColors.length; colorId++) {
             Drawable drawable;
-            if (isCircle) {
-                drawable = ContextCompat.getDrawable(context, R.drawable.settings_circle_drawable);
-            } else {
+            if (section == availableAspectSections.backgroundSection) {
                 drawable = ContextCompat.getDrawable(context, R.drawable.settings_square_drawable);
+            } else {
+                drawable = ContextCompat.getDrawable(context, R.drawable.settings_circle_drawable);
             }
             if (drawable != null) {
                 drawable.setColorFilter(new PorterDuffColorFilter(buttonColors[colorId], PorterDuff.Mode.MULTIPLY));
 
                 LinearLayout.LayoutParams params;
-                if (isCircle) {
-                    params = new LinearLayout.LayoutParams(70, 70);
+                if (section == availableAspectSections.backgroundSection) {
+                    params = new LinearLayout.LayoutParams(140, 90);
                     params.setMargins(30, 0, 0, 0);
                 } else {
-                    params = new LinearLayout.LayoutParams(140, 90);
+                    params = new LinearLayout.LayoutParams(70, 70);
                     params.setMargins(30, 0, 0, 0);
                 }
 
@@ -137,19 +170,22 @@ public class SettingsMainActivity extends Activity {
                     public void onClick(View v) {
                         int idOfButton = (int) v.getTag();
                         if (v.getBackground() == buttonColorsDrawable[idOfButton]) {
+                            //TODO: allow if it is not last
                             Drawable drawable;
-                            if (isCircle) {
-                                drawable = ContextCompat.getDrawable(context, R.drawable.settings_circle_drawable);
-                            } else {
+                            if (section == availableAspectSections.backgroundSection) {
                                 drawable = ContextCompat.getDrawable(context, R.drawable.settings_square_drawable);
+                            } else {
+                                drawable = ContextCompat.getDrawable(context, R.drawable.settings_circle_drawable);
                             }
                             if (drawable != null) {
                                 drawable.setColorFilter(new PorterDuffColorFilter(buttonColors[idOfButton], PorterDuff.Mode.MULTIPLY));
                                 v.setBackground(drawable);
                             }
+                            //TODO: add to selected btns
                         }
                         else {
                             v.setBackground(buttonColorsDrawable[idOfButton]);
+                            //TODO: remove from selected btns
                         }
                     }
                 });
@@ -170,7 +206,77 @@ public class SettingsMainActivity extends Activity {
     private void loadMenuTabLearning() {
         selectedTab = availableTabs.learning;
         setContentView(R.layout.activity_settings_tab_learning);
-        //TODO
+
+        //TODO: read and set current values
+
+        final SeekBar seekBarLevelCount = findViewById(R.id.seek_bar_level_count);
+        final TextView levelCountMonitor = findViewById(R.id.level_count_monitor);
+        final int levelCountMin = getResources().getInteger(R.integer.settings_learning_level_count_min);
+        final int levelCountMax = getResources().getInteger(R.integer.settings_learning_level_count_max);
+        seekBarLevelCount.setMax(levelCountMax - levelCountMin);
+        levelCountMonitor.setText(String.valueOf(seekBarLevelCount.getProgress() + levelCountMin));
+        seekBarLevelCount.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                // TODO Auto-generated method stub
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+                // TODO Auto-generated method stub
+            }
+
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress,boolean fromUser) {
+                levelCountMonitor.setText(String.valueOf(seekBarLevelCount.getProgress() + levelCountMin));
+            }
+        });
+
+        final SeekBar seekBarAttemptCount = findViewById(R.id.seek_bar_attempt_count);
+        final TextView attemptCountMonitor = findViewById(R.id.attempt_count_monitor);
+        final int attemptCountMin = getResources().getInteger(R.integer.settings_learning_attempt_count_min);
+        final int attemptCountMax = getResources().getInteger(R.integer.settings_learning_attempt_count_max);
+        seekBarAttemptCount.setMax(attemptCountMax - attemptCountMin);
+        attemptCountMonitor.setText(String.valueOf(seekBarAttemptCount.getProgress() + attemptCountMin));
+        seekBarAttemptCount.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                // TODO Auto-generated method stub
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+                // TODO Auto-generated method stub
+            }
+
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress,boolean fromUser) {
+                attemptCountMonitor.setText(String.valueOf(seekBarAttemptCount.getProgress() + attemptCountMin));
+            }
+        });
+
+        final SeekBar seekBarTimeLimit = findViewById(R.id.seek_bar_time_limit);
+        final TextView timeLimitMonitor = findViewById(R.id.time_limit_monitor);
+        final int timeLimitMin = getResources().getInteger(R.integer.settings_learning_time_limit_min);
+        final int timeLimitMax = getResources().getInteger(R.integer.settings_learning_time_limit_max);
+        seekBarTimeLimit.setMax(timeLimitMax - timeLimitMin);
+        timeLimitMonitor.setText(String.valueOf(seekBarTimeLimit.getProgress() + timeLimitMin));
+        seekBarTimeLimit.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                // TODO Auto-generated method stub
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+                // TODO Auto-generated method stub
+            }
+
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress,boolean fromUser) {
+                timeLimitMonitor.setText(String.valueOf(seekBarTimeLimit.getProgress() + timeLimitMin));
+            }
+        });
     }
 
     private void loadMenuTabReinforcement() {
