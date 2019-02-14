@@ -93,12 +93,60 @@
 
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:weightSum="1.0"
+        android:paddingTop="20dp">
 
-    <Button
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="addShapeToResourcesOnClick"
-        android:text="Add to resources" />
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight=".7"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:layout_gravity="center_horizontal"
+            android:background="#0f0">
+
+        </ScrollView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight=".3"
+            android:weightSum="1.0"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".3"
+                android:layout_marginRight="10dp"
+                android:onClick="removeMaterialOnClick"
+                android:text="@string/settings_tab_material_button_remove_material"/>
+
+            <Button
+                android:id="@+id/settings_material_enable_material"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".3"
+                android:layout_marginRight="10dp"
+                android:layout_marginLeft="10dp"
+                android:onClick="enableMaterialOnClick"
+                android:text="@string/settings_tab_material_button_disable_material"/>
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".3"
+                android:layout_marginLeft="10dp"
+                android:onClick="addNewMaterialOnClick"
+                android:text="@string/settings_tab_material_button_add_new_material"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
 
 </LinearLayout>

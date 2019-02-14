@@ -1,8 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="game_exit_button_size">50dp</dimen>
+
     <dimen name="settings_menu_bar_padding_size">15dp</dimen>
     <dimen name="settings_menu_bar_font_size">17sp</dimen>
+
     <dimen name="settings_aspect_content_font_size">15sp</dimen>
     <dimen name="settings_aspect_selected_border">2dp</dimen>
+
+    <dimen name="settings_learning_content_font_size">15sp</dimen>
+    <integer name="settings_learning_level_count_min">1</integer>
+    <integer name="settings_learning_level_count_max">5</integer>
+    <integer name="settings_learning_attempt_count_min">1</integer>
+    <integer name="settings_learning_attempt_count_max">5</integer>
+    <integer name="settings_learning_time_limit_min">5</integer>
+    <integer name="settings_learning_time_limit_max">15</integer>
 </resources>
