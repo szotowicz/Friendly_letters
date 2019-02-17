@@ -34,8 +34,7 @@ public class FileHelper {
 
         if (!appFolder.exists()) {
             if (!appFolder.mkdirs()) {
-                Toast.makeText(context, context.getString(R.string.error_message_copying_failed),
-                        Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, R.string.error_message_copying_failed, Toast.LENGTH_SHORT).show();
             }
         }
 

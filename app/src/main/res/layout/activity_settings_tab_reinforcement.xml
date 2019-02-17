@@ -11,12 +11,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:weightSum="1.0">
+        android:weightSum="1.0"
+        android:baselineAligned="false">
 
         <FrameLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight=".25"
+            android:layout_weight=".21"
             android:background="@color/color_settings_tab_background"
             android:paddingTop="@dimen/settings_menu_bar_padding_size"
             android:paddingBottom="@dimen/settings_menu_bar_padding_size">
@@ -35,7 +36,7 @@
         <FrameLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight=".25"
+            android:layout_weight=".21"
             android:background="@color/color_settings_tab_background"
             android:paddingTop="@dimen/settings_menu_bar_padding_size"
             android:paddingBottom="@dimen/settings_menu_bar_padding_size">
@@ -54,7 +55,7 @@
         <FrameLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight=".25"
+            android:layout_weight=".31"
             android:background="@color/color_settings_tab_background"
             android:paddingTop="@dimen/settings_menu_bar_padding_size"
             android:paddingBottom="@dimen/settings_menu_bar_padding_size">
@@ -73,7 +74,7 @@
         <FrameLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight=".25"
+            android:layout_weight=".27"
             android:background="@drawable/settings_menu_border"
             android:paddingTop="@dimen/settings_menu_bar_padding_size"
             android:paddingBottom="@dimen/settings_menu_bar_padding_size">
@@ -93,11 +94,46 @@
 
     </LinearLayout>
 
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
 
-    <Button
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="TODO" />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="20dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/settings_reinforcement_content_font_size"
+                android:textColor="@color/color_settings_content_font"
+                android:text="@string/settings_tab_reinforcement_verbal_praise"/>
+            <LinearLayout
+                android:id="@+id/settings_verbal_praise_container"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingTop="10dp"
+                android:paddingBottom="15dp">
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/settings_reinforcement_content_font_size"
+                android:textColor="@color/color_settings_content_font"
+                android:text="@string/settings_tab_reinforcement_multimedia_praise"/>
+            <LinearLayout
+                android:id="@+id/settings_multimedia_praise_container"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingTop="10dp"
+                android:paddingBottom="15dp">
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
 
 </LinearLayout>

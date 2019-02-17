@@ -11,12 +11,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:weightSum="1.0">
+        android:weightSum="1.0"
+        android:baselineAligned="false">
 
         <FrameLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight=".25"
+            android:layout_weight=".21"
             android:background="@color/color_settings_tab_background"
             android:paddingTop="@dimen/settings_menu_bar_padding_size"
             android:paddingBottom="@dimen/settings_menu_bar_padding_size">
@@ -35,7 +36,7 @@
         <FrameLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight=".25"
+            android:layout_weight=".21"
             android:background="@color/color_settings_tab_background"
             android:paddingTop="@dimen/settings_menu_bar_padding_size"
             android:paddingBottom="@dimen/settings_menu_bar_padding_size">
@@ -54,7 +55,7 @@
         <FrameLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight=".25"
+            android:layout_weight=".31"
             android:background="@drawable/settings_menu_border"
             android:paddingTop="@dimen/settings_menu_bar_padding_size"
             android:paddingBottom="@dimen/settings_menu_bar_padding_size">
@@ -74,7 +75,7 @@
         <FrameLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight=".25"
+            android:layout_weight=".27"
             android:background="@color/color_settings_tab_background"
             android:paddingTop="@dimen/settings_menu_bar_padding_size"
             android:paddingBottom="@dimen/settings_menu_bar_padding_size">
@@ -95,7 +96,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal"
-        android:weightSum="1.0">
+        android:weightSum="1.0"
+        android:baselineAligned="false">
 
         <LinearLayout
             android:layout_width="0dp"
@@ -108,12 +110,12 @@
             android:paddingTop="30dp"
             android:paddingRight="30dp">
 
-            <TextView
+            <Switch
+                android:id="@+id/switch_learning_mode"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/settings_tab_learning_learning_mode"
-                android:textColor="@color/color_settings_content_font"
-                android:textSize="@dimen/settings_learning_content_font_size" />
+                android:textOff="Nauka"
+                android:textOn="Test" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -124,23 +126,31 @@
                 android:textSize="@dimen/settings_learning_content_font_size" />
 
             <Button
+                android:id="@+id/set_difficulty_level_easy"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:onClick="setLevelOnClick"
-                android:text="@string/settings_tab_learning_difficulty_level_easy" />
+                android:padding="10dp"
+                android:text="@string/settings_tab_learning_difficulty_level_easy"
+                android:background="@drawable/settings_difficulty_level_buttons" />
 
             <Button
+                android:id="@+id/set_difficulty_level_medium"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:onClick="setLevelOnClick"
-                android:text="@string/settings_tab_learning_difficulty_level_medium" />
+                android:layout_marginTop="5dp"
+                android:padding="10dp"
+                android:text="@string/settings_tab_learning_difficulty_level_medium"
+                android:background="@drawable/settings_difficulty_level_buttons" />
 
             <Button
+                android:id="@+id/set_difficulty_level_hard"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:onClick="setLevelOnClick"
-                android:text="@string/settings_tab_learning_difficulty_level_hard" />
+                android:layout_marginTop="5dp"
+                android:padding="10dp"
+                android:text="@string/settings_tab_learning_difficulty_level_hard"
+                android:background="@drawable/settings_difficulty_level_buttons"  />
         </LinearLayout>
 
         <LinearLayout
@@ -182,13 +192,13 @@
                 android:id="@+id/seek_bar_level_count"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:progressDrawable="@drawable/seek_bar_thumb" />
+                android:progressDrawable="@drawable/seek_bar_progress_drawable" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
                 android:layout_marginTop="20dp"
+                android:orientation="horizontal"
                 android:weightSum="1.0">
 
                 <TextView
@@ -215,7 +225,7 @@
                 android:id="@+id/seek_bar_attempt_count"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:progressDrawable="@drawable/seek_bar_thumb" />
+                android:progressDrawable="@drawable/seek_bar_progress_drawable" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -248,7 +258,7 @@
                 android:id="@+id/seek_bar_time_limit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:progressDrawable="@drawable/seek_bar_thumb" />
+                android:progressDrawable="@drawable/seek_bar_progress_drawable" />
 
         </LinearLayout>
 

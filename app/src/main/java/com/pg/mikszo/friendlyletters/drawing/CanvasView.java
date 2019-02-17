@@ -42,15 +42,15 @@ public class CanvasView extends View {
         float yPosition = event.getY();
 
         switch (event.getAction()) {
-        case MotionEvent.ACTION_DOWN:
-            path.moveTo(xPosition, yPosition);
-        case MotionEvent.ACTION_MOVE:
-            path.lineTo(xPosition, yPosition);
-            break;
-        case MotionEvent.ACTION_UP:
-            break;
-        default:
-            return false;
+            case MotionEvent.ACTION_DOWN:
+                path.moveTo(xPosition, yPosition);
+            case MotionEvent.ACTION_MOVE:
+                path.lineTo(xPosition, yPosition);
+                break;
+            case MotionEvent.ACTION_UP:
+                break;
+            default:
+                return false;
         }
         invalidate();
         return true;

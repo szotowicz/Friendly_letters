@@ -29,6 +29,7 @@ public class AddingShapeView extends CanvasView {
     }
 
     public void saveScreenImage() {
+        //TODO: save only if something is draw on screen
         try {
             final View view = this;
             Bitmap bitmap = Bitmap.createBitmap(view.getWidth(), view.getHeight(), Bitmap.Config.ARGB_8888);
@@ -43,10 +44,12 @@ public class AddingShapeView extends CanvasView {
                 Bitmap transparentBitmap = makeBitmapTransparent(bitmap);
                 transparentBitmap.compress(Bitmap.CompressFormat.PNG, 100, fileOutputStream);
                 fileOutputStream.close();
-                Toast.makeText(getContext(), "The picture was saved", Toast.LENGTH_SHORT).show();
+
+                Toast.makeText(getContext(), R.string.information_message_saving_new_material_success, Toast.LENGTH_SHORT).show();
             }
         } catch (Exception ex) {
             Log.e("[ERROR]", ex.getMessage());
+            Toast.makeText(getContext(), R.string.error_message_saving_failed, Toast.LENGTH_SHORT).show();
         }
     }
 

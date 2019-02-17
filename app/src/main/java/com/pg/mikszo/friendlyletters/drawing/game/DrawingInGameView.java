@@ -6,16 +6,14 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.pg.mikszo.friendlyletters.R;
 import com.pg.mikszo.friendlyletters.drawing.CanvasView;
 import com.pg.mikszo.friendlyletters.settings.Settings;
 import com.pg.mikszo.friendlyletters.settings.SettingsManager;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Random;
 
@@ -35,7 +33,7 @@ public class DrawingInGameView extends CanvasView {
             Settings settings = new SettingsManager(getContext()).getAppSettings();
             String[] availableShapes = settings.availableShapes;
             if (availableShapes.length == 0) {
-                //TODO toast
+                Toast.makeText(context, R.string.information_message_lack_of_materials, Toast.LENGTH_SHORT).show();
             } else {
                 backgroundImage = Drawable.createFromStream(getContext().getAssets().open(randomShape(availableShapes)), null);
                 backgroundImage.setBounds(backgroundImageLeft, backgroundImageTop, backgroundImageRight, backgroundImageBottom);
