@@ -1,12 +1,12 @@
 package com.pg.mikszo.friendlyletters;
 
 import android.app.Activity;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
 import com.pg.mikszo.friendlyletters.drawing.game.DrawingInGameView;
+import com.pg.mikszo.friendlyletters.settings.ColorsManager;
 import com.pg.mikszo.friendlyletters.settings.Settings;
 import com.pg.mikszo.friendlyletters.settings.SettingsManager;
 
@@ -32,7 +32,10 @@ public class GameMainActivity extends Activity {
         String currentLevelText = getResources().getString(R.string.game_level_label) + ": " +
                 currentLevel + "/" + settings.numberOfLevels;
         currentLevelTextView.setText(currentLevelText);
-        drawingInGameView.setTrackColor(Color.parseColor(settings.trackColor));
+
+        //TODO: random
+        String[] availableTraceColors = settings.traceColors;
+        drawingInGameView.setTrackColor(new ColorsManager(this).getTraceColor(availableTraceColors[0]));
     }
 
     public void cleanScreenOnClick(View view) {

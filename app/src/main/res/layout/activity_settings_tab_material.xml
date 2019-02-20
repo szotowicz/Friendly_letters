@@ -116,7 +116,7 @@
                 android:id="@+id/settings_resources_of_materials_clone_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#D1DFE8"
+                android:background="@color/color_settings_materials_resources_border"
                 android:orientation="vertical">
             </LinearLayout>
 
@@ -139,27 +139,26 @@
             android:weightSum="1.0">
 
             <Button
+                android:id="@+id/tab_material_remove_material"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="10dp"
                 android:layout_marginRight="10dp"
                 android:layout_weight=".3"
                 android:background="@drawable/settings_material_tab_buttons"
-                android:onClick="removeMaterialOnClick"
                 android:padding="12dp"
                 android:text="@string/settings_tab_material_button_remove_material"
                 android:textSize="@dimen/settings_material_buttons_font_size"
                 tools:ignore="NestedWeights" />
 
             <Button
-                android:id="@+id/settings_material_enable_material"
+                android:id="@+id/tab_material_enable_material"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:layout_weight=".3"
                 android:background="@drawable/settings_material_tab_buttons"
-                android:onClick="enableMaterialOnClick"
                 android:padding="12dp"
                 android:text="@string/settings_tab_material_button_enable_material"
                 android:textSize="@dimen/settings_material_buttons_font_size" />

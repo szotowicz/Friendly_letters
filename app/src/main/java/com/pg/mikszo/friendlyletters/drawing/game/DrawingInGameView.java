@@ -9,11 +9,14 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.Toast;
 
+import com.pg.mikszo.friendlyletters.FileHelper;
 import com.pg.mikszo.friendlyletters.R;
 import com.pg.mikszo.friendlyletters.drawing.CanvasView;
 import com.pg.mikszo.friendlyletters.settings.Settings;
 import com.pg.mikszo.friendlyletters.settings.SettingsManager;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Random;
 
@@ -35,7 +38,8 @@ public class DrawingInGameView extends CanvasView {
             if (availableShapes.length == 0) {
                 Toast.makeText(context, R.string.information_message_lack_of_materials, Toast.LENGTH_SHORT).show();
             } else {
-                backgroundImage = Drawable.createFromStream(getContext().getAssets().open(randomShape(availableShapes)), null);
+                File randomAvailableBackground = FileHelper.getAbsolutePathOfFile(randomShape(availableShapes), getContext());
+                backgroundImage = Drawable.createFromStream(new FileInputStream(randomAvailableBackground), null);
                 backgroundImage.setBounds(backgroundImageLeft, backgroundImageTop, backgroundImageRight, backgroundImageBottom);
             }
         } catch (IOException e) {
@@ -118,7 +122,6 @@ public class DrawingInGameView extends CanvasView {
 
     private String randomShape(String[] availableShapes) {
         int random = new Random().nextInt(availableShapes.length);
-        // TODO: check if exist
         return availableShapes[random];
     }
 }

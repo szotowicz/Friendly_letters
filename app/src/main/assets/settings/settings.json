@@ -1,1 +1,1 @@
-{"difficultyLevel":1,"timeLimit":7,"numberOfLevels":3,"numberOfRepetitions":3,"trackColor":"#FF0000","availableShapes":["FLshape_o.png","FLshape_m.png","FLshape_y.png"]}
+{"difficultyLevel":1,"numberOfLevels":3,"numberOfRepetitions":3,"timeLimit":7,"materialColors":["0"],"traceColors":["0"],"backgroundColors":["0"],"availableShapes":["FLshape_o.png","FLshape_m.png","FLshape_y.png"]}

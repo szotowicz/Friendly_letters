@@ -23,6 +23,7 @@ public class CanvasView extends View {
     protected Path path = new Path();
     protected final float STROKE_WIDTH = 25f;
     protected int trackColor = Color.BLACK;
+    protected boolean isDrawnSomething = false;
 
     public CanvasView(Context context, AttributeSet attributeSet) {
         super(context, attributeSet);
@@ -38,9 +39,10 @@ public class CanvasView extends View {
     @SuppressLint("ClickableViewAccessibility")
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+        isDrawnSomething = true;
         float xPosition = event.getX();
         float yPosition = event.getY();
-
+        //TODO: draw point too
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 path.moveTo(xPosition, yPosition);
@@ -70,6 +72,7 @@ public class CanvasView extends View {
     }
 
     public void cleanScreen() {
+        isDrawnSomething = false;
         this.path.reset();
         invalidate();
     }
@@ -103,7 +106,7 @@ public class CanvasView extends View {
                 File.separator + getContext().getString(R.string.resources_dir_name));
         if (!appFolder.exists()) {
             if (!appFolder.mkdirs()) {
-                Toast.makeText(getContext(), getContext().getString(R.string.error_message_saving_failed),
+                Toast.makeText(getContext(), getContext().getString(R.string.information_message_saving_failed),
                         Toast.LENGTH_SHORT).show();
                 return null;
             }

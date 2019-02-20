@@ -7,11 +7,12 @@
     <string name="resources_dir_name" translatable="false">FriendlyLetters</string>
     <string name="prefix_shape_file_name" translatable="false">FLshape_</string>
 
-    <string name="error_message_copying_failed">Kopiowanie domyślnego zestawu kształtów zakończone niepowodzeniem. Sprawdź uprawnienia aplikacji</string>
-    <string name="error_message_saving_failed">Dodawanie nowego kształtu zakończone niepowodzeniem. Sprawdź uprawnienia aplikacji</string>
-    <string name="error_message_removing_material_failed">Usuwanie materiału zakończone niepowodzeniem. Sprawdź uprawnienia aplikacji</string>
+    <string name="information_message_copying_failed">Kopiowanie domyślnego zestawu kształtów zakończone niepowodzeniem. Sprawdź uprawnienia aplikacji</string>
+    <string name="information_message_saving_failed">Dodawanie nowego kształtu zakończone niepowodzeniem. Sprawdź uprawnienia aplikacji</string>
+    <string name="information_message_removing_material_failed">Usuwanie materiału zakończone niepowodzeniem. Sprawdź uprawnienia aplikacji</string>
     <string name="information_message_saving_new_material_success">Materiał został dodany</string>
     <string name="information_message_lack_of_materials">Brak dostępnych materiałów. Sprawdź ustawienia aplikacji</string>
+    <string name="information_message_new_material_is_not_drawn">Żaden kształt nie został narysowany</string>
 
     <string name="check_decisions_title">Ostrzeżenie</string>
     <string name="check_decisions_message">Czy na pewno chcesz usunąć wszystkie zaznaczone materiały?</string>

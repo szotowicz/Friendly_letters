@@ -18,12 +18,26 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 public class FileHelper {
+
     public static boolean isAppFolderExists(Context context) {
         File root = Environment.getExternalStorageDirectory();
         File appFolder = new File(root.getAbsolutePath() + File.separator +
                 context.getString(R.string.resources_parent_dir_name) + File.separator +
                 context.getString(R.string.resources_dir_name));
         return appFolder.exists();
+    }
+
+    public static File[] getAllFilesFromAppFolder(Context context) {
+        File appFolder = getAppFolderPath(context);
+        List<File> files = FileHelper.getMatchesFiles(appFolder.listFiles(), context);
+
+        return files.toArray(new File[0]);
+    }
+
+    public static File getAbsolutePathOfFile(String filename, Context context) {
+        File appFolder = getAppFolderPath(context);
+        // TODO: check if exist
+        return new File(appFolder + File.separator + filename);
     }
 
     public static void copyDefaultImages(Context context) {
@@ -34,13 +48,13 @@ public class FileHelper {
 
         if (!appFolder.exists()) {
             if (!appFolder.mkdirs()) {
-                Toast.makeText(context, R.string.error_message_copying_failed, Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, R.string.information_message_copying_failed, Toast.LENGTH_SHORT).show();
             }
         }
 
         try {
             AssetManager assetManager = context.getAssets();
-            List<String> images = getMatchesAssetsFile(assetManager.list(""), context);
+            List<String> images = getMatchesFiles(assetManager.list(""), context);
             for (String img : images) {
                 copyFileAssets(appFolder.getAbsolutePath(), img, context);
             }
@@ -49,17 +63,37 @@ public class FileHelper {
         }
     }
 
-    private static List<String> getMatchesAssetsFile(String[] strings, Context context) {
+    public static List<String> getMatchesFiles(String[] files, Context context) {
         Pattern pattern = Pattern.compile(context.getString(R.string.prefix_shape_file_name) + "(.*?)png");
         List<String> matches = new ArrayList<>();
 
-        for (String file : strings) {
+        for (String file : files) {
             if (pattern.matcher(file).matches()) {
                 matches.add(file);
             }
         }
 
         return matches;
+    }
+
+    public static List<File> getMatchesFiles(File[] files, Context context) {
+        Pattern pattern = Pattern.compile(context.getString(R.string.prefix_shape_file_name) + "(.*?)png");
+        List<File> matches = new ArrayList<>();
+
+        for (File file : files) {
+            if (pattern.matcher(file.getName()).matches()) {
+                matches.add(file);
+            }
+        }
+
+        return matches;
+    }
+
+    public static File getAppFolderPath(Context context) {
+        File root = Environment.getExternalStorageDirectory();
+        return new File(root.getAbsolutePath() + File.separator +
+                context.getString(R.string.resources_parent_dir_name) + File.separator +
+                context.getString(R.string.resources_dir_name));
     }
 
     private static void copyFileAssets(String appFolder, String filename, Context context) {

@@ -1,0 +1,166 @@
+package com.pg.mikszo.friendlyletters.drawing.configurationApp;
+
+import android.app.Activity;
+import android.graphics.drawable.Drawable;
+import android.support.v4.content.ContextCompat;
+import android.view.View;
+import android.widget.Button;
+import android.widget.SeekBar;
+import android.widget.TextView;
+
+import com.pg.mikszo.friendlyletters.R;
+import com.pg.mikszo.friendlyletters.settings.Settings;
+import com.pg.mikszo.friendlyletters.settings.SettingsManager;
+
+public class TabMenuLearning {
+    private Activity activity;
+    private SettingsManager settingsManager;
+    private Settings settings;
+
+    public TabMenuLearning(Activity activity, SettingsManager settingsManager, Settings settings) {
+        this.activity = activity;
+        this.settingsManager = settingsManager;
+        this.settings = settings;
+        activity.setContentView(R.layout.activity_settings_tab_learning);
+
+        createViewElements();
+    }
+
+    private void createViewElements() {
+        createDifficultyLevelView();
+        createLevelCountView();
+        createAttemptCountView();
+        createTimeLimitView();
+    }
+
+    private void createDifficultyLevelView() {
+        final Drawable background = ContextCompat.getDrawable(activity, R.drawable.settings_difficulty_level_buttons);
+        final Drawable backgroundSelected = ContextCompat.getDrawable(activity, R.drawable.settings_difficulty_level_buttons_selected);
+        final Button setEasyLevelButton = activity.findViewById(R.id.set_difficulty_level_easy);
+        final Button setMediumLevelButton = activity.findViewById(R.id.set_difficulty_level_medium);
+        final Button setHardLevelButton = activity.findViewById(R.id.set_difficulty_level_hard);
+        setEasyLevelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                setMediumLevelButton.setBackground(background);
+                setHardLevelButton.setBackground(background);
+                view.setBackground(backgroundSelected);
+
+                settings.difficultyLevel = 1;
+                settingsManager.saveAllSettings(settings);
+            }
+        });
+        setMediumLevelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                setEasyLevelButton.setBackground(background);
+                setHardLevelButton.setBackground(background);
+                view.setBackground(backgroundSelected);
+
+                settings.difficultyLevel = 2;
+                settingsManager.saveAllSettings(settings);
+            }
+        });
+        setHardLevelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                setEasyLevelButton.setBackground(background);
+                setMediumLevelButton.setBackground(background);
+                view.setBackground(backgroundSelected);
+
+                settings.difficultyLevel = 3;
+                settingsManager.saveAllSettings(settings);
+            }
+        });
+
+        int currentDifficultyLevel = settings.difficultyLevel;
+        if (currentDifficultyLevel == 1) {
+            setEasyLevelButton.setBackground(backgroundSelected);
+        } else if (currentDifficultyLevel == 2) {
+            setMediumLevelButton.setBackground(backgroundSelected);
+        } else if (currentDifficultyLevel == 3) {
+            setHardLevelButton.setBackground(backgroundSelected);
+        }
+    }
+
+    private void createLevelCountView() {
+        final SeekBar seekBarLevelCount = activity.findViewById(R.id.seek_bar_level_count);
+        final TextView levelCountMonitor = activity.findViewById(R.id.level_count_monitor);
+        final int levelCountMin = activity.getResources().getInteger(R.integer.settings_learning_level_count_min);
+        final int levelCountMax = activity.getResources().getInteger(R.integer.settings_learning_level_count_max);
+        seekBarLevelCount.setMax(levelCountMax - levelCountMin);
+        seekBarLevelCount.setProgress(settings.numberOfLevels - levelCountMin);
+        levelCountMonitor.setText(String.valueOf(seekBarLevelCount.getProgress() + levelCountMin));
+        seekBarLevelCount.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
+
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                levelCountMonitor.setText(String.valueOf(seekBarLevelCount.getProgress() + levelCountMin));
+
+                settings.numberOfLevels = seekBarLevelCount.getProgress() + levelCountMin;
+                settingsManager.saveAllSettings(settings);
+            }
+        });
+    }
+
+    private void createAttemptCountView() {
+        final SeekBar seekBarAttemptCount = activity.findViewById(R.id.seek_bar_attempt_count);
+        final TextView attemptCountMonitor = activity.findViewById(R.id.attempt_count_monitor);
+        final int attemptCountMin = activity.getResources().getInteger(R.integer.settings_learning_attempt_count_min);
+        final int attemptCountMax = activity.getResources().getInteger(R.integer.settings_learning_attempt_count_max);
+        seekBarAttemptCount.setMax(attemptCountMax - attemptCountMin);
+        seekBarAttemptCount.setProgress(settings.numberOfRepetitions - attemptCountMin);
+        attemptCountMonitor.setText(String.valueOf(seekBarAttemptCount.getProgress() + attemptCountMin));
+        seekBarAttemptCount.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
+
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                attemptCountMonitor.setText(String.valueOf(seekBarAttemptCount.getProgress() + attemptCountMin));
+
+                settings.numberOfRepetitions = seekBarAttemptCount.getProgress() + attemptCountMin;
+                settingsManager.saveAllSettings(settings);
+            }
+        });
+    }
+
+    private void createTimeLimitView() {
+        final SeekBar seekBarTimeLimit = activity.findViewById(R.id.seek_bar_time_limit);
+        final TextView timeLimitMonitor = activity.findViewById(R.id.time_limit_monitor);
+        final int timeLimitMin = activity.getResources().getInteger(R.integer.settings_learning_time_limit_min);
+        final int timeLimitMax = activity.getResources().getInteger(R.integer.settings_learning_time_limit_max);
+        seekBarTimeLimit.setMax(timeLimitMax - timeLimitMin);
+        seekBarTimeLimit.setProgress(settings.timeLimit - timeLimitMin);
+        timeLimitMonitor.setText(String.valueOf(seekBarTimeLimit.getProgress() + timeLimitMin));
+        seekBarTimeLimit.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
+
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                timeLimitMonitor.setText(String.valueOf(seekBarTimeLimit.getProgress() + timeLimitMin));
+
+                settings.timeLimit = seekBarTimeLimit.getProgress() + timeLimitMin;
+                settingsManager.saveAllSettings(settings);
+            }
+        });
+    }
+}

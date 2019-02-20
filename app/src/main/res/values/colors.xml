@@ -11,6 +11,13 @@
     <color name="color_settings_background_tab_learning">#929292</color>
     <color name="color_settings_content_font">#000000</color>
 
+    <color name="color_settings_materials_resources_border">#D1DFE8</color>
+    <color name="color_settings_materials_resources_selected">#FE9E02</color>
+    <color name="color_settings_materials_resources_enabled_start">#51D837</color>
+    <color name="color_settings_materials_resources_enabled_end">#2E931A</color>
+    <color name="color_settings_materials_resources_disabled_start">#C3C1C1</color>
+    <color name="color_settings_materials_resources_disabled_end">#9F9C9C</color>
+
     <color name="color_settings_material_selected">#000000</color>
     <color name="color_settings_material_1">#B9B9B9</color>
     <color name="color_settings_material_2">#E9F9A8</color>
