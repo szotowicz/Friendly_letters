@@ -13,9 +13,14 @@
     <string name="information_message_saving_new_material_success">Materiał został dodany</string>
     <string name="information_message_lack_of_materials">Brak dostępnych materiałów. Sprawdź ustawienia aplikacji</string>
     <string name="information_message_new_material_is_not_drawn">Żaden kształt nie został narysowany</string>
+    <string name="information_message_least_one_element_must_be_available">Minimum jeden element musi być dostępny</string>
+    <string name="information_message_some_material_must_be_selected">Należy zaznaczyć wybrane materiały</string>
+    <string name="information_message_removing_is_possible_for_disabled_materials">Tylko wyłączone materiały mogą zostać usunięte. Wyłącz je, a następnie skorzystaj z opcji usunięcia</string>
 
-    <string name="check_decisions_title">Ostrzeżenie</string>
-    <string name="check_decisions_message">Czy na pewno chcesz usunąć wszystkie zaznaczone materiały?</string>
+    <string name="check_removing_decisions_title">Ostrzeżenie</string>
+    <string name="check_removing_decisions_message">Czy na pewno chcesz usunąć wszystkie zaznaczone materiały?</string>
+    <string name="check_importing_decisions_title">Informacja</string>
+    <string name="check_importing_decisions_message">Posiadasz niewielką liczba dostępnych materiałów. Czy chcesz importować domyślny zestaw?</string>
     <string name="check_decisions_positive_button">TAK</string>
     <string name="check_decisions_negative_button">NIE</string>
 

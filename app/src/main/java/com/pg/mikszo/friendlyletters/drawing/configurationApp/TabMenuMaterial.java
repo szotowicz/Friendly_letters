@@ -44,13 +44,16 @@ public class TabMenuMaterial {
         setOnClickActions();
         selectedMaterials.clear();
         enabledMaterials.clear();
-        //TODO: if number of availableShapes is below X. Show messageBox for import default set
 
         LinearLayout materialsContainer = activity.findViewById(R.id.settings_resources_of_materials_container);
         LinearLayout materialsCloneContainer = activity.findViewById(R.id.settings_resources_of_materials_clone_container);
 
         File[] files = FileHelper.getAllFilesFromAppFolder(activity);
-        //todo: sort by date?
+        //TODO: sort by date?
+        //TODO: update number
+        if (files.length < activity.getResources().getInteger(R.integer.settings_material_minimum_number_of_materials)) {
+            askAboutImportDefaultAssets();
+        }
 
         final int materialsInRow = activity.getResources().getInteger(R.integer.settings_material_number_of_materials_in_row);
         for (int i = 0; i <= files.length / materialsInRow; i++) {
@@ -72,6 +75,7 @@ public class TabMenuMaterial {
                     break;
                 }
 
+                //TODO: selected and unselected are not in same height
                 LinearLayout.LayoutParams paramsOfSingleMaterial = new LinearLayout.LayoutParams(
                         0, 60, 0.2f);
 
@@ -142,26 +146,29 @@ public class TabMenuMaterial {
         removeMaterialButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO: only if selected something else message box?
-                AlertDialog.Builder builder = new AlertDialog.Builder(activity, AlertDialog.THEME_DEVICE_DEFAULT_LIGHT);
-                builder.setTitle(R.string.check_decisions_title);
-                builder.setMessage(R.string.check_decisions_message);
+                if (selectedMaterials.size() == 0) {
+                    Toast.makeText(activity, R.string.information_message_some_material_must_be_selected, Toast.LENGTH_SHORT).show();
+                } else {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(activity, AlertDialog.THEME_DEVICE_DEFAULT_LIGHT);
+                    builder.setTitle(R.string.check_removing_decisions_title);
+                    builder.setMessage(R.string.check_removing_decisions_message);
 
-                builder.setPositiveButton(R.string.check_decisions_positive_button, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        removeSelectedMaterials();
-                        dialog.dismiss();
-                    }
-                });
+                    builder.setPositiveButton(R.string.check_decisions_positive_button, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            removeSelectedMaterials();
+                            dialog.dismiss();
+                        }
+                    });
 
-                builder.setNegativeButton(R.string.check_decisions_negative_button, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
+                    builder.setNegativeButton(R.string.check_decisions_negative_button, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
 
-                builder.create().show();
+                    builder.create().show();
+                }
             }
         });
 
@@ -169,30 +176,59 @@ public class TabMenuMaterial {
         enableMaterialButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO: only if selected something else message box?
-                for (int i = 0; i < selectedMaterials.size(); i++) {
-                    boolean isEnabled = false;
-                    int id;
-                    for (id = 0; id < enabledMaterials.size(); id++) {
-                        if (selectedMaterials.get(i).material == enabledMaterials.get(id).material) {
-                            isEnabled = true;
-                            break;
+                if (selectedMaterials.size() == 0) {
+                    Toast.makeText(activity, R.string.information_message_some_material_must_be_selected, Toast.LENGTH_SHORT).show();
+                } else {
+                    // Firstly enable all required and disable rest, but least one element must be available
+                    int startPoint = 0;
+                    int endPoint = selectedMaterials.size() - 1;
+                    List<Material> sortedSelectedMaterials = new ArrayList<>(selectedMaterials.size());
+                    for (int i = 0; i < selectedMaterials.size(); i++) {
+                        sortedSelectedMaterials.add(i, new Material());
+                    }
+                    for (int i = 0; i < selectedMaterials.size(); i++) {
+                        boolean isEnabled = false;
+                        for (int j = 0; j < enabledMaterials.size(); j++) {
+                            if (selectedMaterials.get(i).material == enabledMaterials.get(j).material) {
+                                isEnabled = true;
+                                break;
+                            }
+                        }
+
+                        if (isEnabled) {
+                            sortedSelectedMaterials.remove(endPoint);
+                            sortedSelectedMaterials.add(endPoint--, selectedMaterials.get(i));
+                        } else {
+                            sortedSelectedMaterials.remove(startPoint);
+                            sortedSelectedMaterials.add(startPoint++, selectedMaterials.get(i));
                         }
                     }
 
-                    if (isEnabled) {
-                        //TODO: allow if it is not last
-                        selectedMaterials.get(i).cloneOfBackground.setBackground(
-                                ContextCompat.getDrawable(activity, R.drawable.settings_resources_of_materials_disabled_selected));
-                        enabledMaterials.remove(id);
-                    } else {
-                        selectedMaterials.get(i).cloneOfBackground.setBackground(
-                                ContextCompat.getDrawable(activity, R.drawable.settings_resources_of_materials_enabled_selected));
-                        enabledMaterials.add(selectedMaterials.get(i));
-                    }
-                }
+                    for (int i = 0; i < sortedSelectedMaterials.size(); i++) {
+                        boolean isEnabled = false;
+                        int id;
+                        for (id = 0; id < enabledMaterials.size(); id++) {
+                            if (sortedSelectedMaterials.get(i).material == enabledMaterials.get(id).material) {
+                                isEnabled = true;
+                                break;
+                            }
+                        }
 
-                updateSettingFromTabMaterial();
+                        if (isEnabled) {
+                            if (enabledMaterials.size() <= 1) {
+                                Toast.makeText(activity, R.string.information_message_least_one_element_must_be_available, Toast.LENGTH_SHORT).show();
+                            } else {
+                                sortedSelectedMaterials.get(i).cloneOfBackground.setBackground(ContextCompat.getDrawable(activity, R.drawable.settings_resources_of_materials_disabled_selected));
+                                enabledMaterials.remove(id);
+                            }
+                        } else {
+                            sortedSelectedMaterials.get(i).cloneOfBackground.setBackground(ContextCompat.getDrawable(activity, R.drawable.settings_resources_of_materials_enabled_selected));
+                            enabledMaterials.add(sortedSelectedMaterials.get(i));
+                        }
+                    }
+
+                    updateSettingFromTabMaterial();
+                }
             }
         });
     }
@@ -210,18 +246,39 @@ public class TabMenuMaterial {
     }
 
     private void removeSelectedMaterials() {
-        for (int i = 0; i < selectedMaterials.size(); i++) {
-            Button materialToRemove = selectedMaterials.get(i).material;
-            String backgroundFilePath = materialToRemove.getTag().toString();
+        if (selectedMaterials.size() >= FileHelper.getNumberOfAllFilesInAppFolder(activity)) {
+            Toast.makeText(activity, R.string.information_message_least_one_element_must_be_available, Toast.LENGTH_SHORT).show();
+        } else {
+            boolean showMessageAboutRemovingEnabledMaterials = false;
+            for (int i = 0; i < selectedMaterials.size(); i++) {
+                Button materialToRemove = selectedMaterials.get(i).material;
 
-            if (!(new File(backgroundFilePath).delete())) {
-                Toast.makeText(activity, R.string.information_message_removing_material_failed, Toast.LENGTH_SHORT).show();
+                boolean isEnabled = false;
+                for (int j = 0; j < enabledMaterials.size(); j++) {
+                    if (enabledMaterials.get(j).material == materialToRemove) {
+                        isEnabled = true;
+                        showMessageAboutRemovingEnabledMaterials = true;
+                        break;
+                    }
+                }
+
+                if (!isEnabled) {
+                    String backgroundFilePath = materialToRemove.getTag().toString();
+
+                    if (!(new File(backgroundFilePath).delete())) {
+                        Toast.makeText(activity, R.string.information_message_removing_material_failed, Toast.LENGTH_SHORT).show();
+                    }
+                }
             }
-            //TODO: allow if it is not last
+
+            if (showMessageAboutRemovingEnabledMaterials) {
+                Toast.makeText(activity, R.string.information_message_removing_is_possible_for_disabled_materials, Toast.LENGTH_LONG).show();
+            }
+
+            selectedMaterials.clear();
+            enabledMaterials.clear();
+            createViewElements();
         }
-        selectedMaterials.clear();
-        enabledMaterials.clear();
-        createViewElements();
     }
 
     private void selectMaterialInTabMaterial(Material material) {
@@ -273,5 +330,28 @@ public class TabMenuMaterial {
 
         settings.availableShapes = enabledList.toArray(new String[0]);
         settingsManager.saveAllSettings(settings);
+    }
+
+    private void askAboutImportDefaultAssets() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(activity, AlertDialog.THEME_DEVICE_DEFAULT_LIGHT);
+        builder.setTitle(R.string.check_importing_decisions_title);
+        builder.setMessage(R.string.check_importing_decisions_message);
+
+        builder.setPositiveButton(R.string.check_decisions_positive_button, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                FileHelper.copyDefaultImages(activity);
+                createViewElements();
+                dialog.dismiss();
+            }
+        });
+
+        builder.setNegativeButton(R.string.check_decisions_negative_button, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+        builder.create().show();
     }
 }

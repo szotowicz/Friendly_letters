@@ -8,6 +8,7 @@
     <dimen name="settings_aspect_content_font_size">17sp</dimen>
     <dimen name="settings_aspect_selected_border">2dp</dimen>
 
+    <integer name="settings_material_minimum_number_of_materials">3</integer>
     <integer name="settings_material_number_of_materials_in_row">5</integer>
     <dimen name="settings_material_buttons_font_size">15sp</dimen>
 

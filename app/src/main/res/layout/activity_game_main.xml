@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_game_main_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#DDDDDD"
@@ -10,39 +10,41 @@
     <com.pg.mikszo.friendlyletters.drawing.game.DrawingInGameView
         android:id="@+id/drawing_in_game_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent" />
 
     <TextView
         android:id="@+id/game_current_level"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_marginLeft="15dp"
         android:layout_marginStart="15dp"
+        android:layout_marginLeft="15dp"
         android:layout_marginTop="15dp"
+        android:background="@drawable/game_number_of_level"
         android:padding="5dp"
-        android:textColor="#000000"
-        android:background="#AAAAAA"/>
+        android:textColor="#000000" />
 
     <Button
         android:layout_width="@dimen/game_exit_button_size"
         android:layout_height="@dimen/game_exit_button_size"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
+        android:layout_marginTop="15dp"
         android:layout_marginEnd="15dp"
         android:layout_marginRight="15dp"
-        android:layout_marginTop="15dp"
+        android:background="@drawable/game_exit_button"
         android:onClick="cleanScreenOnClick"
-        android:text=" X " />
+        android:text=" X "
+        android:textColor="#000000" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
+        android:layout_marginTop="65dp"
         android:layout_marginEnd="15dp"
         android:layout_marginRight="15dp"
-        android:layout_marginTop="65dp"
         android:onClick="analysisScreenOnClick"
         android:text="Analysis" />
 

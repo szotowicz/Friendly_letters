@@ -27,6 +27,13 @@ public class FileHelper {
         return appFolder.exists();
     }
 
+    public static int getNumberOfAllFilesInAppFolder(Context context) {
+        File appFolder = getAppFolderPath(context);
+        List<File> files = FileHelper.getMatchesFiles(appFolder.listFiles(), context);
+
+        return files.size();
+    }
+
     public static File[] getAllFilesFromAppFolder(Context context) {
         File appFolder = getAppFolderPath(context);
         List<File> files = FileHelper.getMatchesFiles(appFolder.listFiles(), context);

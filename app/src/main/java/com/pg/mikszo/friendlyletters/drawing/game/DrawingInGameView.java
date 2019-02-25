@@ -9,19 +9,12 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.Toast;
 
-import com.pg.mikszo.friendlyletters.FileHelper;
-import com.pg.mikszo.friendlyletters.R;
 import com.pg.mikszo.friendlyletters.drawing.CanvasView;
-import com.pg.mikszo.friendlyletters.settings.Settings;
-import com.pg.mikszo.friendlyletters.settings.SettingsManager;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.util.Random;
 
 public class DrawingInGameView extends CanvasView {
-    private Drawable backgroundImage;
+    private Drawable materialImage;
+    private int materialColor;
+    private int currentDifficultyLevel;
     private int backgroundImageLeft;
     private int backgroundImageRight;
     private int backgroundImageTop;
@@ -31,30 +24,17 @@ public class DrawingInGameView extends CanvasView {
     public DrawingInGameView(Context context, AttributeSet attributeSet) {
         super(context, attributeSet);
         setBackgroundImageDimension();
-
-        try {
-            Settings settings = new SettingsManager(getContext()).getAppSettings();
-            String[] availableShapes = settings.availableShapes;
-            if (availableShapes.length == 0) {
-                Toast.makeText(context, R.string.information_message_lack_of_materials, Toast.LENGTH_SHORT).show();
-            } else {
-                File randomAvailableBackground = FileHelper.getAbsolutePathOfFile(randomShape(availableShapes), getContext());
-                backgroundImage = Drawable.createFromStream(new FileInputStream(randomAvailableBackground), null);
-                backgroundImage.setBounds(backgroundImageLeft, backgroundImageTop, backgroundImageRight, backgroundImageBottom);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     @Override
     protected void onDraw(Canvas c) {
         super.onDraw(c);
-        backgroundImage.draw(canvas);
+        materialImage.draw(canvas);
         canvas.drawPath(path, paint);
     }
 
-    public boolean checkCorrectnesOfDrawing() {
+    public boolean checkCorrectnessOfDrawing() {
+        //TODO implement
         return true;
     }
 
@@ -68,6 +48,7 @@ public class DrawingInGameView extends CanvasView {
         for (int i = backgroundImageLeft; i < backgroundImageRight; i++) {
             for (int j = backgroundImageTop; j < backgroundImageBottom; j++) {
                 int currentPixel = bitmap.getPixel(i, j);
+                //TODO: compare with materialColor
                 if (Color.red(currentPixel) < 50 && Color.red(currentPixel) > 0 &&
                         Color.green(currentPixel) < 50 && Color.green(currentPixel) > 0 &&
                         Color.blue(currentPixel) < 50 && Color.blue(currentPixel) > 0) {
@@ -112,16 +93,24 @@ public class DrawingInGameView extends CanvasView {
 
     }
 
+    public void setMaterialImage(Drawable materialImage) {
+        this.materialImage = materialImage;
+        this.materialImage.setBounds(backgroundImageLeft, backgroundImageTop, backgroundImageRight, backgroundImageBottom);
+    }
+
+    public void setMaterialColor(int materialColor) {
+        this.materialColor = materialColor;
+    }
+
+    public void setDifficultyLevel(int difficultyLevel) {
+        this.currentDifficultyLevel = difficultyLevel;
+    }
+
     private void setBackgroundImageDimension() {
         // TODO: calculate it
         backgroundImageLeft = 200;
         backgroundImageRight = 600;
         backgroundImageTop = 100;
         backgroundImageBottom = 450;
-    }
-
-    private String randomShape(String[] availableShapes) {
-        int random = new Random().nextInt(availableShapes.length);
-        return availableShapes[random];
     }
 }

@@ -8,8 +8,10 @@ import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.pg.mikszo.friendlyletters.R;
+import com.pg.mikszo.friendlyletters.settings.ColorsManager;
 import com.pg.mikszo.friendlyletters.settings.Settings;
 import com.pg.mikszo.friendlyletters.settings.SettingsManager;
 
@@ -29,12 +31,7 @@ public class TabMenuAspect {
         this.settings = settings;
         activity.setContentView(R.layout.activity_settings_tab_aspect);
 
-        int[] materialColors = {
-                ContextCompat.getColor(activity, R.color.color_settings_material_1),
-                ContextCompat.getColor(activity, R.color.color_settings_material_2),
-                ContextCompat.getColor(activity, R.color.color_settings_material_3),
-                ContextCompat.getColor(activity, R.color.color_settings_material_4),
-                ContextCompat.getColor(activity, R.color.color_settings_material_5)};
+        int[] materialColors = new ColorsManager(activity).getAllMaterialColors();
         Drawable[] materialColorsDrawable = {
                 ContextCompat.getDrawable(activity, R.drawable.settings_material_color_1),
                 ContextCompat.getDrawable(activity, R.drawable.settings_material_color_2),
@@ -44,12 +41,7 @@ public class TabMenuAspect {
         LinearLayout materialColorsContainer = activity.findViewById(R.id.settings_material_colors_container);
         createTabAspectSection(materialColors, materialColorsDrawable, materialColorsContainer, availableAspectSections.materialSection);
 
-        int[] traceColors = {
-                ContextCompat.getColor(activity, R.color.color_settings_trace_1),
-                ContextCompat.getColor(activity, R.color.color_settings_trace_2),
-                ContextCompat.getColor(activity, R.color.color_settings_trace_3),
-                ContextCompat.getColor(activity, R.color.color_settings_trace_4),
-                ContextCompat.getColor(activity, R.color.color_settings_trace_5)};
+        int[] traceColors = new ColorsManager(activity).getAllTraceColors();
         Drawable[] traceColorsDrawable = {
                 ContextCompat.getDrawable(activity, R.drawable.settings_trace_color_1),
                 ContextCompat.getDrawable(activity, R.drawable.settings_trace_color_2),
@@ -59,11 +51,7 @@ public class TabMenuAspect {
         LinearLayout traceColorsContainer = activity.findViewById(R.id.settings_trace_colors_container);
         createTabAspectSection(traceColors, traceColorsDrawable, traceColorsContainer, availableAspectSections.traceSection);
 
-        int[] backgroundColors = {
-                ContextCompat.getColor(activity, R.color.color_settings_background_1),
-                ContextCompat.getColor(activity, R.color.color_settings_background_2),
-                ContextCompat.getColor(activity, R.color.color_settings_background_3),
-                ContextCompat.getColor(activity, R.color.color_settings_background_4)};
+        int[] backgroundColors = new ColorsManager(activity).getAllBackgroundColors();
         Drawable[] backgroundColorsDrawable = {
                 ContextCompat.getDrawable(activity, R.drawable.settings_background_color_1),
                 ContextCompat.getDrawable(activity, R.drawable.settings_background_color_2),
@@ -92,6 +80,7 @@ public class TabMenuAspect {
             params = new LinearLayout.LayoutParams(140, 90);
         }
         params.setMargins(15, 0, 15, 5);
+
         //TODO: selected and unselected are not in same height
         for (int colorId = 0; colorId < buttonColors.length; colorId++) {
             Drawable drawable;
@@ -125,14 +114,23 @@ public class TabMenuAspect {
                     public void onClick(View v) {
                         int idOfButton = (int) v.getTag();
                         if (v.getBackground() == buttonColorsDrawable[idOfButton]) {
-                            //TODO: allow if it is not last
+
                             Drawable drawable;
-                            if (section == availableAspectSections.backgroundSection) {
-                                drawable = ContextCompat.getDrawable(activity, R.drawable.settings_square_drawable);
-                            } else {
+                            int availableElements;
+                            if (section == availableAspectSections.materialSection) {
                                 drawable = ContextCompat.getDrawable(activity, R.drawable.settings_circle_drawable);
+                                availableElements = settings.materialColors.length;
+                            } else if (section == availableAspectSections.traceSection) {
+                                drawable = ContextCompat.getDrawable(activity, R.drawable.settings_circle_drawable);
+                                availableElements = settings.traceColors.length;
+                            } else {
+                                drawable = ContextCompat.getDrawable(activity, R.drawable.settings_square_drawable);
+                                availableElements = settings.backgroundColors.length;
                             }
-                            if (drawable != null) {
+
+                            if (availableElements <= 1) {
+                                Toast.makeText(activity, R.string.information_message_least_one_element_must_be_available, Toast.LENGTH_SHORT).show();
+                            } else if (drawable != null) {
                                 drawable.setColorFilter(new PorterDuffColorFilter(buttonColors[idOfButton], PorterDuff.Mode.MULTIPLY));
                                 v.setBackground(drawable);
                             }
