@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.pg.mikszo.friendlyletters.FileHelper;
 import com.pg.mikszo.friendlyletters.R;
 import com.pg.mikszo.friendlyletters.drawing.CanvasView;
 
@@ -27,6 +28,9 @@ public class AddingShapeView extends CanvasView {
     protected void onDraw(Canvas c) {
         super.onDraw(c);
         canvas.drawPath(path, paint);
+        if (xPosition != thresholdForTurningOffCursor && yPosition != thresholdForTurningOffCursor) {
+            canvas.drawCircle(xPosition, yPosition, radiusCursor, paint);
+        }
     }
 
     public void saveScreenImage() {
@@ -57,7 +61,7 @@ public class AddingShapeView extends CanvasView {
     }
 
     private String getPathForNewImage() {
-        String appFolder = getAppFolderPath();
+        String appFolder = FileHelper.getAppFolderPath(getContext()).toString();
 
         if (appFolder != null && !appFolder.trim().equals("")) {
             final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss", Locale.US);

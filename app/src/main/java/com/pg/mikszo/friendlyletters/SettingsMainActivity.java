@@ -31,6 +31,7 @@ public class SettingsMainActivity extends Activity {
 
         if (!FileHelper.isAppFolderExists(this)) {
             FileHelper.copyDefaultImages(this);
+            settings = new SettingsManager(this).updateSettingsAvailableShapes(settings);
         }
     }
 

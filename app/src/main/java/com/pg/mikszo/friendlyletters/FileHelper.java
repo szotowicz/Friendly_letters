@@ -1,12 +1,9 @@
 package com.pg.mikszo.friendlyletters;
 
-import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Context;
 import android.content.res.AssetManager;
 import android.os.Environment;
 import android.util.Log;
-import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -14,16 +11,24 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Pattern;
 
 public class FileHelper {
 
-    public static boolean isAppFolderExists(Context context) {
+    public static File getAppFolderPath(Context context) {
         File root = Environment.getExternalStorageDirectory();
-        File appFolder = new File(root.getAbsolutePath() + File.separator +
-                context.getString(R.string.resources_parent_dir_name) + File.separator +
+        return new File(root.getAbsolutePath() + File.separator +
                 context.getString(R.string.resources_dir_name));
+    }
+
+    public static boolean isAppFolderExists(Context context) {
+        File appFolder = getAppFolderPath(context);
         return appFolder.exists();
     }
 
@@ -35,27 +40,43 @@ public class FileHelper {
     }
 
     public static File[] getAllFilesFromAppFolder(Context context) {
+        addNoMediaFile(context);
         File appFolder = getAppFolderPath(context);
         List<File> files = FileHelper.getMatchesFiles(appFolder.listFiles(), context);
 
         return files.toArray(new File[0]);
     }
 
+    public static File[] getAllFilesFromAppFolderOldestFirst(Context context) {
+        addNoMediaFile(context);
+        final List<File> files = Arrays.asList(getAllFilesFromAppFolder(context));
+        final Map<File, Long> constantLastModifiedTimes = new HashMap<>();
+        for (final File f : files) {
+            constantLastModifiedTimes.put(f, f.lastModified());
+        }
+        Collections.sort(files, new Comparator<File>() {
+            @Override
+            public int compare(final File f1, final File f2) {
+                return constantLastModifiedTimes.get(f1).compareTo(constantLastModifiedTimes.get(f2));
+            }
+        });
+        return files.toArray(new File[0]);
+    }
+
     public static File getAbsolutePathOfFile(String filename, Context context) {
         File appFolder = getAppFolderPath(context);
-        // TODO: check if exist
-        return new File(appFolder + File.separator + filename);
+        File file = new File(appFolder + File.separator + filename);
+        if (!file.exists()) {
+            return null;
+        }
+        return file;
     }
 
     public static void copyDefaultImages(Context context) {
-        File root = Environment.getExternalStorageDirectory();
-        File appFolder = new File(root.getAbsolutePath() + File.separator +
-                context.getString(R.string.resources_parent_dir_name) + File.separator +
-                context.getString(R.string.resources_dir_name));
-
+        File appFolder = getAppFolderPath(context);
         if (!appFolder.exists()) {
             if (!appFolder.mkdirs()) {
-                Toast.makeText(context, R.string.information_message_copying_failed, Toast.LENGTH_SHORT).show();
+                Log.e("[ERROR]", "Copying default images failed");
             }
         }
 
@@ -63,11 +84,13 @@ public class FileHelper {
             AssetManager assetManager = context.getAssets();
             List<String> images = getMatchesFiles(assetManager.list(""), context);
             for (String img : images) {
-                copyFileAssets(appFolder.getAbsolutePath(), img, context);
+                copyFileAssets(img, context);
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        addNoMediaFile(context);
     }
 
     public static List<String> getMatchesFiles(String[] files, Context context) {
@@ -96,26 +119,18 @@ public class FileHelper {
         return matches;
     }
 
-    public static File getAppFolderPath(Context context) {
-        File root = Environment.getExternalStorageDirectory();
-        return new File(root.getAbsolutePath() + File.separator +
-                context.getString(R.string.resources_parent_dir_name) + File.separator +
-                context.getString(R.string.resources_dir_name));
-    }
-
-    private static void copyFileAssets(String appFolder, String filename, Context context) {
+    public static void copyFileAssets(String filename, Context context) {
+        File appFolder = getAppFolderPath(context);
         AssetManager assetManager = context.getAssets();
-        InputStream in = null;
-        OutputStream out = null;
+        InputStream in;
+        OutputStream out;
         try {
             in = assetManager.open(filename);
             out = new FileOutputStream(appFolder + File.separator + filename);
             copyFile(in, out);
             in.close();
-            in = null;
             out.flush();
             out.close();
-            out = null;
         } catch(IOException e) {
             Log.e("[ERROR]", "Failed to copy asset file: " + filename);
         }
@@ -126,6 +141,17 @@ public class FileHelper {
         int read;
         while((read = in.read(buffer)) != -1) {
             out.write(buffer, 0, read);
+        }
+    }
+
+    private static void addNoMediaFile(Context context) {
+        File noMediaFile = new File(getAppFolderPath(context)  + File.separator + context.getString(R.string.no_media_file_name));
+        try {
+            if (!noMediaFile.exists()) {
+                noMediaFile.createNewFile();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

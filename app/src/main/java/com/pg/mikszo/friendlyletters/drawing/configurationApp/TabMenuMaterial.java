@@ -48,9 +48,7 @@ public class TabMenuMaterial {
         LinearLayout materialsContainer = activity.findViewById(R.id.settings_resources_of_materials_container);
         LinearLayout materialsCloneContainer = activity.findViewById(R.id.settings_resources_of_materials_clone_container);
 
-        File[] files = FileHelper.getAllFilesFromAppFolder(activity);
-        //TODO: sort by date?
-        //TODO: update number
+        File[] files = FileHelper.getAllFilesFromAppFolderOldestFirst(activity);
         if (files.length < activity.getResources().getInteger(R.integer.settings_material_minimum_number_of_materials)) {
             askAboutImportDefaultAssets();
         }
@@ -75,7 +73,6 @@ public class TabMenuMaterial {
                     break;
                 }
 
-                //TODO: selected and unselected are not in same height
                 LinearLayout.LayoutParams paramsOfSingleMaterial = new LinearLayout.LayoutParams(
                         0, 60, 0.2f);
 
@@ -206,10 +203,17 @@ public class TabMenuMaterial {
 
                     for (int i = 0; i < sortedSelectedMaterials.size(); i++) {
                         boolean isEnabled = false;
-                        int id;
-                        for (id = 0; id < enabledMaterials.size(); id++) {
-                            if (sortedSelectedMaterials.get(i).material == enabledMaterials.get(id).material) {
+                        int enabledMaterialsID;
+                        for (enabledMaterialsID = 0; enabledMaterialsID < enabledMaterials.size(); enabledMaterialsID++) {
+                            if (sortedSelectedMaterials.get(i).material == enabledMaterials.get(enabledMaterialsID).material) {
                                 isEnabled = true;
+                                break;
+                            }
+                        }
+
+                        for (int selectedMaterialsID = 0; selectedMaterialsID < selectedMaterials.size(); selectedMaterialsID++) {
+                            if (sortedSelectedMaterials.get(i).material == selectedMaterials.get(selectedMaterialsID).material) {
+                                selectedMaterials.remove(selectedMaterialsID);
                                 break;
                             }
                         }
@@ -218,11 +222,13 @@ public class TabMenuMaterial {
                             if (enabledMaterials.size() <= 1) {
                                 Toast.makeText(activity, R.string.information_message_least_one_element_must_be_available, Toast.LENGTH_SHORT).show();
                             } else {
-                                sortedSelectedMaterials.get(i).cloneOfBackground.setBackground(ContextCompat.getDrawable(activity, R.drawable.settings_resources_of_materials_disabled_selected));
-                                enabledMaterials.remove(id);
+                                sortedSelectedMaterials.get(i).cloneOfBackground.setBackground(
+                                        ContextCompat.getDrawable(activity, R.drawable.settings_resources_of_materials_disabled));
+                                enabledMaterials.remove(enabledMaterialsID);
                             }
                         } else {
-                            sortedSelectedMaterials.get(i).cloneOfBackground.setBackground(ContextCompat.getDrawable(activity, R.drawable.settings_resources_of_materials_enabled_selected));
+                            sortedSelectedMaterials.get(i).cloneOfBackground.setBackground(
+                                    ContextCompat.getDrawable(activity, R.drawable.settings_resources_of_materials_enabled));
                             enabledMaterials.add(sortedSelectedMaterials.get(i));
                         }
                     }
@@ -340,6 +346,7 @@ public class TabMenuMaterial {
         builder.setPositiveButton(R.string.check_decisions_positive_button, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 FileHelper.copyDefaultImages(activity);
+                settings = new SettingsManager(activity).updateSettingsAvailableShapes(settings);
                 createViewElements();
                 dialog.dismiss();
             }

@@ -5,21 +5,15 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 
 import com.google.gson.Gson;
+import com.pg.mikszo.friendlyletters.FileHelper;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SettingsManager {
-
-    public enum availableSettings {
-        sharedPreferencesDifficultyLevel,
-        sharedPreferencesNumberOfLevels,
-        sharedPreferencesNumberOfRepetitions,
-        sharedPreferencesTimeLimit,
-        sharedPreferencesMaterialColors,
-        sharedPreferencesTraceColors,
-        sharedPreferencesBackgroundColors,
-        sharedPreferencesAvailableShapes }
 
     private Context context;
     private final String settingsFile = "settings/settings.json";
@@ -89,14 +83,37 @@ public class SettingsManager {
         }
     }
 
-    public void savePartOfSettings(Settings settings, availableSettings part) {
-        try {
-            Context packageContext = context.createPackageContext(sharedPreferencesPackage, Context.MODE_PRIVATE);
-            SharedPreferences sharedPreferences = packageContext.getSharedPreferences(sharedPreferencesSourceFile, Context.MODE_PRIVATE);
-            //TODO: consider saving part of settings
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
+    public Settings updateSettingsAvailableShapes(Settings settings) {
+        List<String> newSettingsAvailableShapes = new ArrayList<>();
+        String[] settingsAvailableShapes = settings.availableShapes;
+        File[] availableFiles = FileHelper.getAllFilesFromAppFolder(context);
+
+        for (String shape : settingsAvailableShapes) {
+            boolean isAvailable = false;
+            for (File file : availableFiles) {
+                if (shape.equals(file.getName())) {
+                    isAvailable = true;
+                    break;
+                }
+            }
+
+            if (isAvailable) {
+                newSettingsAvailableShapes.add(shape);
+            }
         }
+
+        if (newSettingsAvailableShapes.size() == 0) {
+            Settings defaultSettings = getSettingsFromJSON();
+            settings.availableShapes = defaultSettings.availableShapes;
+            for (String fileToCopy : settings.availableShapes) {
+                FileHelper.copyFileAssets(fileToCopy, context);
+            }
+        } else {
+            settings.availableShapes = newSettingsAvailableShapes.toArray(new String[0]);
+        }
+
+        saveAllSettings(settings);
+        return settings;
     }
 
     private Settings getSettingsFromJSON() {

@@ -14,7 +14,6 @@ import com.pg.mikszo.friendlyletters.drawing.CanvasView;
 public class DrawingInGameView extends CanvasView {
     private Drawable materialImage;
     private int materialColor;
-    private int currentDifficultyLevel;
     private int backgroundImageLeft;
     private int backgroundImageRight;
     private int backgroundImageTop;
@@ -31,11 +30,9 @@ public class DrawingInGameView extends CanvasView {
         super.onDraw(c);
         materialImage.draw(canvas);
         canvas.drawPath(path, paint);
-    }
-
-    public boolean checkCorrectnessOfDrawing() {
-        //TODO implement
-        return true;
+        if (xPosition != thresholdForTurningOffCursor && yPosition != thresholdForTurningOffCursor) {
+            canvas.drawCircle(xPosition, yPosition, radiusCursor, paint);
+        }
     }
 
     public void analyzeBackgroundPixels() {
@@ -44,53 +41,61 @@ public class DrawingInGameView extends CanvasView {
         Canvas c = new Canvas(bitmap);
         view.draw(c);
 
+        int materialColorR = Color.red(materialColor);
+        int materialColorG = Color.green(materialColor);
+        int materialColorB = Color.blue(materialColor);
+
         int pixelsCount = 0;
         for (int i = backgroundImageLeft; i < backgroundImageRight; i++) {
             for (int j = backgroundImageTop; j < backgroundImageBottom; j++) {
                 int currentPixel = bitmap.getPixel(i, j);
-                //TODO: compare with materialColor
-                if (Color.red(currentPixel) < 50 && Color.red(currentPixel) > 0 &&
-                        Color.green(currentPixel) < 50 && Color.green(currentPixel) > 0 &&
-                        Color.blue(currentPixel) < 50 && Color.blue(currentPixel) > 0) {
+                if (Color.red(currentPixel) == materialColorR &&
+                        Color.green(currentPixel) == materialColorG &&
+                        Color.blue(currentPixel) == materialColorB) {
                     pixelsCount++;
                 }
             }
         }
         backgroundImagePixels = pixelsCount;
-        Toast.makeText(getContext(), "Tło: " + backgroundImagePixels, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getContext(), "Tło: " + backgroundImagePixels, Toast.LENGTH_SHORT).show();
     }
 
-    public void analyzePixels() {
+    public int[] analyzeTracePixels() {
         final View view = this;
         Bitmap bitmap = Bitmap.createBitmap(view.getWidth(), view.getHeight(), Bitmap.Config.ARGB_8888);
         Canvas c = new Canvas(bitmap);
         view.draw(c);
 
-        int blackPixelsCount = 0;
-        int redPixelsCount = 0;
-        for (int i = 0; i < bitmap.getWidth(); i++) {
-            for (int j = 0; j < bitmap.getHeight(); j++) {
-                //int aa = bitmap.getPixel(i, j);
-                int aaR = Color.red(bitmap.getPixel(i, j));
-                int aaG = Color.green(bitmap.getPixel(i, j));
-                int aaB = Color.blue(bitmap.getPixel(i, j));
+        int materialColorR = Color.red(materialColor);
+        int materialColorG = Color.green(materialColor);
+        int materialColorB = Color.blue(materialColor);
+        int trackColorR = Color.red(trackColor);
+        int trackColorG = Color.green(trackColor);
+        int trackColorB = Color.blue(trackColor);
 
-                if (Color.red(bitmap.getPixel(i, j)) != 255 || Color.green(bitmap.getPixel(i, j)) != 255 ||
-                        Color.blue(bitmap.getPixel(i, j)) != 255) {
-                    blackPixelsCount++;
+        int tracePixelsCount = 0;
+        int backgroundPixelsCount = 0;
+        for (int i = backgroundImageLeft; i < backgroundImageRight; i++) {
+            for (int j = backgroundImageTop; j < backgroundImageBottom; j++) {
+                int currentPixel = bitmap.getPixel(i, j);
+                if (Color.red(currentPixel) == materialColorR &&
+                        Color.green(currentPixel) == materialColorG &&
+                        Color.blue(currentPixel) == materialColorB) {
+                    backgroundPixelsCount++;
                 }
-/*
-                // Channel 'R' always bigger than 'G' and 'B'
-                if (Color.blue(bitmap.getPixel(i, j)) > Color.green(bitmap.getPixel(i, j)) && Color.blue(bitmap.getPixel(i, j)) > Color.red(bitmap.getPixel(i, j))) {
-                    redPixelsCount++;
+                if (Color.red(currentPixel) == trackColorR &&
+                        Color.green(currentPixel) == trackColorG &&
+                        Color.blue(currentPixel) == trackColorB) {
+                    tracePixelsCount++;
                 }
-*/
-                //if (Color.red(bitmap.getPixel(i, j)) > 240 && Color.green(bitmap.getPixel(i, j)) < 150 && Color.blue(bitmap.getPixel(i, j)) < 150) {
-
             }
         }
-        Toast.makeText(getContext(), "Black: " + blackPixelsCount + " Blue: " + redPixelsCount, Toast.LENGTH_SHORT).show();
+        // Toast.makeText(getContext(), "Background: " + backgroundPixelsCount + " Trace: " + tracePixelsCount, Toast.LENGTH_LONG).show();
+        return new int[]{tracePixelsCount, backgroundPixelsCount};
+    }
 
+    public int getBackgroundImagePixels() {
+        return backgroundImagePixels;
     }
 
     public void setMaterialImage(Drawable materialImage) {
@@ -100,10 +105,6 @@ public class DrawingInGameView extends CanvasView {
 
     public void setMaterialColor(int materialColor) {
         this.materialColor = materialColor;
-    }
-
-    public void setDifficultyLevel(int difficultyLevel) {
-        this.currentDifficultyLevel = difficultyLevel;
     }
 
     private void setBackgroundImageDimension() {

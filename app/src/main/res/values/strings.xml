@@ -3,11 +3,10 @@
     <string name="app_game_activity_name" translatable="false">Friendly letters</string>
     <string name="app_setting_activity_name" translatable="false">Friendly letters - settings</string>
 
-    <string name="resources_parent_dir_name" translatable="false">DCIM</string>
     <string name="resources_dir_name" translatable="false">FriendlyLetters</string>
     <string name="prefix_shape_file_name" translatable="false">FLshape_</string>
+    <string name="no_media_file_name" translatable="false">.nomedia</string>
 
-    <string name="information_message_copying_failed">Kopiowanie domyślnego zestawu kształtów zakończone niepowodzeniem. Sprawdź uprawnienia aplikacji</string>
     <string name="information_message_saving_failed">Dodawanie nowego kształtu zakończone niepowodzeniem. Sprawdź uprawnienia aplikacji</string>
     <string name="information_message_removing_material_failed">Usuwanie materiału zakończone niepowodzeniem. Sprawdź uprawnienia aplikacji</string>
     <string name="information_message_saving_new_material_success">Materiał został dodany</string>
@@ -20,7 +19,7 @@
     <string name="check_removing_decisions_title">Ostrzeżenie</string>
     <string name="check_removing_decisions_message">Czy na pewno chcesz usunąć wszystkie zaznaczone materiały?</string>
     <string name="check_importing_decisions_title">Informacja</string>
-    <string name="check_importing_decisions_message">Posiadasz niewielką liczba dostępnych materiałów. Czy chcesz importować domyślny zestaw?</string>
+    <string name="check_importing_decisions_message">Niewielka liczba dostępnych materiałów. Czy chcesz dodać domyślny zestaw?</string>
     <string name="check_decisions_positive_button">TAK</string>
     <string name="check_decisions_negative_button">NIE</string>
 

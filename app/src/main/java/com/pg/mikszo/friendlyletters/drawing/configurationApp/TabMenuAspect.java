@@ -81,7 +81,6 @@ public class TabMenuAspect {
         }
         params.setMargins(15, 0, 15, 5);
 
-        //TODO: selected and unselected are not in same height
         for (int colorId = 0; colorId < buttonColors.length; colorId++) {
             Drawable drawable;
             if (section == availableAspectSections.backgroundSection) {
