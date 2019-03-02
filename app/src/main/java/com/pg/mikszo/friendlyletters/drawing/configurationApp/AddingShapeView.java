@@ -3,7 +3,6 @@ package com.pg.mikszo.friendlyletters.drawing.configurationApp;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Path;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
@@ -28,7 +27,7 @@ public class AddingShapeView extends CanvasView {
     protected void onDraw(Canvas c) {
         super.onDraw(c);
         canvas.drawPath(path, paint);
-        if (xPosition != thresholdForTurningOffCursor && yPosition != thresholdForTurningOffCursor) {
+        if (xPosition != possitionForTurningOffCursor && yPosition != possitionForTurningOffCursor) {
             canvas.drawCircle(xPosition, yPosition, radiusCursor, paint);
         }
     }

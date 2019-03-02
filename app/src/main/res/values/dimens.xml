@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="game_exit_button_size">50dp</dimen>
+    <item name="game_track_width_relative_to_size_of_field" type="dimen" format="float">0.072</item>
 
     <dimen name="settings_menu_bar_padding_size">15dp</dimen>
     <dimen name="settings_menu_bar_font_size">18sp</dimen>

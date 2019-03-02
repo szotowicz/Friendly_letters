@@ -18,11 +18,10 @@ public class CanvasView extends View {
     protected float strokeWidth = 25f;
     protected int trackColor = Color.BLACK;
     protected boolean isDrawnSomething = false;
-    //TODO: calculate it
-    protected final float radiusCursor = 20.0f;
-    protected final float thresholdForTurningOffCursor = -1.0f;
-    protected float xPosition = thresholdForTurningOffCursor;
-    protected float yPosition = thresholdForTurningOffCursor;
+    protected float radiusCursor = 20.0f;
+    protected final float possitionForTurningOffCursor = -1.0f;
+    protected float xPosition = possitionForTurningOffCursor;
+    protected float yPosition = possitionForTurningOffCursor;
 
     public CanvasView(Context context, AttributeSet attributeSet) {
         super(context, attributeSet);
@@ -50,8 +49,8 @@ public class CanvasView extends View {
                 break;
             case MotionEvent.ACTION_UP:
                 path.lineTo(xPosition + 0.01f, yPosition + 0.01f);
-                xPosition = thresholdForTurningOffCursor;
-                yPosition = thresholdForTurningOffCursor;
+                xPosition = possitionForTurningOffCursor;
+                yPosition = possitionForTurningOffCursor;
                 break;
             default:
                 return false;
@@ -84,9 +83,13 @@ public class CanvasView extends View {
         this.paint.setColor(trackColor);
     }
 
-    public void setStrokeWidth(int strokeWidth) {
+    public void setStrokeWidth(float strokeWidth) {
         this.strokeWidth = strokeWidth;
         this.paint.setStrokeWidth(strokeWidth);
+    }
+
+    public void setRadiusCursor(float radiusCursor) {
+        this.radiusCursor = radiusCursor;
     }
 
     protected Bitmap makeBitmapTransparent(Bitmap bitmap) {

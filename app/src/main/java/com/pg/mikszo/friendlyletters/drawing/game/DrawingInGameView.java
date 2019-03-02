@@ -22,7 +22,6 @@ public class DrawingInGameView extends CanvasView {
 
     public DrawingInGameView(Context context, AttributeSet attributeSet) {
         super(context, attributeSet);
-        setBackgroundImageDimension();
     }
 
     @Override
@@ -30,7 +29,7 @@ public class DrawingInGameView extends CanvasView {
         super.onDraw(c);
         materialImage.draw(canvas);
         canvas.drawPath(path, paint);
-        if (xPosition != thresholdForTurningOffCursor && yPosition != thresholdForTurningOffCursor) {
+        if (xPosition != possitionForTurningOffCursor && yPosition != possitionForTurningOffCursor) {
             canvas.drawCircle(xPosition, yPosition, radiusCursor, paint);
         }
     }
@@ -107,11 +106,10 @@ public class DrawingInGameView extends CanvasView {
         this.materialColor = materialColor;
     }
 
-    private void setBackgroundImageDimension() {
-        // TODO: calculate it
-        backgroundImageLeft = 200;
-        backgroundImageRight = 600;
-        backgroundImageTop = 100;
-        backgroundImageBottom = 450;
+    public void setBackgroundImageDimension(int left, int top, int right, int bottom) {
+        backgroundImageLeft = left;
+        backgroundImageTop = top;
+        backgroundImageRight = right;
+        backgroundImageBottom = bottom;
     }
 }

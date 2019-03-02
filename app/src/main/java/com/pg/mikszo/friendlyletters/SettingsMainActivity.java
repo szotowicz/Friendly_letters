@@ -2,6 +2,7 @@ package com.pg.mikszo.friendlyletters;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewTreeObserver;
@@ -76,6 +77,11 @@ public class SettingsMainActivity extends Activity {
                 LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(size, size);
                 layoutParams.gravity = Gravity.CENTER;
                 addingMaterialView.setLayoutParams(layoutParams);
+
+                TypedValue typedValue = new TypedValue();
+                getResources().getValue(R.dimen.game_track_width_relative_to_size_of_field, typedValue, true);
+                addingMaterialView.setStrokeWidth(size * typedValue.getFloat());
+                addingMaterialView.setRadiusCursor(size * typedValue.getFloat());
             }
         });
     }

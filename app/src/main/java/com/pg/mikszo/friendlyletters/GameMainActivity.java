@@ -6,6 +6,7 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewTreeObserver;
@@ -56,11 +57,25 @@ public class GameMainActivity extends Activity {
                     @Override
                     public void onGlobalLayout() {
                         drawingInGameView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                        final int height = drawingInGameView.getHeight();
+                        final int width = drawingInGameView.getWidth();
+
+                        int top = (int)(height * 0.1);
+                        int bottom = (int)(height * 0.95);
+                        int imageSize = bottom - top;
+                        int left = (width / 2) - (imageSize / 2);
+                        int right = left + imageSize;
+
+                        drawingInGameView.setBackgroundImageDimension(left, top, right, bottom);
+                        TypedValue typedValue = new TypedValue();
+                        getResources().getValue(R.dimen.game_track_width_relative_to_size_of_field, typedValue, true);
+                        drawingInGameView.setStrokeWidth(imageSize * typedValue.getFloat());
+                        drawingInGameView.setRadiusCursor(imageSize * typedValue.getFloat());
+                        setDrawingProperties();
                         drawingInGameView.analyzeBackgroundPixels();
+                        setTouchListener();
                     }
                 });
-        setDrawingProperties();
-        setTouchListener();
 
         currentLevelTextView = findViewById(R.id.game_current_level);
         setNumberOfLevel();
