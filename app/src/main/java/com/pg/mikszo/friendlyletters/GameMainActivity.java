@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.pg.mikszo.friendlyletters.drawing.game.DrawingInGameView;
+import com.pg.mikszo.friendlyletters.logger.LoggerCSV;
 import com.pg.mikszo.friendlyletters.settings.ColorsManager;
 import com.pg.mikszo.friendlyletters.settings.Settings;
 import com.pg.mikszo.friendlyletters.settings.SettingsManager;
@@ -32,14 +33,43 @@ public class GameMainActivity extends Activity {
     private TextView currentLevelTextView;
     private int currentLevel = 1;
     private int currentNumberOfRepetitions = 1;
+    //todo: maybe remove?
     private int currentRandomMaterial = -1;
+    private String currentMaterialFile;
+    private int currentBackgroundColorNumber = 0;
+    private int currentMaterialColorNumber = 0;
+    private int currentTraceColorNumber = 0;
+    private long levelStartTime = 0;
     private Handler timeLimitHandler = new Handler();
     private Handler delayResetHandler = new Handler();
     private Handler delayCheckingHandler = new Handler();
+    private int delayCheckingHandlerMillis = 700;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        loadGameView();
+    }
+
+    public void restartGameOnClick(View view) {
+        loadGameView();
+    }
+
+    public void gameExitOnClick(View view) {
+        drawingInGameView.cleanScreen();
+        //TODO:
+        // 1. Is it needed?
+        // 2. Ask about exit
+        // 3. Background little transparent
+    }
+
+    public void analysisScreenOnClick(View view) {
+        drawingInGameView.analyzeTracePixels();
+    }
+
+    private void loadGameView() {
+        currentLevel = 1;
+        currentNumberOfRepetitions = 1;
         setContentView(R.layout.activity_game_main);
 
         settings = new SettingsManager(this).getAppSettings();
@@ -49,7 +79,6 @@ public class GameMainActivity extends Activity {
         }
 
         gameMainLayout = findViewById(R.id.activity_game_main_layout);
-        setBackgroundColor();
 
         drawingInGameView = findViewById(R.id.drawing_in_game_view);
         drawingInGameView.getViewTreeObserver().addOnGlobalLayoutListener(
@@ -81,34 +110,22 @@ public class GameMainActivity extends Activity {
         setNumberOfLevel();
     }
 
-    public void gameExitOnClick(View view) {
-        drawingInGameView.cleanScreen();
-        //TODO:
-        // 1. Is it needed?
-        // 2. Ask about exit
-    }
-
-    public void analysisScreenOnClick(View view) {
-        drawingInGameView.analyzeTracePixels();
-    }
-
-    private void setBackgroundColor() {
-        String[] availableBackgroundColors = settings.backgroundColors;
-        int randomBackgroundColor = new Random().nextInt(availableBackgroundColors.length);
-        gameMainLayout.setBackgroundColor(
-                new ColorsManager(this).getBackgroundColorById(availableBackgroundColors[randomBackgroundColor]));
-    }
-
     private void setDrawingProperties() {
+        //TODO: without repetition in next level
+        String[] availableBackgroundColors = settings.backgroundColors;
+        currentBackgroundColorNumber = new Random().nextInt(availableBackgroundColors.length);
+        gameMainLayout.setBackgroundColor(
+                new ColorsManager(this).getBackgroundColorById(availableBackgroundColors[currentBackgroundColorNumber]));
+
         String[] availableMaterialColors = settings.materialColors;
-        int randomMaterialColorID = new Random().nextInt(availableMaterialColors.length);
-        int randomMaterialColor = new ColorsManager(this).getMaterialColorById(availableMaterialColors[randomMaterialColorID]);
-        drawingInGameView.setMaterialColor(randomMaterialColor);
+        currentMaterialColorNumber = new Random().nextInt(availableMaterialColors.length);
+        drawingInGameView.setMaterialColor(
+                new ColorsManager(this).getMaterialColorById(availableMaterialColors[currentMaterialColorNumber]));
 
         String[] availableTraceColors = settings.traceColors;
-        int randomTraceColor = new Random().nextInt(availableTraceColors.length);
+        currentTraceColorNumber = new Random().nextInt(availableTraceColors.length);
         drawingInGameView.setTrackColor(
-                new ColorsManager(this).getTraceColorById(availableTraceColors[randomTraceColor]));
+                new ColorsManager(this).getTraceColorById(availableTraceColors[currentTraceColorNumber]));
 
         String[] availableShapes = settings.availableShapes;
         if (availableShapes.length == 0) {
@@ -120,8 +137,9 @@ public class GameMainActivity extends Activity {
                     randomAvailableBackground = new Random().nextInt(availableShapes.length);
                 }
                 currentRandomMaterial = randomAvailableBackground;
+                currentMaterialFile = availableShapes[randomAvailableBackground];
                 File randomAvailableBackgroundFile = FileHelper.getAbsolutePathOfFile(
-                        availableShapes[randomAvailableBackground], this);
+                        currentMaterialFile, this);
 
                 if (randomAvailableBackgroundFile == null) {
                     settings = new SettingsManager(this).updateSettingsAvailableShapes(settings);
@@ -131,7 +149,9 @@ public class GameMainActivity extends Activity {
 
                 Drawable randomBackground = Drawable.createFromStream(
                         new FileInputStream(randomAvailableBackgroundFile), null);
-                randomBackground.setColorFilter(randomMaterialColor, PorterDuff.Mode.SRC_IN);
+                randomBackground.setColorFilter(new ColorsManager(this)
+                                .getMaterialColorById(availableMaterialColors[currentMaterialColorNumber]),
+                        PorterDuff.Mode.SRC_IN);
                 drawingInGameView.setMaterialImage(randomBackground);
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
@@ -147,12 +167,19 @@ public class GameMainActivity extends Activity {
                 if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
                     delayCheckingHandler.removeCallbacksAndMessages(null);
                     delayResetHandler.removeCallbacksAndMessages(null);
-                    timeLimitHandler.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            gameOver();
-                        }
-                    }, settings.timeLimit * 1000);
+                    if (levelStartTime == 0) {
+                        levelStartTime = System.nanoTime();
+                        timeLimitHandler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                new LoggerCSV(getApplicationContext()).addNewRecord(currentMaterialFile, "time out",
+                                        currentBackgroundColorNumber, currentMaterialColorNumber,
+                                        currentTraceColorNumber, currentLevel, currentNumberOfRepetitions,
+                                        (System.nanoTime() - levelStartTime) - (delayCheckingHandlerMillis * 1000000), settings);
+                                gameOver();
+                            }
+                        }, settings.timeLimit * 1000);
+                    }
                 } else if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
                     delayCheckingHandler.postDelayed(new Runnable() {
                         @Override
@@ -167,11 +194,11 @@ public class GameMainActivity extends Activity {
                                         Toast.makeText(getApplication().getBaseContext(), "WRONG!", Toast.LENGTH_SHORT).show();
                                         resetCurrentLevel();
                                     }
-                                }, 2000);
+                                }, 1000);
                             }
                             delayCheckingHandler.removeCallbacksAndMessages(null);
                         }
-                    }, 700);
+                    }, delayCheckingHandlerMillis);
                 }
                 return false;
             }
@@ -185,63 +212,73 @@ public class GameMainActivity extends Activity {
     }
 
     private boolean checkCorrectnessOfDrawing() {
+        boolean result;
         int backgroundPixels = drawingInGameView.getBackgroundImagePixels();
         int[] currentPixels = drawingInGameView.analyzeTracePixels();
         int currentTrace = currentPixels[0];
         int currentBackground = currentPixels[1];
 
+        //TODO: analyze it
         if (settings.difficultyLevel == 1) {
             if (backgroundPixels * 0.4 < currentBackground) {
-                return false;
+                result = false;
+            } else if (backgroundPixels * 0.7 > currentTrace) {
+                result = false;
+            } else if (backgroundPixels * 1.3 < currentTrace) {
+                result = false;
+            } else {
+                result = true;
             }
-
-            if (backgroundPixels * 0.7 > currentTrace) {
-                return false;
-            }
-
-            return !(backgroundPixels * 1.3 < currentTrace);
-
         } else if (settings.difficultyLevel == 2) {
             if (backgroundPixels * 0.3 < currentBackground) {
-                return false;
+                result = false;
+            } else if (backgroundPixels * 0.8 > currentTrace) {
+                result = false;
+            } else if (backgroundPixels * 1.2 < currentTrace) {
+                result = false;
+            } else {
+                result = true;
             }
-
-            if (backgroundPixels * 0.8 > currentTrace) {
-                return false;
-            }
-
-            return !(backgroundPixels * 1.2 < currentTrace);
-
         } else {
             if (backgroundPixels * 0.2 < currentBackground) {
-                return false;
+                result = false;
+            } else if (backgroundPixels * 0.9 > currentTrace) {
+                result = false;
+            } else if (backgroundPixels * 1.1 < currentTrace) {
+                result = false;
+            } else {
+                result = true;
             }
-
-            if (backgroundPixels * 0.9 > currentTrace) {
-                return false;
-            }
-
-            return !(backgroundPixels * 1.1 < currentTrace);
         }
+
+        new LoggerCSV(this).addNewRecord(currentMaterialFile, result, backgroundPixels,
+                currentBackground, currentTrace, currentBackgroundColorNumber, currentMaterialColorNumber,
+                currentTraceColorNumber, currentLevel, currentNumberOfRepetitions,
+                (System.nanoTime() - levelStartTime) - (delayCheckingHandlerMillis * 1000000), settings);
+        return result;
     }
 
     private void resetCurrentLevel() {
         timeLimitHandler.removeCallbacksAndMessages(null);
+        drawingInGameView.cleanScreen();
+        levelStartTime = 0;
         currentNumberOfRepetitions++;
+
         if (currentNumberOfRepetitions > settings.numberOfRepetitions) {
             gameOver();
-        } else {
-            drawingInGameView.cleanScreen();
         }
     }
 
     private void loadNextLevel() {
         timeLimitHandler.removeCallbacksAndMessages(null);
+        drawingInGameView.cleanScreen();
+        levelStartTime = 0;
         currentLevel++;
+
         if (currentLevel > settings.numberOfLevels) {
             gameOver();
         } else {
-            drawingInGameView.cleanScreen();
+            currentNumberOfRepetitions = 1;
             setNumberOfLevel();
             setDrawingProperties();
             drawingInGameView.analyzeBackgroundPixels();
@@ -255,5 +292,6 @@ public class GameMainActivity extends Activity {
         } else {
             Toast.makeText(this, "GAME OVER", Toast.LENGTH_SHORT).show();
         }
+        setContentView(R.layout.activity_game_restart);
     }
 }

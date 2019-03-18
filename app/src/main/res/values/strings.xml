@@ -24,6 +24,7 @@
     <string name="check_decisions_negative_button">NIE</string>
 
     <string name="game_level_label">Poziom</string>
+    <string name="game_restart_button">Zagraj ponownie</string>
 
     <string name="settings_tab_aspect">WYGLĄD</string>
     <string name="settings_tab_aspect_material_color">Kolor materiału:</string>
