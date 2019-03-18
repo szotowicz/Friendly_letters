@@ -1,3 +1,9 @@
+/*
+    Part of the master's thesis
+    Topic: "Supporting the development of fine motor skills in children using IT tools"
+
+    2019 by Mikolaj Szotowicz : https://github.com/szotowicz
+*/
 package com.pg.mikszo.friendlyletters.settings;
 
 import android.content.Context;
@@ -16,7 +22,6 @@ import java.util.List;
 public class SettingsManager {
 
     private Context context;
-    private final String settingsFile = "settings/settings.json";
     private final String sharedPreferencesPackage = "com.pg.mikszo.friendlyletters";
     private final String sharedPreferencesSourceFile = "friendlyletters";
     private final String sharedPreferencesDifficultyLevel = "difficultyLevel";
@@ -172,7 +177,7 @@ public class SettingsManager {
     private String readSettingsFromAsset() {
         String json = null;
         try {
-            InputStream is = context.getAssets().open(settingsFile);
+            InputStream is = context.getAssets().open("settings/settings.json");
             int size = is.available();
             byte[] buffer = new byte[size];
             is.read(buffer);
