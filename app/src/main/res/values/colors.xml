@@ -4,6 +4,8 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
 
+    <color name="color_game_restart_view_background">#2B82FF</color>
+
     <color name="color_settings_tab_background">#3F51B5</color>
     <color name="color_settings_tab_selected">#FFFFFF</color>
     <color name="color_settings_tab_unselected">#DADADA</color>

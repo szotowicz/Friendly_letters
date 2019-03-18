@@ -29,7 +29,7 @@ public class FileHelper {
 
     public static boolean isAppFolderExists(Context context) {
         File appFolder = getAppFolderPath(context);
-        return appFolder.exists();
+        return appFolder.exists() && appFolder.isDirectory();
     }
 
     public static int getNumberOfAllFilesInAppFolder(Context context) {
