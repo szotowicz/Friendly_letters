@@ -3,11 +3,11 @@ package com.pg.mikszo.friendlyletters.drawing.configurationApp;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -15,10 +15,9 @@ import com.pg.mikszo.friendlyletters.FileHelper;
 import com.pg.mikszo.friendlyletters.R;
 import com.pg.mikszo.friendlyletters.settings.Settings;
 import com.pg.mikszo.friendlyletters.settings.SettingsManager;
+import com.squareup.picasso.Picasso;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -53,6 +52,9 @@ public class TabMenuMaterial {
             askAboutImportDefaultAssets();
         }
 
+        LinearLayout.LayoutParams paramsOfSingleMaterial = new LinearLayout.LayoutParams(
+                0, 60, 0.2f);
+
         final int materialsInRow = activity.getResources().getInteger(R.integer.settings_material_number_of_materials_in_row);
         for (int i = 0; i <= files.length / materialsInRow; i++) {
             LinearLayout.LayoutParams paramsOfSubContainer = new LinearLayout.LayoutParams(
@@ -73,12 +75,8 @@ public class TabMenuMaterial {
                     break;
                 }
 
-                LinearLayout.LayoutParams paramsOfSingleMaterial = new LinearLayout.LayoutParams(
-                        0, 60, 0.2f);
-
                 final Button cloneBackgroundSingleMaterial = new Button(activity);
                 cloneBackgroundSingleMaterial.setLayoutParams(paramsOfSingleMaterial);
-
                 cloneBackgroundSingleMaterial.getViewTreeObserver().addOnGlobalLayoutListener(
                         new ViewTreeObserver.OnGlobalLayoutListener() {
                             @Override
@@ -90,16 +88,10 @@ public class TabMenuMaterial {
                             }
                         });
 
-                final Button singleMaterial = new Button(activity);
+                final ImageView singleMaterial = new ImageView(activity);
                 singleMaterial.setLayoutParams(paramsOfSingleMaterial);
                 singleMaterial.setTag(files[i * materialsInRow + j].toString());
-
-                try {
-                    Drawable background = Drawable.createFromStream(new FileInputStream(files[i * materialsInRow + j]), null);
-                    singleMaterial.setBackground(background);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                Picasso.get().load(files[i * materialsInRow + j]).resize(150, 150).into(singleMaterial);
                 singleMaterial.getViewTreeObserver().addOnGlobalLayoutListener(
                         new ViewTreeObserver.OnGlobalLayoutListener() {
                             @Override
@@ -110,7 +102,6 @@ public class TabMenuMaterial {
                                 singleMaterial.setLayoutParams(layoutParams);
                             }
                         });
-
                 singleMaterial.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -257,7 +248,7 @@ public class TabMenuMaterial {
         } else {
             boolean showMessageAboutRemovingEnabledMaterials = false;
             for (int i = 0; i < selectedMaterials.size(); i++) {
-                Button materialToRemove = selectedMaterials.get(i).material;
+                ImageView materialToRemove = selectedMaterials.get(i).material;
 
                 boolean isEnabled = false;
                 for (int j = 0; j < enabledMaterials.size(); j++) {
