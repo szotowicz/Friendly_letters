@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_settings_background"
+    android:orientation="vertical"
+    tools:context=".SettingsMainActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/color_settings_tab_background"
+        android:baselineAligned="false"
+        android:orientation="horizontal"
+        android:weightSum="1.0">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight=".7"
+            android:gravity="center_vertical"
+            android:paddingStart="30dp"
+            android:paddingLeft="30dp"
+            android:paddingEnd="0dp"
+            android:paddingRight="0dp"
+            android:text="@string/settings_configurations"
+            android:textColor="@color/color_settings_tab_selected"
+            android:textSize="@dimen/settings_menu_bar_font_size"
+            android:textStyle="bold" />
+
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight=".3"
+            android:padding="10dp">
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical|end"
+                android:background="@color/color_settings_create_configuration_background"
+                android:onClick="createNewConfigurationsOnClick"
+                android:padding="5dp"
+                android:text="@string/settings_configurations_create_new"
+                android:textColor="@color/color_settings_tab_selected"
+                android:textSize="@dimen/settings_menu_bar_font_size" />
+        </FrameLayout>
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+
+        <LinearLayout
+            android:id="@+id/settings_configurations_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="20dp">
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

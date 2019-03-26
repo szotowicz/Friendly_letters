@@ -1,9 +1,13 @@
 /*
-    Part of the master's thesis
-    Topic: "Supporting the development of fine motor skills in children using IT tools"
-
-    2019 by Mikolaj Szotowicz : https://github.com/szotowicz
-*/
+ ******************************************************************************************
+ *
+ *    Part of the master's thesis
+ *    Topic: "Supporting the development of fine motor skills in children using IT tools"
+ *
+ *    FRIENDLY LETTERS created by Mikolaj Szotowicz : https://github.com/szotowicz
+ *
+ ****************************************************************************************
+ */
 package com.pg.mikszo.friendlyletters.settings;
 
 import android.content.Context;

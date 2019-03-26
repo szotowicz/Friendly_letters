@@ -1,9 +1,13 @@
 /*
-    Part of the master's thesis
-    Topic: "Supporting the development of fine motor skills in children using IT tools"
-
-    2019 by Mikolaj Szotowicz : https://github.com/szotowicz
-*/
+ ******************************************************************************************
+ *
+ *    Part of the master's thesis
+ *    Topic: "Supporting the development of fine motor skills in children using IT tools"
+ *
+ *    FRIENDLY LETTERS created by Mikolaj Szotowicz : https://github.com/szotowicz
+ *
+ ****************************************************************************************
+ */
 package com.pg.mikszo.friendlyletters.drawing.configurationApp;
 
 import android.app.Activity;
@@ -15,6 +19,7 @@ import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.pg.mikszo.friendlyletters.FileHelper;
@@ -41,6 +46,7 @@ public class TabMenuMaterial {
         this.settings = settings;
 
         createViewElements();
+        ((TextView)activity.findViewById(R.id.settings_configuration_name_label)).setText("Przykładowa nazwa TODO");
     }
 
     private void createViewElements() {

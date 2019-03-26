@@ -5,22 +5,45 @@
     android:layout_height="match_parent"
     android:background="@color/color_settings_background"
     android:orientation="vertical"
-    tools:context=".SettingsMainActivity">
+    tools:context=".SettingsTabsActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/color_settings_tab_background"
+        android:orientation="horizontal">
+
+        <Button
+            android:layout_width="@dimen/settings_return_to_main_settings_size"
+            android:layout_height="@dimen/settings_return_to_main_settings_size"
+            android:layout_marginStart="@dimen/settings_return_to_main_settings_padding"
+            android:layout_marginLeft="@dimen/settings_return_to_main_settings_padding"
+            android:background="@drawable/ic_arrow_back_black_24dp"
+            android:onClick="returnToMainSettingsOnClick" />
+
+        <TextView
+            android:id="@+id/settings_configuration_name_label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/settings_return_to_main_settings_size"
+            android:layout_marginRight="@dimen/settings_return_to_main_settings_size"
+            android:gravity="center" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:baselineAligned="false"
         android:orientation="horizontal"
-        android:weightSum="1.0"
-        android:baselineAligned="false">
+        android:weightSum="1.0">
 
         <FrameLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight=".21"
             android:background="@color/color_settings_tab_background"
-            android:paddingTop="@dimen/settings_menu_bar_padding_size"
-            android:paddingBottom="@dimen/settings_menu_bar_padding_size">
+            android:paddingTop="@dimen/settings_menu_bar_padding_size_top"
+            android:paddingBottom="@dimen/settings_menu_bar_padding_size_bottom">
 
             <Button
                 android:id="@+id/aspectButton"
@@ -38,8 +61,8 @@
             android:layout_height="match_parent"
             android:layout_weight=".21"
             android:background="@color/color_settings_tab_background"
-            android:paddingTop="@dimen/settings_menu_bar_padding_size"
-            android:paddingBottom="@dimen/settings_menu_bar_padding_size">
+            android:paddingTop="@dimen/settings_menu_bar_padding_size_top"
+            android:paddingBottom="@dimen/settings_menu_bar_padding_size_bottom">
 
             <Button
                 android:id="@+id/materialButton"
@@ -57,8 +80,8 @@
             android:layout_height="match_parent"
             android:layout_weight=".31"
             android:background="@drawable/settings_menu_border"
-            android:paddingTop="@dimen/settings_menu_bar_padding_size"
-            android:paddingBottom="@dimen/settings_menu_bar_padding_size">
+            android:paddingTop="@dimen/settings_menu_bar_padding_size_top"
+            android:paddingBottom="@dimen/settings_menu_bar_padding_size_bottom">
 
             <Button
                 android:id="@+id/learningButton"
@@ -75,10 +98,10 @@
         <FrameLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight=".27"
+            android:layout_weight=".28"
             android:background="@color/color_settings_tab_background"
-            android:paddingTop="@dimen/settings_menu_bar_padding_size"
-            android:paddingBottom="@dimen/settings_menu_bar_padding_size">
+            android:paddingTop="@dimen/settings_menu_bar_padding_size_top"
+            android:paddingBottom="@dimen/settings_menu_bar_padding_size_bottom">
 
             <Button
                 android:id="@+id/reinforcementButton"
@@ -95,9 +118,9 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:baselineAligned="false"
         android:orientation="horizontal"
-        android:weightSum="1.0"
-        android:baselineAligned="false">
+        android:weightSum="1.0">
 
         <LinearLayout
             android:layout_width="0dp"
@@ -107,7 +130,7 @@
             android:gravity="center_horizontal"
             android:orientation="vertical"
             android:paddingLeft="30dp"
-            android:paddingTop="30dp"
+            android:paddingTop="20dp"
             android:paddingRight="30dp">
 
             <Switch
@@ -130,27 +153,27 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
+                android:background="@drawable/settings_difficulty_level_buttons"
                 android:padding="10dp"
-                android:text="@string/settings_tab_learning_difficulty_level_easy"
-                android:background="@drawable/settings_difficulty_level_buttons" />
+                android:text="@string/settings_tab_learning_difficulty_level_easy" />
 
             <Button
                 android:id="@+id/set_difficulty_level_medium"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
+                android:background="@drawable/settings_difficulty_level_buttons"
                 android:padding="10dp"
-                android:text="@string/settings_tab_learning_difficulty_level_medium"
-                android:background="@drawable/settings_difficulty_level_buttons" />
+                android:text="@string/settings_tab_learning_difficulty_level_medium" />
 
             <Button
                 android:id="@+id/set_difficulty_level_hard"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
+                android:background="@drawable/settings_difficulty_level_buttons"
                 android:padding="10dp"
-                android:text="@string/settings_tab_learning_difficulty_level_hard"
-                android:background="@drawable/settings_difficulty_level_buttons"  />
+                android:text="@string/settings_tab_learning_difficulty_level_hard" />
         </LinearLayout>
 
         <LinearLayout
@@ -159,7 +182,7 @@
             android:layout_weight=".6"
             android:orientation="vertical"
             android:paddingLeft="40dp"
-            android:paddingTop="30dp"
+            android:paddingTop="20dp"
             android:paddingRight="40dp">
 
             <LinearLayout

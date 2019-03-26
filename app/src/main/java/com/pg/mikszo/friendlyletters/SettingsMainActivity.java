@@ -1,105 +1,93 @@
 /*
-    Part of the master's thesis
-    Topic: "Supporting the development of fine motor skills in children using IT tools"
-
-    2019 by Mikolaj Szotowicz : https://github.com/szotowicz
-*/
+ ******************************************************************************************
+ *
+ *    Part of the master's thesis
+ *    Topic: "Supporting the development of fine motor skills in children using IT tools"
+ *
+ *    FRIENDLY LETTERS created by Mikolaj Szotowicz : https://github.com/szotowicz
+ *
+ ****************************************************************************************
+ */
 package com.pg.mikszo.friendlyletters;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
-import android.util.TypedValue;
-import android.view.Gravity;
 import android.view.View;
-import android.view.ViewTreeObserver;
+import android.widget.Button;
 import android.widget.LinearLayout;
 
-import com.pg.mikszo.friendlyletters.drawing.configurationApp.AddingShapeView;
-import com.pg.mikszo.friendlyletters.drawing.configurationApp.TabMenuAspect;
-import com.pg.mikszo.friendlyletters.drawing.configurationApp.TabMenuLearning;
-import com.pg.mikszo.friendlyletters.drawing.configurationApp.TabMenuMaterial;
-import com.pg.mikszo.friendlyletters.drawing.configurationApp.TabMenuReinforcement;
 import com.pg.mikszo.friendlyletters.settings.Settings;
 import com.pg.mikszo.friendlyletters.settings.SettingsManager;
 
 public class SettingsMainActivity extends Activity {
 
-    public SettingsManager settingsManager;
-    public Settings settings;
-    private enum availableTabs { aspect, material, learning, reinforcement, addMaterial }
-    private availableTabs selectedTab;
+    private SettingsManager settingsManager;
+    private Settings settings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         settingsManager = new SettingsManager(this);
         settings = settingsManager.getAppSettings();
-        new TabMenuAspect(this, settingsManager, settings);
 
         if (!FileHelper.isAppFolderExists(this)) {
             FileHelper.copyDefaultImages(this);
             settings = new SettingsManager(this).updateSettingsAvailableShapes(settings);
         }
+
+        setContentView(R.layout.activity_settings_main);
+        loadAvailableConfigurations();
     }
 
-    public void tabAspectOnClick(View view) {
-        if (selectedTab != availableTabs.aspect) {
-            selectedTab = availableTabs.aspect;
-            new TabMenuAspect(this, settingsManager, settings);
+    public void createNewConfigurationsOnClick(View view) {
+        //todo
+    }
+
+    private void loadAvailableConfigurations() {
+        LinearLayout configurationsContainer = findViewById(R.id.settings_configurations_container);
+
+        for (int i = 0; i < 7; i++) {
+            LinearLayout newConfiguration = new LinearLayout(this);
+            newConfiguration.setOrientation(LinearLayout.HORIZONTAL);
+            newConfiguration.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+            newConfiguration.setWeightSum(1.0f);
+
+            Button configurationName = new Button(this);
+            configurationName.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 0.8f));
+            configurationName.setText("Przykładowa konfiguracja");
+            configurationName.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    // Load settings
+                    startActivity(new Intent(getBaseContext(), SettingsTabsActivity.class));
+                }
+            });
+            newConfiguration.addView(configurationName);
+
+            Button configurationCopy = new Button(this);
+            configurationCopy.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 0.1f));
+            configurationCopy.setText("C");
+            configurationCopy.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    // TODO
+                }
+            });
+            newConfiguration.addView(configurationCopy);
+
+            Button configurationRemove = new Button(this);
+            configurationRemove.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 0.1f));
+            configurationRemove.setText("R");
+            configurationRemove.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    // TODO
+                }
+            });
+            newConfiguration.addView(configurationRemove);
+
+            configurationsContainer.addView(newConfiguration);
         }
-    }
-
-    public void tabMaterialOnClick(View view) {
-        if (selectedTab != availableTabs.material) {
-            selectedTab = availableTabs.material;
-            new TabMenuMaterial(this, settingsManager, settings);
-        }
-    }
-
-    public void tabLearningOnClick(View view) {
-        if (selectedTab != availableTabs.learning) {
-            selectedTab = availableTabs.learning;
-            new TabMenuLearning(this, settingsManager, settings);
-        }
-    }
-
-    public void tabReinforcementOnClick(View view) {
-        if (selectedTab != availableTabs.reinforcement) {
-            selectedTab = availableTabs.reinforcement;
-            new TabMenuReinforcement(this, settingsManager, settings);
-        }
-    }
-
-    public void tabAddNewMaterialOnClick(final View view) {
-        selectedTab = availableTabs.addMaterial;
-        setContentView(R.layout.activity_settings_add_material);
-
-        final AddingShapeView addingMaterialView = findViewById(R.id.addingShapeView);
-        addingMaterialView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                addingMaterialView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                final int size = addingMaterialView.getHeight();
-                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(size, size);
-                layoutParams.gravity = Gravity.CENTER;
-                addingMaterialView.setLayoutParams(layoutParams);
-
-                TypedValue typedValue = new TypedValue();
-                getResources().getValue(R.dimen.game_track_width_relative_to_size_of_field, typedValue, true);
-                addingMaterialView.setStrokeWidth(size * typedValue.getFloat());
-                addingMaterialView.setRadiusCursor(size * typedValue.getFloat());
-            }
-        });
-    }
-
-    public void cleanNewMaterialOnClick(View view) {
-        AddingShapeView addingMaterialView = findViewById(R.id.addingShapeView);
-        addingMaterialView.cleanScreen();
-    }
-
-    public void addMaterialToResourcesOnClick(View view) {
-        AddingShapeView addingMaterialView = findViewById(R.id.addingShapeView);
-        addingMaterialView.saveScreenImage();
-        addingMaterialView.cleanScreen();
     }
 }
