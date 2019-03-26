@@ -3,7 +3,10 @@
     <dimen name="game_exit_button_size">50dp</dimen>
     <item name="game_track_width_relative_to_size_of_field" type="dimen" format="float">0.072</item>
 
-    <dimen name="settings_menu_bar_padding_size">15dp</dimen>
+    <dimen name="settings_return_to_main_settings_size">40dp</dimen>
+    <dimen name="settings_return_to_main_settings_padding">2dp</dimen>
+    <dimen name="settings_menu_bar_padding_size_top">5dp</dimen>
+    <dimen name="settings_menu_bar_padding_size_bottom">15dp</dimen>
     <dimen name="settings_menu_bar_font_size">18sp</dimen>
 
     <dimen name="settings_aspect_content_font_size">17sp</dimen>
@@ -15,11 +18,11 @@
 
     <dimen name="settings_learning_content_font_size">17sp</dimen>
     <integer name="settings_learning_level_count_min">1</integer>
-    <integer name="settings_learning_level_count_max">10</integer>
+    <integer name="settings_learning_level_count_max">100</integer>
     <integer name="settings_learning_attempt_count_min">1</integer>
-    <integer name="settings_learning_attempt_count_max">5</integer>
-    <integer name="settings_learning_time_limit_min">5</integer>
-    <integer name="settings_learning_time_limit_max">15</integer>
+    <integer name="settings_learning_attempt_count_max">20</integer>
+    <integer name="settings_learning_time_limit_min">1</integer>
+    <integer name="settings_learning_time_limit_max">10</integer>
 
     <dimen name="settings_reinforcement_content_font_size">17sp</dimen>
 </resources>

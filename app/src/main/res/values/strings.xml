@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name" translatable="false">Friendly letters</string>
     <string name="app_game_activity_name" translatable="false">Friendly letters</string>
+    <string name="app_setting_main_activity_name" translatable="false">Friendly letters - main settings</string>
     <string name="app_setting_activity_name" translatable="false">Friendly letters - settings</string>
 
     <string name="resources_dir_name" translatable="false">FriendlyLetters</string>
@@ -17,7 +18,7 @@
     <string name="information_message_removing_is_possible_for_disabled_materials">Tylko wyłączone materiały mogą zostać usunięte. Wyłącz je, a następnie skorzystaj z opcji usunięcia</string>
 
     <string name="check_removing_decisions_title">Ostrzeżenie</string>
-    <string name="check_removing_decisions_message">Czy na pewno chcesz usunąć wszystkie zaznaczone materiały?</string>
+    <string name="check_removing_decisions_message">Czy na pewno chcesz trwale usunąć wszystkie zaznaczone materiały?</string>
     <string name="check_importing_decisions_title">Informacja</string>
     <string name="check_importing_decisions_message">Niewielka liczba dostępnych materiałów. Czy chcesz dodać domyślny zestaw?</string>
     <string name="check_decisions_positive_button">TAK</string>
@@ -26,15 +27,18 @@
     <string name="game_level_label">Poziom</string>
     <string name="game_restart_button">Zagraj ponownie</string>
 
+    <string name="settings_configurations">LISTA KONFIGURACJI</string>
+    <string name="settings_configurations_create_new">UTWÓRZ</string>
+
     <string name="settings_tab_aspect">WYGLĄD</string>
-    <string name="settings_tab_aspect_material_color">Kolor materiału:</string>
-    <string name="settings_tab_aspect_trace_color">Kolor śladu:</string>
-    <string name="settings_tab_aspect_background">Tło:</string>
+    <string name="settings_tab_aspect_material_color">Kolor wzoru:</string>
+    <string name="settings_tab_aspect_trace_color">Kolor pisania:</string>
+    <string name="settings_tab_aspect_background">Kolor tła:</string>
 
     <string name="settings_tab_material">MATERIAŁ</string>
     <string name="settings_tab_material_button_remove_material">Usuń materiał</string>
     <string name="settings_tab_material_button_enable_material">Włącz / Wyłącz</string>
-    <string name="settings_tab_material_button_add_new_material">Dodaj nowy</string>
+    <string name="settings_tab_material_button_add_new_material">Utwórz nowy</string>
     <string name="settings_tab_add_new_material_clean">WYCZYŚĆ</string>
     <string name="settings_tab_add_new_material_add">DODAJ</string>
 
@@ -44,12 +48,15 @@
     <string name="settings_tab_learning_difficulty_level_easy">Łatwy</string>
     <string name="settings_tab_learning_difficulty_level_medium">Średni</string>
     <string name="settings_tab_learning_difficulty_level_hard">Trudny</string>
-    <string name="settings_tab_learning_level_count">Liczba poziomów:</string>
+    <string name="settings_tab_learning_level_count">Liczba kroków:</string>
     <string name="settings_tab_learning_attempt_count">Liczba prób:</string>
-    <string name="settings_tab_learning_time_limit">Limit czasu:</string>
+    <string name="settings_tab_learning_time_limit">Limit czasu pisania:</string>
 
     <string name="settings_tab_reinforcement">WZMOCNIENIA</string>
-    <string name="settings_tab_reinforcement_verbal_praise">Wybierz pochwały słowne:</string>
-    <string name="settings_tab_reinforcement_multimedia_praise">Wybierz pochwały multimedialne:</string>
+    <string name="settings_tab_reinforcement_choose_commands">Wybierz rodzaje poleceń:</string>
+    <string name="settings_tab_reinforcement_commands_reading">Odczytywanie głosowe poleceń</string>
+    <string name="settings_tab_reinforcement_commands_displaying">Wyświetlanie poleceń</string>
+    <string name="settings_tab_reinforcement_choose_verbal_praises">Wybierz pochwały słowne:</string>
+    <string name="settings_tab_reinforcement_verbal_praises_reading">Odczytywanie głosowe pochwał</string>
 
 </resources>

@@ -5,7 +5,30 @@
     android:layout_height="match_parent"
     android:background="@color/color_settings_background"
     android:orientation="vertical"
-    tools:context=".SettingsMainActivity">
+    tools:context=".SettingsTabsActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/color_settings_tab_background"
+        android:orientation="horizontal">
+
+        <Button
+            android:layout_width="@dimen/settings_return_to_main_settings_size"
+            android:layout_height="@dimen/settings_return_to_main_settings_size"
+            android:layout_marginStart="@dimen/settings_return_to_main_settings_padding"
+            android:layout_marginLeft="@dimen/settings_return_to_main_settings_padding"
+            android:background="@drawable/ic_arrow_back_black_24dp"
+            android:onClick="returnToMainSettingsOnClick" />
+
+        <TextView
+            android:id="@+id/settings_configuration_name_label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/settings_return_to_main_settings_size"
+            android:layout_marginRight="@dimen/settings_return_to_main_settings_size"
+            android:gravity="center" />
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -19,8 +42,8 @@
             android:layout_height="match_parent"
             android:layout_weight=".21"
             android:background="@color/color_settings_tab_background"
-            android:paddingTop="@dimen/settings_menu_bar_padding_size"
-            android:paddingBottom="@dimen/settings_menu_bar_padding_size">
+            android:paddingTop="@dimen/settings_menu_bar_padding_size_top"
+            android:paddingBottom="@dimen/settings_menu_bar_padding_size_bottom">
 
             <Button
                 android:id="@+id/aspectButton"
@@ -38,8 +61,8 @@
             android:layout_height="match_parent"
             android:layout_weight=".21"
             android:background="@drawable/settings_menu_border"
-            android:paddingTop="@dimen/settings_menu_bar_padding_size"
-            android:paddingBottom="@dimen/settings_menu_bar_padding_size">
+            android:paddingTop="@dimen/settings_menu_bar_padding_size_top"
+            android:paddingBottom="@dimen/settings_menu_bar_padding_size_bottom">
 
             <Button
                 android:id="@+id/materialButton"
@@ -58,8 +81,8 @@
             android:layout_height="match_parent"
             android:layout_weight=".31"
             android:background="@color/color_settings_tab_background"
-            android:paddingTop="@dimen/settings_menu_bar_padding_size"
-            android:paddingBottom="@dimen/settings_menu_bar_padding_size">
+            android:paddingTop="@dimen/settings_menu_bar_padding_size_top"
+            android:paddingBottom="@dimen/settings_menu_bar_padding_size_bottom">
 
             <Button
                 android:id="@+id/learningButton"
@@ -75,10 +98,10 @@
         <FrameLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight=".27"
+            android:layout_weight=".28"
             android:background="@color/color_settings_tab_background"
-            android:paddingTop="@dimen/settings_menu_bar_padding_size"
-            android:paddingBottom="@dimen/settings_menu_bar_padding_size">
+            android:paddingTop="@dimen/settings_menu_bar_padding_size_top"
+            android:paddingBottom="@dimen/settings_menu_bar_padding_size_bottom">
 
             <Button
                 android:id="@+id/reinforcementButton"
@@ -96,7 +119,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:paddingTop="20dp"
+        android:paddingTop="17dp"
         android:weightSum="1.0">
 
         <ScrollView

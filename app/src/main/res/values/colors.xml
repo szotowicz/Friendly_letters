@@ -7,6 +7,7 @@
     <color name="color_game_restart_view_background">#2B82FF</color>
 
     <color name="color_settings_tab_background">#3F51B5</color>
+    <color name="color_settings_create_configuration_background">#3F76B5</color>
     <color name="color_settings_tab_selected">#FFFFFF</color>
     <color name="color_settings_tab_unselected">#DADADA</color>
     <color name="color_settings_background">#EBEBEB</color>
