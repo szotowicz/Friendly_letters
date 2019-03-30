@@ -8,27 +8,30 @@
  *
  ****************************************************************************************
  */
-package com.pg.mikszo.friendlyletters.drawing.configurationApp;
+package com.pg.mikszo.friendlyletters.views.configurationApp;
 
 import android.app.Activity;
 import android.widget.TextView;
 
 import com.pg.mikszo.friendlyletters.R;
-import com.pg.mikszo.friendlyletters.settings.Settings;
+import com.pg.mikszo.friendlyletters.settings.Configuration;
 import com.pg.mikszo.friendlyletters.settings.SettingsManager;
 
 public class TabMenuReinforcement {
 
     private Activity activity;
     private SettingsManager settingsManager;
-    private Settings settings;
+    private Configuration configuration;
+    private int configurationID;
 
-    public TabMenuReinforcement(Activity activity, SettingsManager settingsManager, Settings settings) {
+    public TabMenuReinforcement(Activity activity, SettingsManager settingsManager, int configurationID) {
         this.activity = activity;
         this.settingsManager = settingsManager;
-        this.settings = settings;
+        this.configurationID = configurationID;
+        this.configuration = settingsManager.getConfigurationById(configurationID);
         activity.setContentView(R.layout.activity_settings_tab_reinforcement);
-        ((TextView)activity.findViewById(R.id.settings_configuration_name_label)).setText("Przykładowa nazwa TODO");
+        ((TextView)activity.findViewById(R.id.settings_configuration_name_label))
+                .setText(configuration.configurationName);
 
         //TODO
     }

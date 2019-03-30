@@ -8,7 +8,7 @@
  *
  ****************************************************************************************
  */
-package com.pg.mikszo.friendlyletters.drawing.configurationApp;
+package com.pg.mikszo.friendlyletters.views.configurationApp;
 
 import android.app.Activity;
 import android.graphics.drawable.Drawable;
@@ -19,20 +19,23 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.pg.mikszo.friendlyletters.R;
-import com.pg.mikszo.friendlyletters.settings.Settings;
+import com.pg.mikszo.friendlyletters.settings.Configuration;
 import com.pg.mikszo.friendlyletters.settings.SettingsManager;
 
 public class TabMenuLearning {
     private Activity activity;
     private SettingsManager settingsManager;
-    private Settings settings;
+    private Configuration configuration;
+    private int configurationID;
 
-    public TabMenuLearning(Activity activity, SettingsManager settingsManager, Settings settings) {
+    public TabMenuLearning(Activity activity, SettingsManager settingsManager, int configurationID) {
         this.activity = activity;
         this.settingsManager = settingsManager;
-        this.settings = settings;
+        this.configurationID = configurationID;
+        this.configuration = settingsManager.getConfigurationById(configurationID);
         activity.setContentView(R.layout.activity_settings_tab_learning);
-        ((TextView)activity.findViewById(R.id.settings_configuration_name_label)).setText("Przykładowa nazwa TODO");
+        ((TextView)activity.findViewById(R.id.settings_configuration_name_label))
+                .setText(configuration.configurationName);
 
         createViewElements();
     }
@@ -57,8 +60,8 @@ public class TabMenuLearning {
                 setHardLevelButton.setBackground(background);
                 view.setBackground(backgroundSelected);
 
-                settings.difficultyLevel = 1;
-                settingsManager.saveAllSettings(settings);
+                configuration.difficultyLevel = 1;
+                settingsManager.updateFileWithConfigurations(configuration, configurationID);
             }
         });
         setMediumLevelButton.setOnClickListener(new View.OnClickListener() {
@@ -68,8 +71,8 @@ public class TabMenuLearning {
                 setHardLevelButton.setBackground(background);
                 view.setBackground(backgroundSelected);
 
-                settings.difficultyLevel = 2;
-                settingsManager.saveAllSettings(settings);
+                configuration.difficultyLevel = 2;
+                settingsManager.updateFileWithConfigurations(configuration, configurationID);
             }
         });
         setHardLevelButton.setOnClickListener(new View.OnClickListener() {
@@ -79,12 +82,12 @@ public class TabMenuLearning {
                 setMediumLevelButton.setBackground(background);
                 view.setBackground(backgroundSelected);
 
-                settings.difficultyLevel = 3;
-                settingsManager.saveAllSettings(settings);
+                configuration.difficultyLevel = 3;
+                settingsManager.updateFileWithConfigurations(configuration, configurationID);
             }
         });
 
-        int currentDifficultyLevel = settings.difficultyLevel;
+        int currentDifficultyLevel = configuration.difficultyLevel;
         if (currentDifficultyLevel == 1) {
             setEasyLevelButton.setBackground(backgroundSelected);
         } else if (currentDifficultyLevel == 2) {
@@ -100,7 +103,7 @@ public class TabMenuLearning {
         final int levelCountMin = activity.getResources().getInteger(R.integer.settings_learning_level_count_min);
         final int levelCountMax = activity.getResources().getInteger(R.integer.settings_learning_level_count_max);
         seekBarLevelCount.setMax(levelCountMax - levelCountMin);
-        seekBarLevelCount.setProgress(settings.numberOfLevels - levelCountMin);
+        seekBarLevelCount.setProgress(configuration.numberOfLevels - levelCountMin);
         levelCountMonitor.setText(String.valueOf(seekBarLevelCount.getProgress() + levelCountMin));
         seekBarLevelCount.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -115,8 +118,8 @@ public class TabMenuLearning {
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 levelCountMonitor.setText(String.valueOf(seekBarLevelCount.getProgress() + levelCountMin));
 
-                settings.numberOfLevels = seekBarLevelCount.getProgress() + levelCountMin;
-                settingsManager.saveAllSettings(settings);
+                configuration.numberOfLevels = seekBarLevelCount.getProgress() + levelCountMin;
+                settingsManager.updateFileWithConfigurations(configuration, configurationID);
             }
         });
     }
@@ -127,7 +130,7 @@ public class TabMenuLearning {
         final int attemptCountMin = activity.getResources().getInteger(R.integer.settings_learning_attempt_count_min);
         final int attemptCountMax = activity.getResources().getInteger(R.integer.settings_learning_attempt_count_max);
         seekBarAttemptCount.setMax(attemptCountMax - attemptCountMin);
-        seekBarAttemptCount.setProgress(settings.numberOfRepetitions - attemptCountMin);
+        seekBarAttemptCount.setProgress(configuration.numberOfRepetitions - attemptCountMin);
         attemptCountMonitor.setText(String.valueOf(seekBarAttemptCount.getProgress() + attemptCountMin));
         seekBarAttemptCount.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -142,8 +145,8 @@ public class TabMenuLearning {
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 attemptCountMonitor.setText(String.valueOf(seekBarAttemptCount.getProgress() + attemptCountMin));
 
-                settings.numberOfRepetitions = seekBarAttemptCount.getProgress() + attemptCountMin;
-                settingsManager.saveAllSettings(settings);
+                configuration.numberOfRepetitions = seekBarAttemptCount.getProgress() + attemptCountMin;
+                settingsManager.updateFileWithConfigurations(configuration, configurationID);
             }
         });
     }
@@ -154,7 +157,7 @@ public class TabMenuLearning {
         final int timeLimitMin = activity.getResources().getInteger(R.integer.settings_learning_time_limit_min);
         final int timeLimitMax = activity.getResources().getInteger(R.integer.settings_learning_time_limit_max);
         seekBarTimeLimit.setMax(timeLimitMax - timeLimitMin);
-        seekBarTimeLimit.setProgress(settings.timeLimit - timeLimitMin);
+        seekBarTimeLimit.setProgress(configuration.timeLimit - timeLimitMin);
         timeLimitMonitor.setText(String.valueOf(seekBarTimeLimit.getProgress() + timeLimitMin));
         seekBarTimeLimit.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -169,8 +172,8 @@ public class TabMenuLearning {
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 timeLimitMonitor.setText(String.valueOf(seekBarTimeLimit.getProgress() + timeLimitMin));
 
-                settings.timeLimit = seekBarTimeLimit.getProgress() + timeLimitMin;
-                settingsManager.saveAllSettings(settings);
+                configuration.timeLimit = seekBarTimeLimit.getProgress() + timeLimitMin;
+                settingsManager.updateFileWithConfigurations(configuration, configurationID);
             }
         });
     }

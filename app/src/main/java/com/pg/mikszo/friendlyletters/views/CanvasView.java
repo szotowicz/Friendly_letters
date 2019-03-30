@@ -8,7 +8,7 @@
  *
  ****************************************************************************************
  */
-package com.pg.mikszo.friendlyletters.drawing;
+package com.pg.mikszo.friendlyletters.views;
 
 import android.annotation.SuppressLint;
 import android.content.Context;

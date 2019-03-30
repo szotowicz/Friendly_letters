@@ -7,6 +7,9 @@
     <string name="resources_dir_name" translatable="false">FriendlyLetters</string>
     <string name="prefix_shape_file_name" translatable="false">FLshape_</string>
     <string name="no_media_file_name" translatable="false">.nomedia</string>
+    <string name="file_with_configurations_dir_name" translatable="false">settings</string>
+    <string name="file_with_configurations_file_name" translatable="false">configurations.json</string>
+    <string name="intent_name_configuration_id" translatable="false">configurationID</string>
 
     <string name="information_message_saving_failed">Dodawanie nowego kształtu zakończone niepowodzeniem. Sprawdź uprawnienia aplikacji</string>
     <string name="information_message_removing_material_failed">Usuwanie materiału zakończone niepowodzeniem. Sprawdź uprawnienia aplikacji</string>
@@ -16,13 +19,23 @@
     <string name="information_message_least_one_element_must_be_available">Minimum jeden element musi być dostępny</string>
     <string name="information_message_some_material_must_be_selected">Należy zaznaczyć wybrane materiały</string>
     <string name="information_message_removing_is_possible_for_disabled_materials">Tylko wyłączone materiały mogą zostać usunięte. Wyłącz je, a następnie skorzystaj z opcji usunięcia</string>
+    <string name="information_message_new_configuration_has_been_added">Dodano konfigurację do listy</string>
+    <string name="information_message_configuration_has_been_removed">Konfiguracja została usunięta</string>
+    <string name="information_message_removing_activated_configuration">Tylko nieaktywne konfiguracje mogą zostać usunięte</string>
+    <string name="information_message_least_one_configuration_must_be_available">Minimum jedna konfiguracja musi być dostępna</string>
+    <string name="information_message_configuration_has_been_activated">Wybrana konfiguracja została aktywowana</string>
+    <string name="information_message_provided_incorrect_configuration_name">Podana nazwa jest niepoprawna. Nazwa powinna zawierać wyłącznie znaki alfanumeryczne</string>
 
     <string name="check_removing_decisions_title">Ostrzeżenie</string>
-    <string name="check_removing_decisions_message">Czy na pewno chcesz trwale usunąć wszystkie zaznaczone materiały?</string>
+    <string name="check_removing_materials_decisions_message">Czy na pewno chcesz trwale usunąć wszystkie zaznaczone materiały?</string>
+    <string name="check_removing_configuration_decisions_message">Czy na pewno chcesz trwale usunąć wybraną aktywność?</string>
     <string name="check_importing_decisions_title">Informacja</string>
-    <string name="check_importing_decisions_message">Niewielka liczba dostępnych materiałów. Czy chcesz dodać domyślny zestaw?</string>
+    <string name="check_importing_materials_decisions_message">Niewielka liczba dostępnych materiałów. Czy chcesz dodać domyślny zestaw?</string>
+    <string name="check_creating_configuration">Nazwa nowej konfiguracji</string>
     <string name="check_decisions_positive_button">TAK</string>
+    <string name="check_decisions_positive_button_add">Dodaj</string>
     <string name="check_decisions_negative_button">NIE</string>
+    <string name="check_decisions_negative_button_cancel">Anuluj</string>
 
     <string name="game_level_label">Poziom</string>
     <string name="game_restart_button">Zagraj ponownie</string>

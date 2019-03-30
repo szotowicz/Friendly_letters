@@ -24,10 +24,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.pg.mikszo.friendlyletters.drawing.game.DrawingInGameView;
+import com.pg.mikszo.friendlyletters.settings.Configuration;
+import com.pg.mikszo.friendlyletters.views.game.DrawingInGameView;
 import com.pg.mikszo.friendlyletters.logger.LoggerCSV;
 import com.pg.mikszo.friendlyletters.settings.ColorsManager;
-import com.pg.mikszo.friendlyletters.settings.Settings;
 import com.pg.mikszo.friendlyletters.settings.SettingsManager;
 
 import java.io.File;
@@ -37,7 +37,7 @@ import java.util.Random;
 
 public class GameMainActivity extends Activity {
 
-    private Settings settings;
+    private Configuration configuration;
     private DrawingInGameView drawingInGameView;
     private RelativeLayout gameMainLayout;
     private TextView currentLevelTextView;
@@ -58,6 +58,7 @@ public class GameMainActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        this.configuration = new SettingsManager(this).getActiveConfiguration();
         loadGameView();
     }
 
@@ -81,12 +82,6 @@ public class GameMainActivity extends Activity {
         currentLevel = 1;
         currentNumberOfRepetitions = 1;
         setContentView(R.layout.activity_game_main);
-
-        settings = new SettingsManager(this).getAppSettings();
-        if (!FileHelper.isAppFolderExists(this)) {
-            FileHelper.copyDefaultImages(this);
-            settings = new SettingsManager(this).updateSettingsAvailableShapes(settings);
-        }
 
         gameMainLayout = findViewById(R.id.activity_game_main_layout);
 
@@ -122,22 +117,22 @@ public class GameMainActivity extends Activity {
 
     private void setDrawingProperties() {
         //TODO: without repetition in next level
-        String[] availableBackgroundColors = settings.backgroundColors;
+        String[] availableBackgroundColors = configuration.backgroundColors;
         currentBackgroundColorNumber = new Random().nextInt(availableBackgroundColors.length);
         gameMainLayout.setBackgroundColor(
                 new ColorsManager(this).getBackgroundColorById(availableBackgroundColors[currentBackgroundColorNumber]));
 
-        String[] availableMaterialColors = settings.materialColors;
+        String[] availableMaterialColors = configuration.materialColors;
         currentMaterialColorNumber = new Random().nextInt(availableMaterialColors.length);
         drawingInGameView.setMaterialColor(
                 new ColorsManager(this).getMaterialColorById(availableMaterialColors[currentMaterialColorNumber]));
 
-        String[] availableTraceColors = settings.traceColors;
+        String[] availableTraceColors = configuration.traceColors;
         currentTraceColorNumber = new Random().nextInt(availableTraceColors.length);
         drawingInGameView.setTrackColor(
                 new ColorsManager(this).getTraceColorById(availableTraceColors[currentTraceColorNumber]));
 
-        String[] availableShapes = settings.availableShapes;
+        String[] availableShapes = configuration.availableShapes;
         if (availableShapes.length == 0) {
             Toast.makeText(this, R.string.information_message_lack_of_materials, Toast.LENGTH_SHORT).show();
         } else {
@@ -152,7 +147,7 @@ public class GameMainActivity extends Activity {
                         currentMaterialFile, this);
 
                 if (randomAvailableBackgroundFile == null) {
-                    settings = new SettingsManager(this).updateSettingsAvailableShapes(settings);
+                    configuration = new SettingsManager(this).getActiveConfiguration();
                     setDrawingProperties();
                     return;
                 }
@@ -182,13 +177,14 @@ public class GameMainActivity extends Activity {
                         timeLimitHandler.postDelayed(new Runnable() {
                             @Override
                             public void run() {
+                                /* TODO
                                 new LoggerCSV(getApplicationContext()).addNewRecord(currentMaterialFile, "time out",
                                         currentBackgroundColorNumber, currentMaterialColorNumber,
                                         currentTraceColorNumber, currentLevel, currentNumberOfRepetitions,
-                                        (System.nanoTime() - levelStartTime) - (delayCheckingHandlerMillis * 1000000), settings);
+                                        (System.nanoTime() - levelStartTime) - (delayCheckingHandlerMillis * 1000000), settings); */
                                 gameOver();
                             }
-                        }, settings.timeLimit * 1000);
+                        }, configuration.timeLimit * 1000);
                     }
                 } else if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
                     delayCheckingHandler.postDelayed(new Runnable() {
@@ -217,7 +213,7 @@ public class GameMainActivity extends Activity {
 
     private void setNumberOfLevel() {
         String currentLevelText = getResources().getString(R.string.game_level_label) + ": " +
-                currentLevel + "/" + settings.numberOfLevels;
+                currentLevel + "/" + configuration.numberOfLevels;
         currentLevelTextView.setText(currentLevelText);
     }
 
@@ -229,7 +225,7 @@ public class GameMainActivity extends Activity {
         int currentBackground = currentPixels[1];
 
         //TODO: analyze it
-        if (settings.difficultyLevel == 1) {
+        if (configuration.difficultyLevel == 1) {
             if (backgroundPixels * 0.4 < currentBackground) {
                 result = false;
             } else if (backgroundPixels * 0.7 > currentTrace) {
@@ -239,7 +235,7 @@ public class GameMainActivity extends Activity {
             } else {
                 result = true;
             }
-        } else if (settings.difficultyLevel == 2) {
+        } else if (configuration.difficultyLevel == 2) {
             if (backgroundPixels * 0.3 < currentBackground) {
                 result = false;
             } else if (backgroundPixels * 0.8 > currentTrace) {
@@ -260,11 +256,11 @@ public class GameMainActivity extends Activity {
                 result = true;
             }
         }
-
+        /* TODO
         new LoggerCSV(this).addNewRecord(currentMaterialFile, result, backgroundPixels,
                 currentBackground, currentTrace, currentBackgroundColorNumber, currentMaterialColorNumber,
                 currentTraceColorNumber, currentLevel, currentNumberOfRepetitions,
-                (System.nanoTime() - levelStartTime) - (delayCheckingHandlerMillis * 1000000), settings);
+                (System.nanoTime() - levelStartTime) - (delayCheckingHandlerMillis * 1000000), settings); */
         return result;
     }
 
@@ -274,7 +270,7 @@ public class GameMainActivity extends Activity {
         levelStartTime = 0;
         currentNumberOfRepetitions++;
 
-        if (currentNumberOfRepetitions > settings.numberOfRepetitions) {
+        if (currentNumberOfRepetitions > configuration.numberOfRepetitions) {
             gameOver();
         }
     }
@@ -285,7 +281,7 @@ public class GameMainActivity extends Activity {
         levelStartTime = 0;
         currentLevel++;
 
-        if (currentLevel > settings.numberOfLevels) {
+        if (currentLevel > configuration.numberOfLevels) {
             gameOver();
         } else {
             currentNumberOfRepetitions = 1;
@@ -297,7 +293,7 @@ public class GameMainActivity extends Activity {
 
     private void gameOver() {
         //TODO implement
-        if (currentLevel > settings.numberOfLevels) {
+        if (currentLevel > configuration.numberOfLevels) {
             Toast.makeText(this, "WINNER!", Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(this, "GAME OVER", Toast.LENGTH_SHORT).show();

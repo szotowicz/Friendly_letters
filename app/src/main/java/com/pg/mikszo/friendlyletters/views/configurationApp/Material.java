@@ -8,7 +8,7 @@
  *
  ****************************************************************************************
  */
-package com.pg.mikszo.friendlyletters.drawing.configurationApp;
+package com.pg.mikszo.friendlyletters.views.configurationApp;
 
 import android.widget.Button;
 import android.widget.ImageView;

@@ -8,7 +8,7 @@
  *
  ****************************************************************************************
  */
-package com.pg.mikszo.friendlyletters.drawing.configurationApp;
+package com.pg.mikszo.friendlyletters.views.configurationApp;
 
 import android.app.Activity;
 import android.graphics.PorterDuff;
@@ -23,7 +23,7 @@ import android.widget.Toast;
 
 import com.pg.mikszo.friendlyletters.R;
 import com.pg.mikszo.friendlyletters.settings.ColorsManager;
-import com.pg.mikszo.friendlyletters.settings.Settings;
+import com.pg.mikszo.friendlyletters.settings.Configuration;
 import com.pg.mikszo.friendlyletters.settings.SettingsManager;
 
 import java.util.ArrayList;
@@ -33,15 +33,18 @@ public class TabMenuAspect {
 
     private Activity activity;
     private SettingsManager settingsManager;
-    private Settings settings;
+    private Configuration configuration;
+    private int configurationID;
     private enum availableAspectSections { materialSection, traceSection, backgroundSection }
 
-    public TabMenuAspect(Activity activity, SettingsManager settingsManager, Settings settings) {
+    public TabMenuAspect(Activity activity, SettingsManager settingsManager, int configurationID) {
         this.activity = activity;
         this.settingsManager = settingsManager;
-        this.settings = settings;
+        this.configurationID = configurationID;
+        this.configuration = settingsManager.getConfigurationById(configurationID);
         activity.setContentView(R.layout.activity_settings_tab_aspect);
-        ((TextView)activity.findViewById(R.id.settings_configuration_name_label)).setText("Przykładowa nazwa TODO");
+        ((TextView)activity.findViewById(R.id.settings_configuration_name_label))
+                .setText(configuration.configurationName);
 
         int[] materialColors = new ColorsManager(activity).getAllMaterialColors();
         Drawable[] materialColorsDrawable = {
@@ -82,13 +85,13 @@ public class TabMenuAspect {
         String[] selectedElements;
         LinearLayout.LayoutParams params;
         if (section == availableAspectSections.materialSection) {
-            selectedElements = settings.materialColors;
+            selectedElements = configuration.materialColors;
             params = new LinearLayout.LayoutParams(70, 70);
         } else if (section == availableAspectSections.traceSection) {
-            selectedElements = settings.traceColors;
+            selectedElements = configuration.traceColors;
             params = new LinearLayout.LayoutParams(70, 70);
         } else {
-            selectedElements = settings.backgroundColors;
+            selectedElements = configuration.backgroundColors;
             params = new LinearLayout.LayoutParams(140, 90);
         }
         params.setMargins(15, 0, 15, 5);
@@ -130,13 +133,13 @@ public class TabMenuAspect {
                             int availableElements;
                             if (section == availableAspectSections.materialSection) {
                                 drawable = ContextCompat.getDrawable(activity, R.drawable.settings_circle_drawable);
-                                availableElements = settings.materialColors.length;
+                                availableElements = configuration.materialColors.length;
                             } else if (section == availableAspectSections.traceSection) {
                                 drawable = ContextCompat.getDrawable(activity, R.drawable.settings_circle_drawable);
-                                availableElements = settings.traceColors.length;
+                                availableElements = configuration.traceColors.length;
                             } else {
                                 drawable = ContextCompat.getDrawable(activity, R.drawable.settings_square_drawable);
-                                availableElements = settings.backgroundColors.length;
+                                availableElements = configuration.backgroundColors.length;
                             }
 
                             if (availableElements <= 1) {
@@ -179,13 +182,13 @@ public class TabMenuAspect {
         }
 
         if (section == availableAspectSections.materialSection) {
-            settings.materialColors = enabledList.toArray(new String[0]);
+            configuration.materialColors = enabledList.toArray(new String[0]);
         } else if (section == availableAspectSections.traceSection) {
-            settings.traceColors = enabledList.toArray(new String[0]);
+            configuration.traceColors = enabledList.toArray(new String[0]);
         } else {
-            settings.backgroundColors = enabledList.toArray(new String[0]);
+            configuration.backgroundColors = enabledList.toArray(new String[0]);
         }
 
-        settingsManager.saveAllSettings(settings);
+        settingsManager.updateFileWithConfigurations(configuration, configurationID);
     }
 }
