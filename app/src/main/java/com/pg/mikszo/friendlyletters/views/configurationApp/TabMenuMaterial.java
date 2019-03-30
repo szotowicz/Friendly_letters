@@ -8,7 +8,7 @@
  *
  ****************************************************************************************
  */
-package com.pg.mikszo.friendlyletters.drawing.configurationApp;
+package com.pg.mikszo.friendlyletters.views.configurationApp;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -24,7 +24,7 @@ import android.widget.Toast;
 
 import com.pg.mikszo.friendlyletters.FileHelper;
 import com.pg.mikszo.friendlyletters.R;
-import com.pg.mikszo.friendlyletters.settings.Settings;
+import com.pg.mikszo.friendlyletters.settings.Configuration;
 import com.pg.mikszo.friendlyletters.settings.SettingsManager;
 import com.squareup.picasso.Picasso;
 
@@ -36,17 +36,20 @@ public class TabMenuMaterial {
 
     private Activity activity;
     private SettingsManager settingsManager;
-    private Settings settings;
+    private Configuration configuration;
+    private int configurationID;
     private List<Material> selectedMaterials = new ArrayList<>();
     private List<Material> enabledMaterials = new ArrayList<>();
 
-    public TabMenuMaterial(Activity activity, SettingsManager settingsManager, Settings settings) {
+    public TabMenuMaterial(Activity activity, SettingsManager settingsManager, int configurationID) {
         this.activity = activity;
         this.settingsManager = settingsManager;
-        this.settings = settings;
+        this.configurationID = configurationID;
+        this.configuration = settingsManager.getConfigurationById(configurationID);
 
         createViewElements();
-        ((TextView)activity.findViewById(R.id.settings_configuration_name_label)).setText("Przykładowa nazwa TODO");
+        ((TextView)activity.findViewById(R.id.settings_configuration_name_label))
+                .setText(configuration.configurationName);
     }
 
     private void createViewElements() {
@@ -121,7 +124,7 @@ public class TabMenuMaterial {
                     }
                 });
 
-                if (isMaterialEnabled(files[i * materialsInRow + j], settings.availableShapes)) {
+                if (isMaterialEnabled(files[i * materialsInRow + j], configuration.availableShapes)) {
                     cloneBackgroundSingleMaterial.setBackground(
                             ContextCompat.getDrawable(activity, R.drawable.settings_resources_of_materials_enabled));
                     enabledMaterials.add(new Material(singleMaterial, cloneBackgroundSingleMaterial));
@@ -151,7 +154,7 @@ public class TabMenuMaterial {
                 } else {
                     AlertDialog.Builder builder = new AlertDialog.Builder(activity, AlertDialog.THEME_DEVICE_DEFAULT_LIGHT);
                     builder.setTitle(R.string.check_removing_decisions_title);
-                    builder.setMessage(R.string.check_removing_decisions_message);
+                    builder.setMessage(R.string.check_removing_materials_decisions_message);
 
                     builder.setPositiveButton(R.string.check_decisions_positive_button, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
@@ -337,19 +340,19 @@ public class TabMenuMaterial {
             enabledList.add(backgroundFileName);
         }
 
-        settings.availableShapes = enabledList.toArray(new String[0]);
-        settingsManager.saveAllSettings(settings);
+        configuration.availableShapes = enabledList.toArray(new String[0]);
+        settingsManager.updateFileWithConfigurations(configuration, configurationID);
     }
 
     private void askAboutImportDefaultAssets() {
         AlertDialog.Builder builder = new AlertDialog.Builder(activity, AlertDialog.THEME_DEVICE_DEFAULT_LIGHT);
         builder.setTitle(R.string.check_importing_decisions_title);
-        builder.setMessage(R.string.check_importing_decisions_message);
+        builder.setMessage(R.string.check_importing_materials_decisions_message);
 
         builder.setPositiveButton(R.string.check_decisions_positive_button, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 FileHelper.copyDefaultImages(activity);
-                settings = new SettingsManager(activity).updateSettingsAvailableShapes(settings);
+                configuration = settingsManager.getConfigurationById(configurationID);
                 createViewElements();
                 dialog.dismiss();
             }

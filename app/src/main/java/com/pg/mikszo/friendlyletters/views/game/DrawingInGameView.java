@@ -8,7 +8,7 @@
  *
  ****************************************************************************************
  */
-package com.pg.mikszo.friendlyletters.drawing.game;
+package com.pg.mikszo.friendlyletters.views.game;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -17,9 +17,8 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.View;
-import android.widget.Toast;
 
-import com.pg.mikszo.friendlyletters.drawing.CanvasView;
+import com.pg.mikszo.friendlyletters.views.CanvasView;
 
 public class DrawingInGameView extends CanvasView {
     private Drawable materialImage;

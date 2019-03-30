@@ -42,10 +42,24 @@ public class FileHelper {
         return appFolder.exists() && appFolder.isDirectory();
     }
 
+    public static boolean isFileWithConfigurationsExists(Context context) {
+        File fileWithConfigurations = getFileWithConfigurations(context);
+        return fileWithConfigurations.exists() && fileWithConfigurations.isFile();
+    }
+
+    public static String getFileWithConfigurationsPath(Context context) {
+        return getAppFolderPath(context) + File.separator +
+                context.getString(R.string.file_with_configurations_file_name);
+    }
+
+    public static File getFileWithConfigurations(Context context) {
+        return new File(getAppFolderPath(context) + File.separator +
+                context.getString(R.string.file_with_configurations_file_name));
+    }
+
     public static int getNumberOfAllFilesInAppFolder(Context context) {
         File appFolder = getAppFolderPath(context);
         List<File> files = FileHelper.getMatchesFiles(appFolder.listFiles(), context);
-
         return files.size();
     }
 
@@ -53,7 +67,6 @@ public class FileHelper {
         addNoMediaFile(context);
         File appFolder = getAppFolderPath(context);
         List<File> files = FileHelper.getMatchesFiles(appFolder.listFiles(), context);
-
         return files.toArray(new File[0]);
     }
 
@@ -103,6 +116,19 @@ public class FileHelper {
         addNoMediaFile(context);
     }
 
+    public static void copyDefaultFileWithConfigurations(Context context) {
+        File appFolder = getAppFolderPath(context);
+        if (!appFolder.exists()) {
+            if (!appFolder.mkdirs()) {
+                Log.e("[ERROR]", "Copying default file with configurations failed");
+            }
+        }
+
+        copyFileAssets(context.getString(R.string.file_with_configurations_dir_name)
+                        + File.separator + context.getString(R.string.file_with_configurations_file_name),
+                context.getString(R.string.file_with_configurations_file_name), context);
+    }
+
     public static List<String> getMatchesFiles(String[] files, Context context) {
         Pattern pattern = Pattern.compile(context.getString(R.string.prefix_shape_file_name) + "(.*?)png");
         List<String> matches = new ArrayList<>();
@@ -129,21 +155,25 @@ public class FileHelper {
         return matches;
     }
 
-    public static void copyFileAssets(String filename, Context context) {
+    public static void copyFileAssets(String fileSource, String fileDestination, Context context) {
         File appFolder = getAppFolderPath(context);
         AssetManager assetManager = context.getAssets();
         InputStream in;
         OutputStream out;
         try {
-            in = assetManager.open(filename);
-            out = new FileOutputStream(appFolder + File.separator + filename);
+            in = assetManager.open(fileSource);
+            out = new FileOutputStream(appFolder + File.separator + fileDestination);
             copyFile(in, out);
             in.close();
             out.flush();
             out.close();
         } catch(IOException e) {
-            Log.e("[ERROR]", "Failed to copy asset file: " + filename);
+            Log.e("[ERROR]", "Failed to copy asset file: " + fileSource);
         }
+    }
+
+    public static void copyFileAssets(String filename, Context context) {
+        copyFileAssets(filename, filename, context);
     }
 
     private static void copyFile(InputStream in, OutputStream out) throws IOException {

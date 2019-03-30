@@ -19,60 +19,54 @@ import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.LinearLayout;
 
-import com.pg.mikszo.friendlyletters.drawing.configurationApp.AddingShapeView;
-import com.pg.mikszo.friendlyletters.drawing.configurationApp.TabMenuAspect;
-import com.pg.mikszo.friendlyletters.drawing.configurationApp.TabMenuLearning;
-import com.pg.mikszo.friendlyletters.drawing.configurationApp.TabMenuMaterial;
-import com.pg.mikszo.friendlyletters.drawing.configurationApp.TabMenuReinforcement;
-import com.pg.mikszo.friendlyletters.settings.Settings;
+import com.pg.mikszo.friendlyletters.views.configurationApp.AddingShapeView;
+import com.pg.mikszo.friendlyletters.views.configurationApp.TabMenuAspect;
+import com.pg.mikszo.friendlyletters.views.configurationApp.TabMenuLearning;
+import com.pg.mikszo.friendlyletters.views.configurationApp.TabMenuMaterial;
+import com.pg.mikszo.friendlyletters.views.configurationApp.TabMenuReinforcement;
 import com.pg.mikszo.friendlyletters.settings.SettingsManager;
 
 public class SettingsTabsActivity extends Activity {
 
     private SettingsManager settingsManager;
-    private Settings settings;
     private enum availableTabs { aspect, material, learning, reinforcement, addMaterial }
     private availableTabs selectedTab;
+    private int configurationID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         settingsManager = new SettingsManager(this);
-        settings = settingsManager.getAppSettings();
+        this.configurationID = getIntent().getIntExtra(getResources().getString(R.string.intent_name_configuration_id), 2);
 
-        if (!FileHelper.isAppFolderExists(this)) {
-            FileHelper.copyDefaultImages(this);
-            settings = new SettingsManager(this).updateSettingsAvailableShapes(settings);
-        }
-
-        new TabMenuAspect(this, settingsManager, settings);
+        new TabMenuAspect(this, settingsManager, configurationID);
     }
 
     public void tabAspectOnClick(View view) {
         if (selectedTab != availableTabs.aspect) {
             selectedTab = availableTabs.aspect;
-            new TabMenuAspect(this, settingsManager, settings);
+            new TabMenuAspect(this, settingsManager, configurationID);
         }
     }
 
     public void tabMaterialOnClick(View view) {
         if (selectedTab != availableTabs.material) {
             selectedTab = availableTabs.material;
-            new TabMenuMaterial(this, settingsManager, settings);
+            new TabMenuMaterial(this, settingsManager, configurationID);
         }
     }
 
     public void tabLearningOnClick(View view) {
         if (selectedTab != availableTabs.learning) {
             selectedTab = availableTabs.learning;
-            new TabMenuLearning(this, settingsManager, settings);
+            new TabMenuLearning(this, settingsManager, configurationID);
         }
     }
 
     public void tabReinforcementOnClick(View view) {
         if (selectedTab != availableTabs.reinforcement) {
             selectedTab = availableTabs.reinforcement;
-            new TabMenuReinforcement(this, settingsManager, settings);
+            new TabMenuReinforcement(this, settingsManager, configurationID);
         }
     }
 

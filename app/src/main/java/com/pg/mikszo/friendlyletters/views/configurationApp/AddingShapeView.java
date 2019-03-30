@@ -8,7 +8,7 @@
  *
  ****************************************************************************************
  */
-package com.pg.mikszo.friendlyletters.drawing.configurationApp;
+package com.pg.mikszo.friendlyletters.views.configurationApp;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -20,7 +20,7 @@ import android.widget.Toast;
 
 import com.pg.mikszo.friendlyletters.FileHelper;
 import com.pg.mikszo.friendlyletters.R;
-import com.pg.mikszo.friendlyletters.drawing.CanvasView;
+import com.pg.mikszo.friendlyletters.views.CanvasView;
 
 import java.io.File;
 import java.io.FileOutputStream;
