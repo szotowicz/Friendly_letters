@@ -37,7 +37,8 @@ public class SettingsTabsActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         settingsManager = new SettingsManager(this);
-        this.configurationID = getIntent().getIntExtra(getResources().getString(R.string.intent_name_configuration_id), 2);
+        this.configurationID = getIntent().getIntExtra(
+                getResources().getString(R.string.intent_name_configuration_id), 2);
 
         new TabMenuAspect(this, settingsManager, configurationID);
     }

@@ -19,4 +19,9 @@ public class Settings {
     public String[] traceColors;
     public String[] backgroundColors;
     public String[] availableShapes;
+    public String[] availableCommands;
+    public boolean commandsReading;
+    public boolean commandsDisplaying;
+    public String[] availableVerbalPraises;
+    public boolean verbalPraisesReading;
 }

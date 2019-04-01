@@ -7,8 +7,8 @@
     <color name="color_game_restart_view_background">#2B82FF</color>
 
     <color name="color_settings_tab_background">#3F51B5</color>
-    <color name="color_settings_create_configuration_button_background">#3F76B5</color>
     <color name="color_settings_configuration_active">#187A07</color>
+    <color name="color_settings_configuration_nonactive">#737373</color>
     <color name="color_settings_tab_selected">#FFFFFF</color>
     <color name="color_settings_tab_unselected">#DADADA</color>
     <color name="color_settings_background">#EBEBEB</color>
@@ -41,4 +41,7 @@
     <color name="color_settings_background_2">#FAA9FA</color>
     <color name="color_settings_background_3">#A8FC9F</color>
     <color name="color_settings_background_4">#FAD3A9</color>
+
+    <color name="color_settings_reinforcement_button_active_font">#111111</color>
+    <color name="color_settings_reinforcement_button_nonactive_font">#929191</color>
 </resources>

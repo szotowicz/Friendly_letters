@@ -140,28 +140,13 @@
                 android:textStyle="bold" />
 
             <LinearLayout
-                android:id="@+id/settings_multimedia_praise_container"
+                android:id="@+id/settings_reinforcement_commands_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:orientation="horizontal"
                 android:paddingTop="10dp"
                 android:paddingBottom="10dp">
-
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="adsaddas" />
-
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="adsaddas" />
-
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="adsaddas" />
             </LinearLayout>
 
             <LinearLayout
@@ -178,6 +163,7 @@
                     android:textSize="@dimen/settings_reinforcement_content_font_size" />
 
                 <CheckBox
+                    android:id="@+id/settings_reinforcement_commands_reading"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
             </LinearLayout>
@@ -197,6 +183,7 @@
                     android:textSize="@dimen/settings_reinforcement_content_font_size" />
 
                 <CheckBox
+                    android:id="@+id/settings_reinforcement_commands_displaying"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
             </LinearLayout>
@@ -214,33 +201,13 @@
                 android:textStyle="bold" />
 
             <LinearLayout
-                android:id="@+id/settings_verbal_praise_container"
+                android:id="@+id/settings_reinforcement_verbal_praises_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:orientation="horizontal"
                 android:paddingTop="10dp"
                 android:paddingBottom="10dp">
-
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="adsaddas" />
-
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="adsaddas" />
-
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="adsaddas" />
-
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="adsaddas" />
             </LinearLayout>
 
             <LinearLayout
@@ -257,6 +224,7 @@
                     android:textSize="@dimen/settings_reinforcement_content_font_size" />
 
                 <CheckBox
+                    android:id="@+id/settings_reinforcement_verbal_praises_reading"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
             </LinearLayout>

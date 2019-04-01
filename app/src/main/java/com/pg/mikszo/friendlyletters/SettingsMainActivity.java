@@ -14,9 +14,12 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.InputType;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -31,6 +34,7 @@ public class SettingsMainActivity extends Activity {
 
     private SettingsManager settingsManager;
     private Configuration[] allConfigurations;
+    private Button activeConfiguration;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,57 +95,116 @@ public class SettingsMainActivity extends Activity {
 
             LinearLayout newConfiguration = new LinearLayout(this);
             newConfiguration.setOrientation(LinearLayout.HORIZONTAL);
-            newConfiguration.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+            LinearLayout.LayoutParams newConfigurationLayoutParams = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT);
+            newConfigurationLayoutParams.setMargins(0, 0, 0, 10);
+            newConfiguration.setLayoutParams(newConfigurationLayoutParams);
+            newConfiguration.setGravity(Gravity.CENTER);
             newConfiguration.setWeightSum(1.0f);
 
-            Button configurationNameBtn = new Button(this);
-            configurationNameBtn.setLayoutParams(new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 0.79f));
+            final Button configurationNameBtn = new Button(this);
+            configurationNameBtn.setLayoutParams(new LinearLayout.LayoutParams(
+                    0,
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                    0.9f));
             configurationNameBtn.setText(allConfigurations[i].configurationName);
             configurationNameBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     activateConfiguration(configurationID);
+                    activeConfiguration = (Button)view;
+                    ((Button)view).setTextColor(getResources().getColor(R.color.color_settings_configuration_active));
+                    ((Button)view).setTypeface(null, Typeface.BOLD);
+                    view.setBackgroundResource(R.drawable.settings_configuration_active);
                 }
             });
             if (allConfigurations[i].configurationActivated) {
-                configurationNameBtn.setTextColor(getResources().getColor(R.color.color_settings_configuration_active));
+                activeConfiguration = configurationNameBtn;
+                activeConfiguration.setTextColor(getResources().getColor(R.color.color_settings_configuration_active));
+                activeConfiguration.setTypeface(null, Typeface.BOLD);
+                activeConfiguration.setBackgroundResource(R.drawable.settings_configuration_active);
+            } else {
+                configurationNameBtn.setTextColor(getResources().getColor(R.color.color_settings_configuration_nonactive));
+                configurationNameBtn.setTypeface(null, Typeface.NORMAL);
+                configurationNameBtn.setBackgroundResource(R.drawable.settings_configuration_nonactive);
             }
             newConfiguration.addView(configurationNameBtn);
 
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 0.07f);
-            params.setMargins(20, 0, 0, 0);
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                    0,
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                    0.08f);
 
-            Button configurationCopy = new Button(this);
+            final Button configurationCopy = new Button(this);
             configurationCopy.setLayoutParams(params);
-            configurationCopy.setBackgroundResource(R.drawable.ic_content_copy_24dp);
+            configurationCopy.setBackgroundResource(R.drawable.settings_configurations_action_copy);
             configurationCopy.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     duplicateConfiguration(configurationID);
                 }
             });
+            configurationCopy.getViewTreeObserver().addOnGlobalLayoutListener(
+                    new ViewTreeObserver.OnGlobalLayoutListener() {
+                        @Override
+                        public void onGlobalLayout() {
+                            configurationCopy.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                            final int size = configurationCopy.getWidth();
+                            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(size, size);
+                            layoutParams.setMargins(20, 0, 0, 0);
+                            configurationCopy.setLayoutParams(layoutParams);
+
+                            configurationNameBtn.setLayoutParams(new LinearLayout.LayoutParams(
+                                    0,
+                                    size,
+                                    0.9f));
+                        }
+                    });
             newConfiguration.addView(configurationCopy);
 
-            Button configurationEdit = new Button(this);
+            final Button configurationEdit = new Button(this);
             configurationEdit.setLayoutParams(params);
-            configurationEdit.setBackgroundResource(R.drawable.ic_edit_24dp);
+            configurationEdit.setBackgroundResource(R.drawable.settings_configurations_action_edit);
             configurationEdit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     editConfiguration(configurationID);
                 }
             });
+            configurationEdit.getViewTreeObserver().addOnGlobalLayoutListener(
+                    new ViewTreeObserver.OnGlobalLayoutListener() {
+                        @Override
+                        public void onGlobalLayout() {
+                            configurationEdit.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                            final int size = configurationEdit.getWidth();
+                            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(size, size);
+                            layoutParams.setMargins(10, 0, 0, 0);
+                            configurationEdit.setLayoutParams(layoutParams);
+                        }
+                    });
             newConfiguration.addView(configurationEdit);
 
-            Button configurationRemove = new Button(this);
+            final Button configurationRemove = new Button(this);
             configurationRemove.setLayoutParams(params);
-            configurationRemove.setBackgroundResource(R.drawable.ic_delete_24dp);
+            configurationRemove.setBackgroundResource(R.drawable.settings_configurations_action_remove);
             configurationRemove.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     removeConfiguration(configurationID);
                 }
             });
+            configurationRemove.getViewTreeObserver().addOnGlobalLayoutListener(
+                    new ViewTreeObserver.OnGlobalLayoutListener() {
+                        @Override
+                        public void onGlobalLayout() {
+                            configurationRemove.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                            final int size = configurationRemove.getWidth();
+                            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(size, size);
+                            layoutParams.setMargins(10, 0, 0, 0);
+                            configurationRemove.setLayoutParams(layoutParams);
+                        }
+                    });
             newConfiguration.addView(configurationRemove);
 
             configurationsContainer.addView(newConfiguration);
@@ -149,6 +212,10 @@ public class SettingsMainActivity extends Activity {
     }
 
     private void activateConfiguration(final int configurationID) {
+        activeConfiguration.setTextColor(getResources()
+                .getColor(R.color.color_settings_configuration_nonactive));
+        activeConfiguration.setTypeface(null, Typeface.NORMAL);
+        activeConfiguration.setBackgroundResource(R.drawable.settings_configuration_nonactive);
         for (Configuration configuration : allConfigurations) {
             if (configuration.configurationActivated) {
                 configuration.configurationActivated = false;
@@ -156,7 +223,6 @@ public class SettingsMainActivity extends Activity {
         }
         allConfigurations[configurationID].configurationActivated = true;
         settingsManager.updateFileWithConfigurations(allConfigurations);
-        loadAvailableConfigurations();
         Toast.makeText(this,
                 R.string.information_message_configuration_has_been_activated,
                 Toast.LENGTH_LONG).show();
@@ -246,7 +312,7 @@ public class SettingsMainActivity extends Activity {
     }
 
     private boolean validateNameForConfiguration(String nameForConfiguration) {
-        if (nameForConfiguration.length() <= 1) {
+        if (nameForConfiguration.length() <= 0 || nameForConfiguration.length() > 40) {
             return false;
         }
 

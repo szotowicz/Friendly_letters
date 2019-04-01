@@ -54,7 +54,8 @@ public class TabMenuAspect {
                 ContextCompat.getDrawable(activity, R.drawable.settings_material_color_4),
                 ContextCompat.getDrawable(activity, R.drawable.settings_material_color_5)};
         LinearLayout materialColorsContainer = activity.findViewById(R.id.settings_material_colors_container);
-        createTabAspectSection(materialColors, materialColorsDrawable, materialColorsContainer, availableAspectSections.materialSection);
+        createTabAspectSection(materialColors, materialColorsDrawable,
+                materialColorsContainer, availableAspectSections.materialSection);
 
         int[] traceColors = new ColorsManager(activity).getAllTraceColors();
         Drawable[] traceColorsDrawable = {
@@ -64,7 +65,8 @@ public class TabMenuAspect {
                 ContextCompat.getDrawable(activity, R.drawable.settings_trace_color_4),
                 ContextCompat.getDrawable(activity, R.drawable.settings_trace_color_5)};
         LinearLayout traceColorsContainer = activity.findViewById(R.id.settings_trace_colors_container);
-        createTabAspectSection(traceColors, traceColorsDrawable, traceColorsContainer, availableAspectSections.traceSection);
+        createTabAspectSection(traceColors, traceColorsDrawable,
+                traceColorsContainer, availableAspectSections.traceSection);
 
         int[] backgroundColors = new ColorsManager(activity).getAllBackgroundColors();
         Drawable[] backgroundColorsDrawable = {
@@ -73,7 +75,8 @@ public class TabMenuAspect {
                 ContextCompat.getDrawable(activity, R.drawable.settings_background_color_3),
                 ContextCompat.getDrawable(activity, R.drawable.settings_background_color_4)};
         LinearLayout backgroundColorsContainer = activity.findViewById(R.id.settings_background_colors_container);
-        createTabAspectSection(backgroundColors, backgroundColorsDrawable, backgroundColorsContainer, availableAspectSections.backgroundSection);
+        createTabAspectSection(backgroundColors, backgroundColorsDrawable,
+                backgroundColorsContainer, availableAspectSections.backgroundSection);
     }
 
     private void createTabAspectSection(final int[] buttonColors, final Drawable[] buttonColorsDrawable,

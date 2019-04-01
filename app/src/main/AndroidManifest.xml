@@ -8,7 +8,7 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/ic_icon_game"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
@@ -16,7 +16,7 @@
         <activity
             android:name=".GameMainActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:icon="@mipmap/ic_launcher"
+            android:icon="@mipmap/ic_icon_game"
             android:label="@string/app_game_activity_name"
             android:screenOrientation="sensorLandscape"
             android:taskAffinity="com.pg.mikszo.gameactivity"
@@ -29,7 +29,7 @@
         <activity
             android:name=".SettingsMainActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:icon="@mipmap/ic_launcher"
+            android:icon="@mipmap/ic_icon_settings"
             android:label="@string/app_setting_main_activity_name"
             android:screenOrientation="sensorLandscape"
             android:taskAffinity="com.pg.mikszo.settingsactivity"
