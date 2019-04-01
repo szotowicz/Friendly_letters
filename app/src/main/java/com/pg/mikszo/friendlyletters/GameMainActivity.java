@@ -84,6 +84,7 @@ public class GameMainActivity extends Activity {
         setContentView(R.layout.activity_game_main);
 
         gameMainLayout = findViewById(R.id.activity_game_main_layout);
+        currentLevelTextView = findViewById(R.id.game_current_level);
 
         drawingInGameView = findViewById(R.id.drawing_in_game_view);
         drawingInGameView.getViewTreeObserver().addOnGlobalLayoutListener(
@@ -111,7 +112,6 @@ public class GameMainActivity extends Activity {
                     }
                 });
 
-        currentLevelTextView = findViewById(R.id.game_current_level);
         setNumberOfLevel();
     }
 

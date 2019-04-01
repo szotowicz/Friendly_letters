@@ -39,9 +39,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_gravity="center_vertical|end"
-                android:background="@color/color_settings_create_configuration_button_background"
+                android:background="@drawable/settings_create_configuration"
                 android:onClick="createNewConfigurationsOnClick"
-                android:padding="5dp"
+                android:paddingStart="15dp"
+                android:paddingLeft="15dp"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:paddingEnd="15dp"
+                android:paddingRight="15dp"
                 android:text="@string/settings_configurations_create_new"
                 android:textColor="@color/color_settings_tab_selected"
                 android:textSize="@dimen/settings_menu_bar_font_size" />
@@ -57,8 +62,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="20dp">
-        </LinearLayout>
+            android:padding="20dp"></LinearLayout>
     </ScrollView>
 
 </LinearLayout>

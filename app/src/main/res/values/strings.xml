@@ -28,7 +28,7 @@
 
     <string name="check_removing_decisions_title">Ostrzeżenie</string>
     <string name="check_removing_materials_decisions_message">Czy na pewno chcesz trwale usunąć wszystkie zaznaczone materiały?</string>
-    <string name="check_removing_configuration_decisions_message">Czy na pewno chcesz trwale usunąć wybraną aktywność?</string>
+    <string name="check_removing_configuration_decisions_message">Czy na pewno chcesz trwale usunąć wybraną konfigurację?</string>
     <string name="check_importing_decisions_title">Informacja</string>
     <string name="check_importing_materials_decisions_message">Niewielka liczba dostępnych materiałów. Czy chcesz dodać domyślny zestaw?</string>
     <string name="check_creating_configuration">Nazwa nowej konfiguracji</string>
@@ -71,5 +71,11 @@
     <string name="settings_tab_reinforcement_commands_displaying">Wyświetlanie poleceń</string>
     <string name="settings_tab_reinforcement_choose_verbal_praises">Wybierz pochwały słowne:</string>
     <string name="settings_tab_reinforcement_verbal_praises_reading">Odczytywanie głosowe pochwał</string>
+    <string name="settings_tab_reinforcement_command_1">Napisz {znak}</string>
+    <string name="settings_tab_reinforcement_command_2">{znak}</string>
+    <string name="settings_tab_reinforcement_verbal_praise_1">Super</string>
+    <string name="settings_tab_reinforcement_verbal_praise_2">Świetnie</string>
+    <string name="settings_tab_reinforcement_verbal_praise_3">Brawo</string>
+    <string name="settings_tab_reinforcement_verbal_praise_4">Dobrze</string>
 
 </resources>
