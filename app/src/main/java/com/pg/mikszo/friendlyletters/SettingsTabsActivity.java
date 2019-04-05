@@ -11,15 +11,21 @@
 package com.pg.mikszo.friendlyletters;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewTreeObserver;
+import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
-import com.pg.mikszo.friendlyletters.views.configurationApp.AddingShapeView;
+import com.pg.mikszo.friendlyletters.settings.Configuration;
+import com.pg.mikszo.friendlyletters.views.configurationApp.AddNewMaterial;
 import com.pg.mikszo.friendlyletters.views.configurationApp.TabMenuAspect;
 import com.pg.mikszo.friendlyletters.views.configurationApp.TabMenuLearning;
 import com.pg.mikszo.friendlyletters.views.configurationApp.TabMenuMaterial;
@@ -75,7 +81,7 @@ public class SettingsTabsActivity extends Activity {
         selectedTab = availableTabs.addMaterial;
         setContentView(R.layout.activity_settings_add_material);
 
-        final AddingShapeView addingMaterialView = findViewById(R.id.addingShapeView);
+        final AddNewMaterial addingMaterialView = findViewById(R.id.addingShapeView);
         addingMaterialView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
@@ -98,13 +104,47 @@ public class SettingsTabsActivity extends Activity {
     }
 
     public void cleanNewMaterialOnClick(View view) {
-        AddingShapeView addingMaterialView = findViewById(R.id.addingShapeView);
+        AddNewMaterial addingMaterialView = findViewById(R.id.addingShapeView);
         addingMaterialView.cleanScreen();
     }
 
     public void addMaterialToResourcesOnClick(View view) {
-        AddingShapeView addingMaterialView = findViewById(R.id.addingShapeView);
-        addingMaterialView.saveScreenImage();
-        addingMaterialView.cleanScreen();
+        final AddNewMaterial addNewMaterial = findViewById(R.id.addingShapeView);
+
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, AlertDialog.THEME_DEVICE_DEFAULT_LIGHT);
+        builder.setTitle(R.string.check_creating_material_title);
+        builder.setMessage(R.string.check_creating_material_message);
+
+        final EditText input = new EditText(this);
+        input.setInputType(InputType.TYPE_CLASS_TEXT);
+        builder.setView(input);
+
+        builder.setPositiveButton(R.string.check_decisions_positive_button_add, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                String markForNewMaterial = input.getText().toString().trim();
+                if (markForNewMaterial.length() == 1) {
+                    if (!Character.isLetterOrDigit(markForNewMaterial.charAt(0))) {
+                        markForNewMaterial = "";
+                    }
+                    addNewMaterial.saveScreenImage(markForNewMaterial);
+                    addNewMaterial.cleanScreen();
+                    dialog.dismiss();
+                } else {
+                    Toast.makeText(getBaseContext(),
+                            R.string.information_message_provided_incorrect_mark,
+                            Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        builder.setNegativeButton(R.string.check_decisions_negative_button_cancel, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+        builder.create().show();
     }
 }

@@ -25,8 +25,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.pg.mikszo.friendlyletters.settings.Configuration;
+import com.pg.mikszo.friendlyletters.settings.ReinforcementManager;
 import com.pg.mikszo.friendlyletters.views.game.DrawingInGameView;
-import com.pg.mikszo.friendlyletters.logger.LoggerCSV;
 import com.pg.mikszo.friendlyletters.settings.ColorsManager;
 import com.pg.mikszo.friendlyletters.settings.SettingsManager;
 
@@ -34,22 +34,29 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.Random;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class GameMainActivity extends Activity {
 
     private Configuration configuration;
     private DrawingInGameView drawingInGameView;
     private RelativeLayout gameMainLayout;
-    private TextView currentLevelTextView;
+
+    private TextView commandTextView;
+    private String currentCommands = "";
+    private String[] availableCommands;
+    private String[] availableVerbalPraises;
+
     private int currentLevel = 1;
     private int currentNumberOfRepetitions = 1;
-    //todo: maybe remove?
-    private int currentRandomMaterial = -1;
+        //todo: maybe remove?
+        private int currentRandomMaterial = -1;
     private String currentMaterialFile;
     private int currentBackgroundColorNumber = 0;
     private int currentMaterialColorNumber = 0;
     private int currentTraceColorNumber = 0;
-    private long levelStartTime = 0;
+    private long timeOfStartLevel = 0;
     private Handler timeLimitHandler = new Handler();
     private Handler delayResetHandler = new Handler();
     private Handler delayCheckingHandler = new Handler();
@@ -59,6 +66,8 @@ public class GameMainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.configuration = new SettingsManager(this).getActiveConfiguration();
+        this.availableCommands = new ReinforcementManager(this).getAvailableCommands();
+        this.availableVerbalPraises = new ReinforcementManager(this).getAvailableVerbalPraises();
         loadGameView();
     }
 
@@ -84,7 +93,10 @@ public class GameMainActivity extends Activity {
         setContentView(R.layout.activity_game_main);
 
         gameMainLayout = findViewById(R.id.activity_game_main_layout);
-        currentLevelTextView = findViewById(R.id.game_current_level);
+        commandTextView = findViewById(R.id.game_command_text_view);
+        if (!configuration.commandsDisplaying || configuration.availableCommands.length == 0) {
+            commandTextView.setVisibility(View.INVISIBLE);
+        }
 
         drawingInGameView = findViewById(R.id.drawing_in_game_view);
         drawingInGameView.getViewTreeObserver().addOnGlobalLayoutListener(
@@ -109,14 +121,16 @@ public class GameMainActivity extends Activity {
                         setDrawingProperties();
                         drawingInGameView.analyzeBackgroundPixels();
                         setTouchListener();
+
+                        randomCommand();
+                        updateCommandTextView();
+                        readCommand();
                     }
                 });
-
-        setNumberOfLevel();
     }
 
     private void setDrawingProperties() {
-        //TODO: without repetition in next level
+        //TODO: better generator, without repetition in next level
         String[] availableBackgroundColors = configuration.backgroundColors;
         currentBackgroundColorNumber = new Random().nextInt(availableBackgroundColors.length);
         gameMainLayout.setBackgroundColor(
@@ -172,8 +186,8 @@ public class GameMainActivity extends Activity {
                 if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
                     delayCheckingHandler.removeCallbacksAndMessages(null);
                     delayResetHandler.removeCallbacksAndMessages(null);
-                    if (levelStartTime == 0) {
-                        levelStartTime = System.nanoTime();
+                    if (timeOfStartLevel == 0) {
+                        timeOfStartLevel = System.nanoTime();
                         timeLimitHandler.postDelayed(new Runnable() {
                             @Override
                             public void run() {
@@ -181,7 +195,7 @@ public class GameMainActivity extends Activity {
                                 new LoggerCSV(getApplicationContext()).addNewRecord(currentMaterialFile, "time out",
                                         currentBackgroundColorNumber, currentMaterialColorNumber,
                                         currentTraceColorNumber, currentLevel, currentNumberOfRepetitions,
-                                        (System.nanoTime() - levelStartTime) - (delayCheckingHandlerMillis * 1000000), settings); */
+                                        (System.nanoTime() - timeOfStartLevel) - (delayCheckingHandlerMillis * 1000000), settings); */
                                 gameOver();
                             }
                         }, configuration.timeLimit * 1000);
@@ -191,13 +205,13 @@ public class GameMainActivity extends Activity {
                         @Override
                         public void run() {
                             if (checkCorrectnessOfDrawing()) {
-                                Toast.makeText(getApplication().getBaseContext(), "GREAT!", Toast.LENGTH_SHORT).show();
+                                readVerbalPraises();
                                 loadNextLevel();
                             } else {
                                 delayResetHandler.postDelayed(new Runnable() {
                                     @Override
                                     public void run() {
-                                        Toast.makeText(getApplication().getBaseContext(), "WRONG!", Toast.LENGTH_SHORT).show();
+                                        //Toast.makeText(getApplication().getBaseContext(), "WRONG!", Toast.LENGTH_SHORT).show();
                                         resetCurrentLevel();
                                     }
                                 }, 1000);
@@ -209,12 +223,6 @@ public class GameMainActivity extends Activity {
                 return false;
             }
         });
-    }
-
-    private void setNumberOfLevel() {
-        String currentLevelText = getResources().getString(R.string.game_level_label) + ": " +
-                currentLevel + "/" + configuration.numberOfLevels;
-        currentLevelTextView.setText(currentLevelText);
     }
 
     private boolean checkCorrectnessOfDrawing() {
@@ -260,34 +268,39 @@ public class GameMainActivity extends Activity {
         new LoggerCSV(this).addNewRecord(currentMaterialFile, result, backgroundPixels,
                 currentBackground, currentTrace, currentBackgroundColorNumber, currentMaterialColorNumber,
                 currentTraceColorNumber, currentLevel, currentNumberOfRepetitions,
-                (System.nanoTime() - levelStartTime) - (delayCheckingHandlerMillis * 1000000), settings); */
+                (System.nanoTime() - timeOfStartLevel) - (delayCheckingHandlerMillis * 1000000), settings); */
         return result;
     }
 
     private void resetCurrentLevel() {
         timeLimitHandler.removeCallbacksAndMessages(null);
         drawingInGameView.cleanScreen();
-        levelStartTime = 0;
+        timeOfStartLevel = 0;
         currentNumberOfRepetitions++;
 
         if (currentNumberOfRepetitions > configuration.numberOfRepetitions) {
             gameOver();
+        } else {
+            readCommand();
         }
     }
 
     private void loadNextLevel() {
         timeLimitHandler.removeCallbacksAndMessages(null);
         drawingInGameView.cleanScreen();
-        levelStartTime = 0;
+        timeOfStartLevel = 0;
         currentLevel++;
 
         if (currentLevel > configuration.numberOfLevels) {
             gameOver();
         } else {
             currentNumberOfRepetitions = 1;
-            setNumberOfLevel();
             setDrawingProperties();
             drawingInGameView.analyzeBackgroundPixels();
+
+            randomCommand();
+            updateCommandTextView();
+            readCommand();
         }
     }
 
@@ -299,5 +312,69 @@ public class GameMainActivity extends Activity {
             Toast.makeText(this, "GAME OVER", Toast.LENGTH_SHORT).show();
         }
         setContentView(R.layout.activity_game_restart);
+    }
+
+    private void readVerbalPraises() {
+        if (configuration.verbalPraisesReading) {
+            int randomVerbalPraisesIndex =
+                    Integer.parseInt(configuration.availableVerbalPraises[
+                            new Random().nextInt(configuration.availableVerbalPraises.length)]);
+            String randomVerbalPraises = availableVerbalPraises[randomVerbalPraisesIndex];
+            //TODO : read
+            Toast.makeText(getApplication().getBaseContext(), randomVerbalPraises, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void randomCommand() {
+        int randomCommandIndex =
+                Integer.parseInt(configuration.availableCommands[
+                        new Random().nextInt(configuration.availableCommands.length)]);
+        String randomCommand = availableCommands[randomCommandIndex];
+
+        String command = "";
+        Pattern pattern = Pattern.compile("(_)(.?)(.png)");
+        Matcher matcher = pattern.matcher(currentMaterialFile);
+        if (matcher.find()) {
+            String mark = matcher.group(2);
+
+            if (mark.length() == 1) {
+                char markCharacter = mark.charAt(0);
+
+                if (Character.isLetterOrDigit(markCharacter)) {
+                    if (Character.isDigit(markCharacter)) {
+                        command = randomCommand.replace(getResources().getString(
+                                R.string.settings_tab_reinforcement_command_2_letter), "");
+                    } else if (Character.isLetter(markCharacter)) {
+                        command = randomCommand.replace(getResources().getString(
+                                R.string.settings_tab_reinforcement_command_2_digit), "");
+                    }
+                    command = command.replace("/", "");
+                    command = command.replace(
+                            getResources().getString(R.string.settings_tab_reinforcement_command_mark_tag),
+                            mark);
+                }
+            }
+        }
+        //todo hide if ""
+        currentCommands = command;
+    }
+
+    private void updateCommandTextView() {
+        if (configuration.commandsDisplaying && configuration.availableCommands.length > 0) {
+            if (currentCommands.trim().length() == 0){
+                commandTextView.setVisibility(View.INVISIBLE);
+            } else {
+                commandTextView.setVisibility(View.VISIBLE);
+                commandTextView.setText(currentCommands);
+            }
+        }
+    }
+
+    private void readCommand() {
+        if (configuration.commandsReading && currentCommands.trim().length() > 1) {
+            String randomCommand = currentCommands;
+            //TODO : read
+            Toast.makeText(getApplication().getBaseContext(), randomCommand, Toast.LENGTH_SHORT).show();
+        }
     }
 }

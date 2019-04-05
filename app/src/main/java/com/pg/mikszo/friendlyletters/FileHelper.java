@@ -105,9 +105,12 @@ public class FileHelper {
 
         try {
             AssetManager assetManager = context.getAssets();
-            List<String> images = getMatchesFiles(assetManager.list(""), context);
+            List<String> images = getMatchesFiles(
+                    assetManager.list(context.getString(R.string.materials_dir_name)),
+                    context);
             for (String img : images) {
-                copyFileAssets(img, context);
+                copyFileAssets(context.getString(R.string.materials_dir_name)
+                        + File.separator + img, img, context);
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -132,7 +135,6 @@ public class FileHelper {
     public static List<String> getMatchesFiles(String[] files, Context context) {
         Pattern pattern = Pattern.compile(context.getString(R.string.prefix_shape_file_name) + "(.*?)png");
         List<String> matches = new ArrayList<>();
-
         for (String file : files) {
             if (pattern.matcher(file).matches()) {
                 matches.add(file);

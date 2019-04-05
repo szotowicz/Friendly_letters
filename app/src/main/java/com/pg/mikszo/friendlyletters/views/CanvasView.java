@@ -29,9 +29,9 @@ public class CanvasView extends View {
     protected int trackColor = Color.BLACK;
     protected boolean isDrawnSomething = false;
     protected float radiusCursor = 20.0f;
-    protected final float possitionForTurningOffCursor = -1.0f;
-    protected float xPosition = possitionForTurningOffCursor;
-    protected float yPosition = possitionForTurningOffCursor;
+    protected final float positionForTurningOffCursor = -1.0f;
+    protected float xPosition = positionForTurningOffCursor;
+    protected float yPosition = positionForTurningOffCursor;
 
     public CanvasView(Context context, AttributeSet attributeSet) {
         super(context, attributeSet);
@@ -59,8 +59,8 @@ public class CanvasView extends View {
                 break;
             case MotionEvent.ACTION_UP:
                 path.lineTo(xPosition + 0.01f, yPosition + 0.01f);
-                xPosition = possitionForTurningOffCursor;
-                yPosition = possitionForTurningOffCursor;
+                xPosition = positionForTurningOffCursor;
+                yPosition = positionForTurningOffCursor;
                 break;
             default:
                 return false;
