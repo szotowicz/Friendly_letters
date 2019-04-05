@@ -7,6 +7,7 @@
     <string name="resources_dir_name" translatable="false">FriendlyLetters</string>
     <string name="prefix_shape_file_name" translatable="false">FLshape_</string>
     <string name="no_media_file_name" translatable="false">.nomedia</string>
+    <string name="materials_dir_name" translatable="false">materials</string>
     <string name="file_with_configurations_dir_name" translatable="false">settings</string>
     <string name="file_with_configurations_file_name" translatable="false">configurations.json</string>
     <string name="intent_name_configuration_id" translatable="false">configurationID</string>
@@ -25,6 +26,7 @@
     <string name="information_message_least_one_configuration_must_be_available">Minimum jedna konfiguracja musi być dostępna</string>
     <string name="information_message_configuration_has_been_activated">Wybrana konfiguracja została aktywowana</string>
     <string name="information_message_provided_incorrect_configuration_name">Podana nazwa jest niepoprawna. Nazwa powinna zawierać wyłącznie znaki alfanumeryczne</string>
+    <string name="information_message_provided_incorrect_mark">Podana nazwa jest niepoprawna. Nazwa powinna być jednoznakowa</string>
 
     <string name="check_removing_decisions_title">Ostrzeżenie</string>
     <string name="check_removing_materials_decisions_message">Czy na pewno chcesz trwale usunąć wszystkie zaznaczone materiały?</string>
@@ -32,12 +34,13 @@
     <string name="check_importing_decisions_title">Informacja</string>
     <string name="check_importing_materials_decisions_message">Niewielka liczba dostępnych materiałów. Czy chcesz dodać domyślny zestaw?</string>
     <string name="check_creating_configuration">Nazwa nowej konfiguracji</string>
+    <string name="check_creating_material_title">Nazwa nowego materiału</string>
+    <string name="check_creating_material_message">Wprowadź jednoznakową nazwę dla materiału. Nazwa jest opcjonalna, jej brak uniemożliwi realizację wzmocnień. Materiały inne niż litery i cyfry nie są wzmacniane</string>
     <string name="check_decisions_positive_button">TAK</string>
     <string name="check_decisions_positive_button_add">Dodaj</string>
     <string name="check_decisions_negative_button">NIE</string>
     <string name="check_decisions_negative_button_cancel">Anuluj</string>
 
-    <string name="game_level_label">Poziom</string>
     <string name="game_restart_button">Zagraj ponownie</string>
 
     <string name="settings_configurations">LISTA KONFIGURACJI</string>
@@ -71,11 +74,13 @@
     <string name="settings_tab_reinforcement_commands_displaying">Wyświetlanie poleceń</string>
     <string name="settings_tab_reinforcement_choose_verbal_praises">Wybierz pochwały słowne:</string>
     <string name="settings_tab_reinforcement_verbal_praises_reading">Odczytywanie głosowe pochwał</string>
-    <string name="settings_tab_reinforcement_command_1">Napisz {znak}</string>
-    <string name="settings_tab_reinforcement_command_2">{znak}</string>
-    <string name="settings_tab_reinforcement_verbal_praise_1">Super</string>
+    <string name="settings_tab_reinforcement_command_1">Napisz</string>
+    <string name="settings_tab_reinforcement_command_2_letter">Litera</string>
+    <string name="settings_tab_reinforcement_command_2_digit">Cyfra</string>
+    <string name="settings_tab_reinforcement_command_mark_tag">{znak}</string>
+    <string name="settings_tab_reinforcement_verbal_praise_1">Brawo</string>
     <string name="settings_tab_reinforcement_verbal_praise_2">Świetnie</string>
-    <string name="settings_tab_reinforcement_verbal_praise_3">Brawo</string>
-    <string name="settings_tab_reinforcement_verbal_praise_4">Dobrze</string>
+    <string name="settings_tab_reinforcement_verbal_praise_3">Dobrze</string>
+    <string name="settings_tab_reinforcement_verbal_praise_4">Super</string>
 
 </resources>

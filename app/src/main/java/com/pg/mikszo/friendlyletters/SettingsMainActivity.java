@@ -66,11 +66,11 @@ public class SettingsMainActivity extends Activity {
                     loadAvailableConfigurations();
                     Toast.makeText(getBaseContext(),
                             R.string.information_message_new_configuration_has_been_added,
-                            Toast.LENGTH_LONG).show();
+                            Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(getBaseContext(),
                             R.string.information_message_provided_incorrect_configuration_name,
-                            Toast.LENGTH_LONG).show();
+                            Toast.LENGTH_SHORT).show();
                 }
                 dialog.dismiss();
             }
@@ -225,7 +225,7 @@ public class SettingsMainActivity extends Activity {
         settingsManager.updateFileWithConfigurations(allConfigurations);
         Toast.makeText(this,
                 R.string.information_message_configuration_has_been_activated,
-                Toast.LENGTH_LONG).show();
+                Toast.LENGTH_SHORT).show();
     }
 
     private void duplicateConfiguration(final int configurationID) {
@@ -249,11 +249,11 @@ public class SettingsMainActivity extends Activity {
 
                     Toast.makeText(getBaseContext(),
                             R.string.information_message_new_configuration_has_been_added,
-                            Toast.LENGTH_LONG).show();
+                            Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(getBaseContext(),
                             R.string.information_message_provided_incorrect_configuration_name,
-                            Toast.LENGTH_LONG).show();
+                            Toast.LENGTH_SHORT).show();
                 }
                 dialog.dismiss();
             }
@@ -279,11 +279,11 @@ public class SettingsMainActivity extends Activity {
         if (allConfigurations[configurationID].configurationActivated) {
             Toast.makeText(this,
                     R.string.information_message_removing_activated_configuration,
-                    Toast.LENGTH_LONG).show();
+                    Toast.LENGTH_SHORT).show();
         } else if (allConfigurations.length == 1) {
             Toast.makeText(this,
                     R.string.information_message_least_one_configuration_must_be_available,
-                    Toast.LENGTH_LONG).show();
+                    Toast.LENGTH_SHORT).show();
         } else {
             AlertDialog.Builder builder = new AlertDialog.Builder(this, AlertDialog.THEME_DEVICE_DEFAULT_LIGHT);
             builder.setTitle(R.string.check_removing_decisions_title);
@@ -295,7 +295,7 @@ public class SettingsMainActivity extends Activity {
                     allConfigurations = settingsManager.getAllConfigurations();
                     loadAvailableConfigurations();
                     Toast.makeText(getBaseContext(),
-                            R.string.information_message_configuration_has_been_removed, Toast.LENGTH_LONG).show();
+                            R.string.information_message_configuration_has_been_removed, Toast.LENGTH_SHORT).show();
                     dialog.dismiss();
                 }
             });

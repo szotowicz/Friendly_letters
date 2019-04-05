@@ -13,7 +13,7 @@
         android:layout_height="match_parent" />
 
     <TextView
-        android:id="@+id/game_current_level"
+        android:id="@+id/game_command_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"

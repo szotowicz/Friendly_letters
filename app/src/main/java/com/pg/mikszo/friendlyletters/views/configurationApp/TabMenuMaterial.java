@@ -150,7 +150,9 @@ public class TabMenuMaterial {
             @Override
             public void onClick(View view) {
                 if (selectedMaterials.size() == 0) {
-                    Toast.makeText(activity, R.string.information_message_some_material_must_be_selected, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(activity,
+                            R.string.information_message_some_material_must_be_selected,
+                            Toast.LENGTH_SHORT).show();
                 } else {
                     AlertDialog.Builder builder = new AlertDialog.Builder(activity, AlertDialog.THEME_DEVICE_DEFAULT_LIGHT);
                     builder.setTitle(R.string.check_removing_decisions_title);
@@ -180,7 +182,9 @@ public class TabMenuMaterial {
             @Override
             public void onClick(View view) {
                 if (selectedMaterials.size() == 0) {
-                    Toast.makeText(activity, R.string.information_message_some_material_must_be_selected, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(activity,
+                            R.string.information_message_some_material_must_be_selected,
+                            Toast.LENGTH_SHORT).show();
                 } else {
                     // Firstly enable all required and disable rest, but least one element must be available
                     int startPoint = 0;
@@ -226,7 +230,9 @@ public class TabMenuMaterial {
 
                         if (isEnabled) {
                             if (enabledMaterials.size() <= 1) {
-                                Toast.makeText(activity, R.string.information_message_least_one_element_must_be_available, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(activity,
+                                        R.string.information_message_least_one_element_must_be_available,
+                                        Toast.LENGTH_SHORT).show();
                             } else {
                                 sortedSelectedMaterials.get(i).cloneOfBackground.setBackground(
                                         ContextCompat.getDrawable(activity, R.drawable.settings_resources_of_materials_disabled));
@@ -259,7 +265,9 @@ public class TabMenuMaterial {
 
     private void removeSelectedMaterials() {
         if (selectedMaterials.size() >= FileHelper.getNumberOfAllFilesInAppFolder(activity)) {
-            Toast.makeText(activity, R.string.information_message_least_one_element_must_be_available, Toast.LENGTH_SHORT).show();
+            Toast.makeText(activity,
+                    R.string.information_message_least_one_element_must_be_available,
+                    Toast.LENGTH_SHORT).show();
         } else {
             boolean showMessageAboutRemovingEnabledMaterials = false;
             for (int i = 0; i < selectedMaterials.size(); i++) {
@@ -278,13 +286,17 @@ public class TabMenuMaterial {
                     String backgroundFilePath = materialToRemove.getTag().toString();
 
                     if (!(new File(backgroundFilePath).delete())) {
-                        Toast.makeText(activity, R.string.information_message_removing_material_failed, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(activity,
+                                R.string.information_message_removing_material_failed,
+                                Toast.LENGTH_SHORT).show();
                     }
                 }
             }
 
             if (showMessageAboutRemovingEnabledMaterials) {
-                Toast.makeText(activity, R.string.information_message_removing_is_possible_for_disabled_materials, Toast.LENGTH_LONG).show();
+                Toast.makeText(activity,
+                        R.string.information_message_removing_is_possible_for_disabled_materials,
+                        Toast.LENGTH_LONG).show();
             }
 
             selectedMaterials.clear();

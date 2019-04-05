@@ -10,12 +10,14 @@
  */
 package com.pg.mikszo.friendlyletters.views.game;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 import android.view.View;
 
 import com.pg.mikszo.friendlyletters.views.CanvasView;
@@ -28,9 +30,50 @@ public class DrawingInGameView extends CanvasView {
     private int backgroundImageTop;
     private int backgroundImageBottom;
     private int backgroundImagePixels = -1;
+    private boolean isPathStarted = false;
 
     public DrawingInGameView(Context context, AttributeSet attributeSet) {
         super(context, attributeSet);
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        isDrawnSomething = true;
+        xPosition = event.getX();
+        yPosition = event.getY();
+
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                if (doesDrawWell(xPosition, yPosition)) {
+                    path.moveTo(xPosition, yPosition);
+                    isPathStarted = true;
+                }
+            case MotionEvent.ACTION_MOVE:
+                if (doesDrawWell(xPosition, yPosition)) {
+                    if (isPathStarted) {
+                        path.lineTo(xPosition, yPosition);
+                    } else {
+                        path.moveTo(xPosition, yPosition);
+                        isPathStarted = true;
+                    }
+                } else {
+                    isPathStarted = false;
+                }
+                break;
+            case MotionEvent.ACTION_UP:
+                if (doesDrawWell(xPosition, yPosition)) {
+                    path.lineTo(xPosition + 0.01f, yPosition + 0.01f);
+                }
+                xPosition = positionForTurningOffCursor;
+                yPosition = positionForTurningOffCursor;
+                isPathStarted = false;
+                break;
+            default:
+                return false;
+        }
+        invalidate();
+        return true;
     }
 
     @Override
@@ -38,7 +81,7 @@ public class DrawingInGameView extends CanvasView {
         super.onDraw(c);
         materialImage.draw(canvas);
         canvas.drawPath(path, paint);
-        if (xPosition != possitionForTurningOffCursor && yPosition != possitionForTurningOffCursor) {
+        if (xPosition != positionForTurningOffCursor && yPosition != positionForTurningOffCursor) {
             canvas.drawCircle(xPosition, yPosition, radiusCursor, paint);
         }
     }
@@ -120,5 +163,41 @@ public class DrawingInGameView extends CanvasView {
         backgroundImageTop = top;
         backgroundImageRight = right;
         backgroundImageBottom = bottom;
+    }
+
+    private boolean doesDrawWell(float xPos, float yPos) {
+        final View view = this;
+        Bitmap bitmap = Bitmap.createBitmap(view.getWidth(), view.getHeight(), Bitmap.Config.ARGB_8888);
+        Canvas c = new Canvas(bitmap);
+        view.draw(c);
+
+        float accuracy = 0.6f;
+        int startX = (int)(xPos - accuracy * strokeWidth);
+        int startY = (int)(yPos - accuracy * strokeWidth);
+        int endX = (int)(xPos + accuracy * strokeWidth);
+        int endY = (int)(yPos + accuracy * strokeWidth);
+        if (startX < 0) {
+            startX = 0;
+        }
+        if (startY < 0) {
+            startY = 0;
+        }
+        if (endX > bitmap.getWidth()) {
+            endX = bitmap.getWidth();
+        }
+        if (endY > bitmap.getHeight()) {
+            endX = bitmap.getHeight();
+        }
+
+        for (int x = startX; x < endX; x++) {
+            for (int y = startY; y < endY; y++) {
+                if (Color.green(bitmap.getPixel(x, y)) > Color.red(bitmap.getPixel(x, y)) &&
+                        Color.green(bitmap.getPixel(x, y)) > Color.blue(bitmap.getPixel(x, y))) {
+                    return true;
+                }
+            }
+        }
+        // Toast.makeText(getContext(), "FALSE", Toast.LENGTH_SHORT).show();
+        return false;
     }
 }

@@ -146,7 +146,9 @@ public class TabMenuAspect {
                             }
 
                             if (availableElements <= 1) {
-                                Toast.makeText(activity, R.string.information_message_least_one_element_must_be_available, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(activity,
+                                        R.string.information_message_least_one_element_must_be_available,
+                                        Toast.LENGTH_SHORT).show();
                             } else if (drawable != null) {
                                 drawable.setColorFilter(new PorterDuffColorFilter(buttonColors[idOfButton], PorterDuff.Mode.MULTIPLY));
                                 v.setBackground(drawable);

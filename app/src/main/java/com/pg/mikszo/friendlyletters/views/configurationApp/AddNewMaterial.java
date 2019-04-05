@@ -28,8 +28,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-public class AddingShapeView extends CanvasView {
-    public AddingShapeView(Context context, AttributeSet attributeSet) {
+public class AddNewMaterial extends CanvasView {
+    public AddNewMaterial(Context context, AttributeSet attributeSet) {
         super(context, attributeSet);
     }
 
@@ -37,19 +37,19 @@ public class AddingShapeView extends CanvasView {
     protected void onDraw(Canvas c) {
         super.onDraw(c);
         canvas.drawPath(path, paint);
-        if (xPosition != possitionForTurningOffCursor && yPosition != possitionForTurningOffCursor) {
+        if (xPosition != positionForTurningOffCursor && yPosition != positionForTurningOffCursor) {
             canvas.drawCircle(xPosition, yPosition, radiusCursor, paint);
         }
     }
 
-    public void saveScreenImage() {
+    public void saveScreenImage(String mark) {
         if (isDrawnSomething) {
             try {
                 final View view = this;
                 Bitmap bitmap = Bitmap.createBitmap(view.getWidth(), view.getHeight(), Bitmap.Config.ARGB_8888);
                 view.draw(new Canvas(bitmap));
 
-                String imagePath = getPathForNewImage();
+                String imagePath = getPathForNewImage(mark);
                 if (imagePath != null && !imagePath.trim().equals("")) {
                     File imageFile = new File(imagePath);
                     FileOutputStream fileOutputStream = new FileOutputStream(imageFile);
@@ -69,12 +69,13 @@ public class AddingShapeView extends CanvasView {
         }
     }
 
-    private String getPathForNewImage() {
+    private String getPathForNewImage(String mark) {
         String appFolder = FileHelper.getAppFolderPath(getContext()).toString();
 
         if (appFolder != null && !appFolder.trim().equals("")) {
             final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss", Locale.US);
-            String fileName  = getContext().getString(R.string.prefix_shape_file_name) + dateFormat.format(new Date()) + ".png";
+            String fileName  = getContext().getString(R.string.prefix_shape_file_name)
+                    + dateFormat.format(new Date()) + "_" + mark + ".png";
 
             return appFolder + File.separator + fileName;
         } else {

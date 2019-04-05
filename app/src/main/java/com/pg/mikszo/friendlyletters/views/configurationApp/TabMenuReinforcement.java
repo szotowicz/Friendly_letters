@@ -23,6 +23,7 @@ import android.widget.TextView;
 
 import com.pg.mikszo.friendlyletters.R;
 import com.pg.mikszo.friendlyletters.settings.Configuration;
+import com.pg.mikszo.friendlyletters.settings.ReinforcementManager;
 import com.pg.mikszo.friendlyletters.settings.SettingsManager;
 
 import java.util.ArrayList;
@@ -51,10 +52,7 @@ public class TabMenuReinforcement {
 
     private void createViewElements() {
         LinearLayout commandsContainer = activity.findViewById(R.id.settings_reinforcement_commands_container);
-        String[] availableCommands = {
-                activity.getResources().getString(R.string.settings_tab_reinforcement_command_1),
-                activity.getResources().getString(R.string.settings_tab_reinforcement_command_2)
-        };
+        String[] availableCommands = new ReinforcementManager(activity).getAvailableCommands();
         createTabReinforcementSection(commandsContainer, availableCommands, availableSections.commands);
 
         CheckBox commandsReading = activity.findViewById(R.id.settings_reinforcement_commands_reading);
@@ -78,12 +76,7 @@ public class TabMenuReinforcement {
         });
 
         LinearLayout verbalPraisesContainer = activity.findViewById(R.id.settings_reinforcement_verbal_praises_container);
-        String[] availableVerbalPraises = {
-                activity.getResources().getString(R.string.settings_tab_reinforcement_verbal_praise_1),
-                activity.getResources().getString(R.string.settings_tab_reinforcement_verbal_praise_2),
-                activity.getResources().getString(R.string.settings_tab_reinforcement_verbal_praise_3),
-                activity.getResources().getString(R.string.settings_tab_reinforcement_verbal_praise_4)
-        };
+        String[] availableVerbalPraises = new ReinforcementManager(activity).getAvailableVerbalPraises();
         createTabReinforcementSection(verbalPraisesContainer, availableVerbalPraises, availableSections.verbalPraises);
 
         CheckBox verbalPraisesReading = activity.findViewById(R.id.settings_reinforcement_verbal_praises_reading);
