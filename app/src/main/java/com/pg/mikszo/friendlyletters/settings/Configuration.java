@@ -10,7 +10,21 @@
  */
 package com.pg.mikszo.friendlyletters.settings;
 
-public class Configuration extends Settings {
+public class Configuration {
     public String configurationName;
     public boolean configurationActivated;
+    public boolean testMode;
+    public int difficultyLevel;
+    public int numberOfLevels;
+    public int numberOfRepetitions;
+    public int timeLimit;
+    public String[] materialColors;
+    public String[] traceColors;
+    public String[] backgroundColors;
+    public String[] availableShapes;
+    public String[] availableCommands;
+    public boolean commandsReading;
+    public boolean commandsDisplaying;
+    public String[] availableVerbalPraises;
+    public boolean verbalPraisesReading;
 }

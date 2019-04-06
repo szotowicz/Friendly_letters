@@ -130,20 +130,32 @@
             android:gravity="center_horizontal"
             android:orientation="vertical"
             android:paddingLeft="30dp"
-            android:paddingTop="20dp"
+            android:paddingTop="10dp"
             android:paddingRight="30dp">
 
-            <Switch
-                android:id="@+id/switch_learning_mode"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textOff="Nauka"
-                android:textOn="Test" />
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/settings_tab_learning_learning_mode"
+                    android:textColor="@color/color_settings_content_font"
+                    android:textSize="@dimen/settings_learning_content_font_size" />
+
+                <CheckBox
+                    android:id="@+id/settings_learning_mode"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="5dp"
                 android:text="@string/settings_tab_learning_difficulty_level"
                 android:textColor="@color/color_settings_content_font"
                 android:textSize="@dimen/settings_learning_content_font_size" />

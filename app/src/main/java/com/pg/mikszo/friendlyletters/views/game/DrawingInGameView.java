@@ -97,9 +97,9 @@ public class DrawingInGameView extends CanvasView {
         int materialColorB = Color.blue(materialColor);
 
         int pixelsCount = 0;
-        for (int i = backgroundImageLeft; i < backgroundImageRight; i++) {
-            for (int j = backgroundImageTop; j < backgroundImageBottom; j++) {
-                int currentPixel = bitmap.getPixel(i, j);
+        for (int x = backgroundImageLeft; x < backgroundImageRight; x++) {
+            for (int y = backgroundImageTop; y < backgroundImageBottom; y++) {
+                int currentPixel = bitmap.getPixel(x, y);
                 if (Color.red(currentPixel) == materialColorR &&
                         Color.green(currentPixel) == materialColorG &&
                         Color.blue(currentPixel) == materialColorB) {
@@ -171,7 +171,7 @@ public class DrawingInGameView extends CanvasView {
         Canvas c = new Canvas(bitmap);
         view.draw(c);
 
-        float accuracy = 0.6f;
+        final float accuracy = 0.6f;
         int startX = (int)(xPos - accuracy * strokeWidth);
         int startY = (int)(yPos - accuracy * strokeWidth);
         int endX = (int)(xPos + accuracy * strokeWidth);
@@ -189,15 +189,21 @@ public class DrawingInGameView extends CanvasView {
             endX = bitmap.getHeight();
         }
 
+        final int materialColorR = Color.red(materialColor);
+        final int materialColorG = Color.green(materialColor);
+        final int materialColorB = Color.blue(materialColor);
+
         for (int x = startX; x < endX; x++) {
             for (int y = startY; y < endY; y++) {
-                if (Color.green(bitmap.getPixel(x, y)) > Color.red(bitmap.getPixel(x, y)) &&
-                        Color.green(bitmap.getPixel(x, y)) > Color.blue(bitmap.getPixel(x, y))) {
+                int currentPixel = bitmap.getPixel(x, y);
+                if (Color.red(currentPixel) == materialColorR &&
+                        Color.green(currentPixel) == materialColorG &&
+                        Color.blue(currentPixel) == materialColorB) {
                     return true;
                 }
             }
         }
-        // Toast.makeText(getContext(), "FALSE", Toast.LENGTH_SHORT).show();
+
         return false;
     }
 }
