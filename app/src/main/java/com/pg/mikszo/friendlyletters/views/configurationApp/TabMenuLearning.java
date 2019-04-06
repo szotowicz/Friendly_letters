@@ -15,6 +15,8 @@ import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -41,10 +43,25 @@ public class TabMenuLearning {
     }
 
     private void createViewElements() {
+        createLearningModeView();
         createDifficultyLevelView();
         createLevelCountView();
         createAttemptCountView();
         createTimeLimitView();
+    }
+
+    private void createLearningModeView() {
+        CheckBox learningModeCheckBox = activity.findViewById(R.id.settings_learning_mode);
+        learningModeCheckBox.setChecked(configuration.testMode);
+        learningModeCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                configuration.testMode = !configuration.testMode;
+                settingsManager.updateFileWithConfigurations(configuration, configurationID);
+                SeekBar seekBarAttemptCount = activity.findViewById(R.id.seek_bar_attempt_count);
+                seekBarAttemptCount.setEnabled(!configuration.testMode);
+            }
+        });
     }
 
     private void createDifficultyLevelView() {
@@ -132,23 +149,27 @@ public class TabMenuLearning {
         seekBarAttemptCount.setMax(attemptCountMax - attemptCountMin);
         seekBarAttemptCount.setProgress(configuration.numberOfRepetitions - attemptCountMin);
         attemptCountMonitor.setText(String.valueOf(seekBarAttemptCount.getProgress() + attemptCountMin));
-        seekBarAttemptCount.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-            }
+        if (configuration.testMode) {
+            seekBarAttemptCount.setEnabled(false);
+        } else {
+            seekBarAttemptCount.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+                @Override
+                public void onStopTrackingTouch(SeekBar seekBar) {
+                }
 
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-            }
+                @Override
+                public void onStartTrackingTouch(SeekBar seekBar) {
+                }
 
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                attemptCountMonitor.setText(String.valueOf(seekBarAttemptCount.getProgress() + attemptCountMin));
+                @Override
+                public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                    attemptCountMonitor.setText(String.valueOf(seekBarAttemptCount.getProgress() + attemptCountMin));
 
-                configuration.numberOfRepetitions = seekBarAttemptCount.getProgress() + attemptCountMin;
-                settingsManager.updateFileWithConfigurations(configuration, configurationID);
-            }
-        });
+                    configuration.numberOfRepetitions = seekBarAttemptCount.getProgress() + attemptCountMin;
+                    settingsManager.updateFileWithConfigurations(configuration, configurationID);
+                }
+            });
+        }
     }
 
     private void createTimeLimitView() {

@@ -111,7 +111,6 @@ public class SettingsTabsActivity extends Activity {
     public void addMaterialToResourcesOnClick(View view) {
         final AddNewMaterial addNewMaterial = findViewById(R.id.addingShapeView);
 
-
         AlertDialog.Builder builder = new AlertDialog.Builder(this, AlertDialog.THEME_DEVICE_DEFAULT_LIGHT);
         builder.setTitle(R.string.check_creating_material_title);
         builder.setMessage(R.string.check_creating_material_message);
@@ -127,6 +126,10 @@ public class SettingsTabsActivity extends Activity {
                     if (!Character.isLetterOrDigit(markForNewMaterial.charAt(0))) {
                         markForNewMaterial = "";
                     }
+                    addNewMaterial.saveScreenImage(markForNewMaterial);
+                    addNewMaterial.cleanScreen();
+                    dialog.dismiss();
+                } else if (markForNewMaterial.length() == 0) {
                     addNewMaterial.saveScreenImage(markForNewMaterial);
                     addNewMaterial.cleanScreen();
                     dialog.dismiss();

@@ -15,7 +15,7 @@ import android.content.Context;
 import java.text.SimpleDateFormat;
 
 import com.pg.mikszo.friendlyletters.FileHelper;
-import com.pg.mikszo.friendlyletters.settings.Settings;
+import com.pg.mikszo.friendlyletters.settings.Configuration;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -39,7 +39,7 @@ public class LoggerCSV {
     public void addNewRecord(String materialName, boolean passLevel, int materialPixelsOnStart,
                              int materialPixels, int tracePixels, int backgroundColorNumber,
                              int materialColorNumber, int traceColorNumber, int currentLevel,
-                             int currentNumberOfRepetitions, long time, Settings settings) {
+                             int currentNumberOfRepetitions, long time, Configuration settings) {
         try {
             Writer writer = new BufferedWriter(new FileWriter(csvFile, true));
             writer.write(getRecordContent(materialName, String.valueOf(passLevel), materialPixelsOnStart, materialPixels,
@@ -54,7 +54,7 @@ public class LoggerCSV {
 
     public void addNewRecord(String materialName, String message, int backgroundColorNumber,
                              int materialColorNumber, int traceColorNumber, int currentLevel,
-                             int currentNumberOfRepetitions, long time, Settings settings) {
+                             int currentNumberOfRepetitions, long time, Configuration settings) {
         try {
             Writer writer = new BufferedWriter(new FileWriter(csvFile, true));
             writer.write(getRecordContent(materialName, message, 0, 0,
@@ -70,7 +70,7 @@ public class LoggerCSV {
     private String getRecordContent(String materialName, String passLevel, int materialPixelsOnStart,
                                     int materialPixels, int tracePixels, int backgroundColorNumber,
                                     int materialColorNumber, int traceColorNumber, int currentLevel,
-                                    int currentNumberOfRepetitions, long time, Settings settings) {
+                                    int currentNumberOfRepetitions, long time, Configuration settings) {
         String currentDate = new SimpleDateFormat("dd.MM.yyyy", Locale.US).format(new Date());
         String currentHour = new SimpleDateFormat("HH:mm:ss", Locale.US).format(new Date());
 

@@ -94,7 +94,7 @@ public class GameMainActivity extends Activity {
 
         gameMainLayout = findViewById(R.id.activity_game_main_layout);
         commandTextView = findViewById(R.id.game_command_text_view);
-        if (!configuration.commandsDisplaying || configuration.availableCommands.length == 0) {
+        if (!configuration.commandsDisplaying || configuration.availableCommands.length == 0 || configuration.testMode) {
             commandTextView.setVisibility(View.INVISIBLE);
         }
 
@@ -278,7 +278,12 @@ public class GameMainActivity extends Activity {
         timeOfStartLevel = 0;
         currentNumberOfRepetitions++;
 
-        if (currentNumberOfRepetitions > configuration.numberOfRepetitions) {
+        int limitOfRepetitions = 1;
+        if (!configuration.testMode) {
+            limitOfRepetitions = configuration.numberOfRepetitions;
+        }
+
+        if (currentNumberOfRepetitions > limitOfRepetitions) {
             gameOver();
         } else {
             readCommand();
@@ -326,41 +331,38 @@ public class GameMainActivity extends Activity {
     }
 
     private void randomCommand() {
-        int randomCommandIndex =
-                Integer.parseInt(configuration.availableCommands[
-                        new Random().nextInt(configuration.availableCommands.length)]);
-        String randomCommand = availableCommands[randomCommandIndex];
+        if (configuration.availableCommands.length > 0 && !configuration.testMode) {
+            int randomCommandIndex = Integer.parseInt(
+                    configuration.availableCommands[new Random().nextInt(
+                            configuration.availableCommands.length)]);
+            String randomCommand = availableCommands[randomCommandIndex];
 
-        String command = "";
-        Pattern pattern = Pattern.compile("(_)(.?)(.png)");
-        Matcher matcher = pattern.matcher(currentMaterialFile);
-        if (matcher.find()) {
-            String mark = matcher.group(2);
+            String command = "";
+            Pattern pattern = Pattern.compile("(_)(.?)(.png)");
+            Matcher matcher = pattern.matcher(currentMaterialFile);
+            if (matcher.find()) {
+                String mark = matcher.group(2);
 
-            if (mark.length() == 1) {
-                char markCharacter = mark.charAt(0);
+                if (mark.length() == 1) {
+                    char markCharacter = mark.charAt(0);
 
-                if (Character.isLetterOrDigit(markCharacter)) {
-                    if (Character.isDigit(markCharacter)) {
-                        command = randomCommand.replace(getResources().getString(
-                                R.string.settings_tab_reinforcement_command_2_letter), "");
-                    } else if (Character.isLetter(markCharacter)) {
-                        command = randomCommand.replace(getResources().getString(
-                                R.string.settings_tab_reinforcement_command_2_digit), "");
+                    if (Character.isLetterOrDigit(markCharacter)) {
+                        if (Character.isDigit(markCharacter)) {
+                            command = randomCommand.replace(getResources().getString(R.string.settings_tab_reinforcement_command_2_letter), "");
+                        } else if (Character.isLetter(markCharacter)) {
+                            command = randomCommand.replace(getResources().getString(R.string.settings_tab_reinforcement_command_2_digit), "");
+                        }
+                        command = command.replace("/", "");
+                        command = command.replace(getResources().getString(R.string.settings_tab_reinforcement_command_mark_tag), mark);
                     }
-                    command = command.replace("/", "");
-                    command = command.replace(
-                            getResources().getString(R.string.settings_tab_reinforcement_command_mark_tag),
-                            mark);
                 }
             }
+            currentCommands = command;
         }
-        //todo hide if ""
-        currentCommands = command;
     }
 
     private void updateCommandTextView() {
-        if (configuration.commandsDisplaying && configuration.availableCommands.length > 0) {
+        if (configuration.commandsDisplaying && configuration.availableCommands.length > 0 && !configuration.testMode) {
             if (currentCommands.trim().length() == 0){
                 commandTextView.setVisibility(View.INVISIBLE);
             } else {
@@ -371,7 +373,7 @@ public class GameMainActivity extends Activity {
     }
 
     private void readCommand() {
-        if (configuration.commandsReading && currentCommands.trim().length() > 1) {
+        if (configuration.commandsReading && currentCommands.trim().length() > 1 && !configuration.testMode) {
             String randomCommand = currentCommands;
             //TODO : read
             Toast.makeText(getApplication().getBaseContext(), randomCommand, Toast.LENGTH_SHORT).show();

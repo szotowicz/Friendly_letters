@@ -57,23 +57,31 @@ public class TabMenuReinforcement {
 
         CheckBox commandsReading = activity.findViewById(R.id.settings_reinforcement_commands_reading);
         commandsReading.setChecked(configuration.commandsReading);
-        commandsReading.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                configuration.commandsReading = !configuration.commandsReading;
-                settingsManager.updateFileWithConfigurations(configuration, configurationID);
-            }
-        });
+        if (configuration.testMode) {
+            commandsReading.setEnabled(false);
+        } else {
+            commandsReading.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                    configuration.commandsReading = !configuration.commandsReading;
+                    settingsManager.updateFileWithConfigurations(configuration, configurationID);
+                }
+            });
+        }
 
         CheckBox commandsDisplaying = activity.findViewById(R.id.settings_reinforcement_commands_displaying);
         commandsDisplaying.setChecked(configuration.commandsDisplaying);
-        commandsDisplaying.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                configuration.commandsDisplaying = !configuration.commandsDisplaying;
-                settingsManager.updateFileWithConfigurations(configuration, configurationID);
-            }
-        });
+        if (configuration.testMode) {
+            commandsDisplaying.setEnabled(false);
+        } else {
+            commandsDisplaying.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                    configuration.commandsDisplaying = !configuration.commandsDisplaying;
+                    settingsManager.updateFileWithConfigurations(configuration, configurationID);
+                }
+            });
+        }
 
         LinearLayout verbalPraisesContainer = activity.findViewById(R.id.settings_reinforcement_verbal_praises_container);
         String[] availableVerbalPraises = new ReinforcementManager(activity).getAvailableVerbalPraises();
@@ -81,13 +89,17 @@ public class TabMenuReinforcement {
 
         CheckBox verbalPraisesReading = activity.findViewById(R.id.settings_reinforcement_verbal_praises_reading);
         verbalPraisesReading.setChecked(configuration.verbalPraisesReading);
-        verbalPraisesReading.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                configuration.verbalPraisesReading = !configuration.verbalPraisesReading;
-                settingsManager.updateFileWithConfigurations(configuration, configurationID);
-            }
-        });
+        if (configuration.testMode) {
+            verbalPraisesReading.setEnabled(false);
+        } else {
+            verbalPraisesReading.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                    configuration.verbalPraisesReading = !configuration.verbalPraisesReading;
+                    settingsManager.updateFileWithConfigurations(configuration, configurationID);
+                }
+            });
+        }
     }
 
     private void createTabReinforcementSection(final LinearLayout layoutContainer,
