@@ -28,7 +28,7 @@ public class GameSplashActivity extends Activity {
             public void run() {
                 try {
                     super.run();
-                    sleep(3000);
+                    sleep(2000);
                 } catch (Exception ignored) {
 
                 } finally {

@@ -11,15 +11,15 @@
         android:layout_height="0dp"
         android:layout_weight=".8"
         android:orientation="vertical"
-        android:paddingLeft="30dp"
-        android:paddingRight="30dp"
-        android:gravity="center_vertical">
+        android:paddingLeft="40dp"
+        android:paddingRight="40dp"
+        android:gravity="center">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/splash_activity_title"
-            android:textSize="30sp"
+            android:textSize="31sp"
             android:textStyle="bold"
             android:textColor="#FFFFFF" />
 
@@ -28,8 +28,8 @@
             android:layout_height="wrap_content"
             android:text="@string/splash_activity_message"
             android:textAlignment="center"
-            android:paddingTop="10dp"
-            android:textSize="15sp"
+            android:paddingTop="20dp"
+            android:textSize="17sp"
             android:textColor="#FFFFFF" />
     </LinearLayout>
 
@@ -38,6 +38,7 @@
         android:layout_height="0dp"
         android:layout_weight=".2"
         android:orientation="vertical"
+        android:gravity="center"
         android:background="#EFEFEF">
 
         <ImageView

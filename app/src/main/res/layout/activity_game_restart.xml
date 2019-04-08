@@ -32,7 +32,7 @@
             android:layout_height="wrap_content"
             android:text="@string/restart_game_message"
             android:paddingTop="10dp"
-            android:paddingBottom="10dp"
+            android:paddingBottom="20dp"
             android:textSize="15sp"
             android:textColor="#FFFFFF" />
 
