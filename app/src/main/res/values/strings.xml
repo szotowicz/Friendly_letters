@@ -11,7 +11,6 @@
     <string name="file_with_configurations_file_name" translatable="false">configurations.json</string>
     <string name="intent_name_configuration_id" translatable="false">configurationID</string>
 
-
     <string name="start_game_title">Przyjazne Litery</string>
     <string name="start_game_message">Aktywna konfiguracja</string>
     <string name="restart_game_message">Zagraj ponownie</string>
@@ -89,5 +88,7 @@
     <string name="settings_tab_reinforcement_verbal_praise_2">Świetnie</string>
     <string name="settings_tab_reinforcement_verbal_praise_3">Dobrze</string>
     <string name="settings_tab_reinforcement_verbal_praise_4">Super</string>
+
+    <string name="text_reader_exception_one">jeden</string>
 
 </resources>

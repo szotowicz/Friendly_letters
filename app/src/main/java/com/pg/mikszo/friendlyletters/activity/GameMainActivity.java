@@ -26,6 +26,7 @@ import android.widget.Toast;
 
 import com.pg.mikszo.friendlyletters.FileHelper;
 import com.pg.mikszo.friendlyletters.R;
+import com.pg.mikszo.friendlyletters.TextReader;
 import com.pg.mikszo.friendlyletters.settings.Configuration;
 import com.pg.mikszo.friendlyletters.settings.ReinforcementManager;
 import com.pg.mikszo.friendlyletters.views.game.DrawingInGameView;
@@ -64,6 +65,8 @@ public class GameMainActivity extends Activity {
     private Handler delayCheckingHandler = new Handler();
     private int delayCheckingHandlerMillis = 700;
 
+    private TextReader textReader;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,6 +74,13 @@ public class GameMainActivity extends Activity {
         this.availableCommands = new ReinforcementManager(this).getAvailableCommands();
         this.availableVerbalPraises = new ReinforcementManager(this).getAvailableVerbalPraises();
         loadGameView();
+        textReader = new TextReader(getApplicationContext());
+    }
+
+    @Override
+    protected void onDestroy() {
+        textReader.releaseTextReader();
+        super.onDestroy();
     }
 
     public void restartGameOnClick(View view) {
@@ -126,7 +136,21 @@ public class GameMainActivity extends Activity {
 
                         randomCommand();
                         updateCommandTextView();
-                        readCommand();
+
+                        Thread readCommandOnLoad = new Thread() {
+                            @Override
+                            public void run() {
+                                try {
+                                    super.run();
+                                    sleep(100);
+                                } catch (Exception ignored) {
+
+                                } finally {
+                                    readCommand();
+                                }
+                            }
+                        };
+                        readCommandOnLoad.start();
                     }
                 });
     }
@@ -327,8 +351,7 @@ public class GameMainActivity extends Activity {
                     Integer.parseInt(configuration.availableVerbalPraises[
                             new Random().nextInt(configuration.availableVerbalPraises.length)]);
             String randomVerbalPraises = availableVerbalPraises[randomVerbalPraisesIndex];
-            //TODO : read
-            Toast.makeText(getApplication().getBaseContext(), randomVerbalPraises, Toast.LENGTH_SHORT).show();
+            textReader.read(randomVerbalPraises);
         }
     }
 
@@ -376,9 +399,7 @@ public class GameMainActivity extends Activity {
 
     private void readCommand() {
         if (configuration.commandsReading && currentCommands.trim().length() > 1 && !configuration.testMode) {
-            String randomCommand = currentCommands;
-            //TODO : read
-            Toast.makeText(getApplication().getBaseContext(), randomCommand, Toast.LENGTH_SHORT).show();
+            textReader.read(currentCommands);
         }
     }
 }
