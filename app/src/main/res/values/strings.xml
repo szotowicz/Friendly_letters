@@ -1,7 +1,6 @@
 <resources>
     <string name="app_name" translatable="false">Friendly letters</string>
     <string name="app_game_activity_name" translatable="false">Friendly letters</string>
-    <string name="app_setting_main_activity_name" translatable="false">Friendly letters - main settings</string>
     <string name="app_setting_activity_name" translatable="false">Friendly letters - settings</string>
 
     <string name="resources_dir_name" translatable="false">FriendlyLetters</string>
@@ -11,6 +10,14 @@
     <string name="file_with_configurations_dir_name" translatable="false">settings</string>
     <string name="file_with_configurations_file_name" translatable="false">configurations.json</string>
     <string name="intent_name_configuration_id" translatable="false">configurationID</string>
+
+
+    <string name="start_game_title">Przyjazne Litery</string>
+    <string name="start_game_message">Aktywna konfiguracja</string>
+    <string name="restart_game_message">Zagraj ponownie</string>
+
+    <string name="splash_activity_title">Przyjazne Litery</string>
+    <string name="splash_activity_message">Aplikacje powstające w ramach wspólnego projektu Politechniki Gdańskiej i Fundacji Instytutu Wspomagania Rozwoju Dziecka w Gdański (www.iwrd.pl). W ramach projektu, kierujemy się dwiema zasadami: non-profit oraz open-source. IWRD, Politechnika Gdańska ani żaden uczestnik projektu nie odnosi materialnych korzyści z udziału w wytwarzaniu aplikacji.</string>
 
     <string name="information_message_saving_failed">Dodawanie nowego kształtu zakończone niepowodzeniem. Sprawdź uprawnienia aplikacji</string>
     <string name="information_message_removing_material_failed">Usuwanie materiału zakończone niepowodzeniem. Sprawdź uprawnienia aplikacji</string>

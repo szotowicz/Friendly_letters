@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#DDDDDD"
-    tools:context=".GameMainActivity">
+    tools:context=".activity.GameMainActivity">
 
     <com.pg.mikszo.friendlyletters.views.game.DrawingInGameView
         android:id="@+id/drawing_in_game_view"
