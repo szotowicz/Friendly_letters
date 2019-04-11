@@ -92,23 +92,19 @@ public class DrawingInGameView extends CanvasView {
         Canvas c = new Canvas(bitmap);
         view.draw(c);
 
-        int materialColorR = Color.red(materialColor);
-        int materialColorG = Color.green(materialColor);
-        int materialColorB = Color.blue(materialColor);
-
         int pixelsCount = 0;
         for (int x = backgroundImageLeft; x < backgroundImageRight; x++) {
             for (int y = backgroundImageTop; y < backgroundImageBottom; y++) {
                 int currentPixel = bitmap.getPixel(x, y);
-                if (Color.red(currentPixel) == materialColorR &&
-                        Color.green(currentPixel) == materialColorG &&
-                        Color.blue(currentPixel) == materialColorB) {
+                if (Color.red(currentPixel) == Color.red(materialColor) &&
+                        Color.green(currentPixel) == Color.green(materialColor) &&
+                        Color.blue(currentPixel) == Color.blue(materialColor)) {
                     pixelsCount++;
                 }
             }
         }
         backgroundImagePixels = pixelsCount;
-        //Toast.makeText(getContext(), "Tło: " + backgroundImagePixels, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getContext(), "Background: " + backgroundImagePixels, Toast.LENGTH_SHORT).show();
     }
 
     public int[] analyzeTracePixels() {
@@ -117,26 +113,19 @@ public class DrawingInGameView extends CanvasView {
         Canvas c = new Canvas(bitmap);
         view.draw(c);
 
-        int materialColorR = Color.red(materialColor);
-        int materialColorG = Color.green(materialColor);
-        int materialColorB = Color.blue(materialColor);
-        int trackColorR = Color.red(trackColor);
-        int trackColorG = Color.green(trackColor);
-        int trackColorB = Color.blue(trackColor);
-
         int tracePixelsCount = 0;
         int backgroundPixelsCount = 0;
         for (int i = backgroundImageLeft; i < backgroundImageRight; i++) {
             for (int j = backgroundImageTop; j < backgroundImageBottom; j++) {
                 int currentPixel = bitmap.getPixel(i, j);
-                if (Color.red(currentPixel) == materialColorR &&
-                        Color.green(currentPixel) == materialColorG &&
-                        Color.blue(currentPixel) == materialColorB) {
+                if (Color.red(currentPixel) == Color.red(materialColor) &&
+                        Color.green(currentPixel) == Color.green(materialColor) &&
+                        Color.blue(currentPixel) == Color.blue(materialColor)) {
                     backgroundPixelsCount++;
                 }
-                if (Color.red(currentPixel) == trackColorR &&
-                        Color.green(currentPixel) == trackColorG &&
-                        Color.blue(currentPixel) == trackColorB) {
+                if (Color.red(currentPixel) == Color.red(traceColor) &&
+                        Color.green(currentPixel) == Color.green(traceColor) &&
+                        Color.blue(currentPixel) == Color.blue(traceColor)) {
                     tracePixelsCount++;
                 }
             }
@@ -171,7 +160,7 @@ public class DrawingInGameView extends CanvasView {
         Canvas c = new Canvas(bitmap);
         view.draw(c);
 
-        final float accuracy = 0.6f;
+        final float accuracy = 1.0f;
         int startX = (int)(xPos - accuracy * strokeWidth);
         int startY = (int)(yPos - accuracy * strokeWidth);
         int endX = (int)(xPos + accuracy * strokeWidth);
@@ -189,16 +178,12 @@ public class DrawingInGameView extends CanvasView {
             endX = bitmap.getHeight();
         }
 
-        final int materialColorR = Color.red(materialColor);
-        final int materialColorG = Color.green(materialColor);
-        final int materialColorB = Color.blue(materialColor);
-
         for (int x = startX; x < endX; x++) {
             for (int y = startY; y < endY; y++) {
                 int currentPixel = bitmap.getPixel(x, y);
-                if (Color.red(currentPixel) == materialColorR &&
-                        Color.green(currentPixel) == materialColorG &&
-                        Color.blue(currentPixel) == materialColorB) {
+                if (Color.red(currentPixel) == Color.red(materialColor) &&
+                        Color.green(currentPixel) == Color.green(materialColor) &&
+                        Color.blue(currentPixel) == Color.blue(materialColor)) {
                     return true;
                 }
             }

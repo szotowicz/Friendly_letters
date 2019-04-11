@@ -14,8 +14,8 @@
         android:orientation="horizontal">
 
         <Button
-            android:layout_width="@dimen/settings_return_to_main_settings_size"
-            android:layout_height="@dimen/settings_return_to_main_settings_size"
+            android:layout_width="@dimen/settings_return_button_size"
+            android:layout_height="@dimen/settings_return_button_size"
             android:layout_marginStart="@dimen/settings_return_to_main_settings_padding"
             android:layout_marginLeft="@dimen/settings_return_to_main_settings_padding"
             android:background="@drawable/ic_arrow_back_black_24dp"
@@ -25,8 +25,8 @@
             android:id="@+id/settings_configuration_name_label"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/settings_return_to_main_settings_size"
-            android:layout_marginRight="@dimen/settings_return_to_main_settings_size"
+            android:layout_marginEnd="@dimen/settings_return_button_size"
+            android:layout_marginRight="@dimen/settings_return_button_size"
             android:gravity="center" />
     </LinearLayout>
 
@@ -138,6 +138,14 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:orientation="horizontal">
+
+                <Button
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:background="@drawable/information"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:onClick="showInformationAboutTestMode"/>
 
                 <TextView
                     android:layout_width="wrap_content"

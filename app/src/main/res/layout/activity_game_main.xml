@@ -17,35 +17,42 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="15dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginTop="15dp"
-        android:background="@drawable/game_number_of_level"
-        android:padding="5dp"
-        android:textColor="#000000" />
+        android:layout_marginStart="@dimen/game_buttons_margin"
+        android:layout_marginLeft="@dimen/game_buttons_margin"
+        android:layout_marginTop="@dimen/game_buttons_margin"
+        android:background="#668B8B8B"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:paddingRight="15dp"
+        android:paddingLeft="15dp"
+        android:textColor="#000000"
+        android:textSize="20sp"
+        tools:ignore="RelativeOverlap" />
 
     <Button
-        android:layout_width="@dimen/game_exit_button_size"
-        android:layout_height="@dimen/game_exit_button_size"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginTop="15dp"
-        android:layout_marginEnd="15dp"
-        android:layout_marginRight="15dp"
-        android:background="@drawable/game_exit_button"
-        android:onClick="gameExitOnClick"
-        android:text=" X "
-        android:textColor="#000000" />
+        android:id="@+id/game_previous_material"
+        android:layout_width="@dimen/game_change_material_buttons_size"
+        android:layout_height="@dimen/game_change_material_buttons_size"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="@dimen/game_buttons_margin"
+        android:layout_marginLeft="@dimen/game_buttons_margin"
+        android:layout_marginBottom="@dimen/game_buttons_margin"
+        android:onClick="previousMaterialOnClick"
+        android:background="@drawable/previous_material" />
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/game_next_material"
+        android:layout_width="@dimen/game_change_material_buttons_size"
+        android:layout_height="@dimen/game_change_material_buttons_size"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_marginTop="65dp"
-        android:layout_marginEnd="15dp"
-        android:layout_marginRight="15dp"
-        android:onClick="analysisScreenOnClick"
-        android:text="Analysis" />
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="@dimen/game_buttons_margin"
+        android:layout_marginRight="@dimen/game_buttons_margin"
+        android:layout_marginBottom="@dimen/game_buttons_margin"
+        android:onClick="nextMaterialOnClick"
+        android:background="@drawable/next_material" />
 
 </RelativeLayout>

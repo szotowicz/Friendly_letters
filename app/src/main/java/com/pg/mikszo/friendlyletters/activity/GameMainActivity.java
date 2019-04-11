@@ -16,10 +16,13 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewTreeObserver;
+import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,10 +35,13 @@ import com.pg.mikszo.friendlyletters.settings.ReinforcementManager;
 import com.pg.mikszo.friendlyletters.views.game.DrawingInGameView;
 import com.pg.mikszo.friendlyletters.settings.ColorsManager;
 import com.pg.mikszo.friendlyletters.settings.SettingsManager;
+import com.pg.mikszo.friendlyletters.views.game.GameMaterial;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -50,22 +56,17 @@ public class GameMainActivity extends Activity {
     private String currentCommands = "";
     private String[] availableCommands;
     private String[] availableVerbalPraises;
+    private TextReader textReader;
 
-    private int currentLevel = 1;
-    private int currentNumberOfRepetitions = 1;
-        //todo: maybe remove?
-        private int currentRandomMaterial = -1;
-    private String currentMaterialFile;
-    private int currentBackgroundColorNumber = 0;
-    private int currentMaterialColorNumber = 0;
-    private int currentTraceColorNumber = 0;
+    private int currentLevel;
+    private int currentNumberOfRepetitions;
+    private List<GameMaterial> generatedMaterials = new ArrayList<>();
+
     private long timeOfStartLevel = 0;
     private Handler timeLimitHandler = new Handler();
     private Handler delayResetHandler = new Handler();
     private Handler delayCheckingHandler = new Handler();
     private int delayCheckingHandlerMillis = 700;
-
-    private TextReader textReader;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,14 +90,19 @@ public class GameMainActivity extends Activity {
 
     public void gameExitOnClick(View view) {
         drawingInGameView.cleanScreen();
-        //TODO:
+        //TODO : remove it?
         // 1. Is it needed?
-        // 2. Ask about exit
-        // 3. Background little transparent
+        // 2. Maybe for clean screen?
     }
 
-    public void analysisScreenOnClick(View view) {
-        drawingInGameView.analyzeTracePixels();
+    public void nextMaterialOnClick(View view) {
+        //TODO : Log it?
+        loadNextLevel();
+    }
+
+    public void previousMaterialOnClick(View view) {
+        //TODO : Log it?
+        loadPreviousLevel();
     }
 
     private void loadGameView() {
@@ -130,9 +136,21 @@ public class GameMainActivity extends Activity {
                         getResources().getValue(R.dimen.game_track_width_relative_to_size_of_field, typedValue, true);
                         drawingInGameView.setStrokeWidth(imageSize * typedValue.getFloat());
                         drawingInGameView.setRadiusCursor(imageSize * typedValue.getFloat());
-                        setDrawingProperties();
+                        generateNewGameMaterial();
                         drawingInGameView.analyzeBackgroundPixels();
                         setTouchListener();
+
+                        final Button previousMaterialButton = findViewById(R.id.game_previous_material);
+                        final Button nextMaterialButton = findViewById(R.id.game_next_material);
+                        if (configuration.testMode) {
+                            previousMaterialButton.setVisibility(View.INVISIBLE);
+                            nextMaterialButton.setVisibility(View.INVISIBLE);
+                        } else {
+                            previousMaterialButton.getLayoutParams().height = width / 7;
+                            previousMaterialButton.getLayoutParams().width = width / 7;
+                            nextMaterialButton.getLayoutParams().height = width / 7;
+                            nextMaterialButton.getLayoutParams().width = width / 7;
+                        }
 
                         randomCommand();
                         updateCommandTextView();
@@ -155,52 +173,88 @@ public class GameMainActivity extends Activity {
                 });
     }
 
-    private void setDrawingProperties() {
+    private void generateNewGameMaterial() {
         //TODO: better generator, without repetition in next level
+        GameMaterial newGameMaterial = new GameMaterial();
+
         String[] availableBackgroundColors = configuration.backgroundColors;
-        currentBackgroundColorNumber = new Random().nextInt(availableBackgroundColors.length);
-        gameMainLayout.setBackgroundColor(
-                new ColorsManager(this).getBackgroundColorById(availableBackgroundColors[currentBackgroundColorNumber]));
+        int currentBackgroundColorNumber = new Random().nextInt(availableBackgroundColors.length);
+        gameMainLayout.setBackgroundColor(new ColorsManager(this).getBackgroundColorById(
+                availableBackgroundColors[currentBackgroundColorNumber]));
+        newGameMaterial.colorBackground = currentBackgroundColorNumber;
 
         String[] availableMaterialColors = configuration.materialColors;
-        currentMaterialColorNumber = new Random().nextInt(availableMaterialColors.length);
-        drawingInGameView.setMaterialColor(
-                new ColorsManager(this).getMaterialColorById(availableMaterialColors[currentMaterialColorNumber]));
+        int currentMaterialColorNumber = new Random().nextInt(availableMaterialColors.length);
+        drawingInGameView.setMaterialColor(new ColorsManager(this).getMaterialColorById(
+                availableMaterialColors[currentMaterialColorNumber]));
+        newGameMaterial.colorMaterial = currentMaterialColorNumber;
 
         String[] availableTraceColors = configuration.traceColors;
-        currentTraceColorNumber = new Random().nextInt(availableTraceColors.length);
-        drawingInGameView.setTrackColor(
-                new ColorsManager(this).getTraceColorById(availableTraceColors[currentTraceColorNumber]));
+        int currentTraceColorNumber = new Random().nextInt(availableTraceColors.length);
+        drawingInGameView.setTraceColor(new ColorsManager(this).getTraceColorById(
+                availableTraceColors[currentTraceColorNumber]));
+        newGameMaterial.colorTrace = currentTraceColorNumber;
 
         String[] availableShapes = configuration.availableShapes;
         if (availableShapes.length == 0) {
-            Toast.makeText(this, R.string.information_message_lack_of_materials, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.information_message_lack_of_materials,
+                    Toast.LENGTH_SHORT).show();
         } else {
             try {
                 int randomAvailableBackground = new Random().nextInt(availableShapes.length);
-                if (randomAvailableBackground == currentRandomMaterial) {
-                    randomAvailableBackground = new Random().nextInt(availableShapes.length);
-                }
-                currentRandomMaterial = randomAvailableBackground;
-                currentMaterialFile = availableShapes[randomAvailableBackground];
+                String currentMaterialFile = availableShapes[randomAvailableBackground];
                 File randomAvailableBackgroundFile = FileHelper.getAbsolutePathOfFile(
                         currentMaterialFile, this);
 
                 if (randomAvailableBackgroundFile == null) {
                     configuration = new SettingsManager(this).getActiveConfiguration();
-                    setDrawingProperties();
+                    generateNewGameMaterial();
                     return;
                 }
 
                 Drawable randomBackground = Drawable.createFromStream(
                         new FileInputStream(randomAvailableBackgroundFile), null);
-                randomBackground.setColorFilter(new ColorsManager(this)
-                                .getMaterialColorById(availableMaterialColors[currentMaterialColorNumber]),
+                randomBackground.setColorFilter(new ColorsManager(this).getMaterialColorById(
+                        availableMaterialColors[currentMaterialColorNumber]),
                         PorterDuff.Mode.SRC_IN);
                 drawingInGameView.setMaterialImage(randomBackground);
+
+                newGameMaterial.filename = currentMaterialFile;
+                generatedMaterials.add(newGameMaterial);
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
+        }
+    }
+
+    private void restoreGeneratedGameMaterial(int index) {
+        GameMaterial restoredGameMaterial = generatedMaterials.get(index);
+
+        gameMainLayout.setBackgroundColor(new ColorsManager(this).getBackgroundColorById(
+                configuration.backgroundColors[restoredGameMaterial.colorBackground]));
+        drawingInGameView.setMaterialColor(new ColorsManager(this).getMaterialColorById(
+                configuration.materialColors[restoredGameMaterial.colorMaterial]));
+        drawingInGameView.setTraceColor(new ColorsManager(this).getTraceColorById(
+                configuration.traceColors[restoredGameMaterial.colorTrace]));
+
+        File randomAvailableBackgroundFile = FileHelper.getAbsolutePathOfFile(
+                restoredGameMaterial.filename, this);
+
+        if (randomAvailableBackgroundFile == null) {
+            configuration = new SettingsManager(this).getActiveConfiguration();
+            generateNewGameMaterial();
+            return;
+        }
+
+        try {
+            Drawable background = Drawable.createFromStream(
+                    new FileInputStream(randomAvailableBackgroundFile), null);
+            background.setColorFilter(new ColorsManager(this).getMaterialColorById(
+                    configuration.materialColors[restoredGameMaterial.colorMaterial]),
+                    PorterDuff.Mode.SRC_IN);
+            drawingInGameView.setMaterialImage(background);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
         }
     }
 
@@ -217,12 +271,17 @@ public class GameMainActivity extends Activity {
                         timeLimitHandler.postDelayed(new Runnable() {
                             @Override
                             public void run() {
-                                /* TODO
+                                /* TODO. Remove because is checkCorrectnessOfDrawing()?
                                 new LoggerCSV(getApplicationContext()).addNewRecord(currentMaterialFile, "time out",
                                         currentBackgroundColorNumber, currentMaterialColorNumber,
                                         currentTraceColorNumber, currentLevel, currentNumberOfRepetitions,
                                         (System.nanoTime() - timeOfStartLevel) - (delayCheckingHandlerMillis * 1000000), settings); */
-                                gameOver();
+                                if (checkCorrectnessOfDrawing()) {
+                                    readVerbalPraises();
+                                    loadNextLevel();
+                                } else {
+                                    gameOver();
+                                }
                             }
                         }, configuration.timeLimit * 1000);
                     }
@@ -320,13 +379,35 @@ public class GameMainActivity extends Activity {
         timeLimitHandler.removeCallbacksAndMessages(null);
         drawingInGameView.cleanScreen();
         timeOfStartLevel = 0;
-        currentLevel++;
 
-        if (currentLevel > configuration.numberOfLevels) {
+        if (currentLevel == configuration.numberOfLevels) {
             gameOver();
         } else {
             currentNumberOfRepetitions = 1;
-            setDrawingProperties();
+            if (currentLevel == generatedMaterials.size()) {
+                generateNewGameMaterial();
+            } else if (currentLevel < generatedMaterials.size()) {
+                restoreGeneratedGameMaterial(currentLevel);
+            } else {
+                Log.e("[ERROR - GAME]", "Wrong index of generatedMaterials");
+            }
+            drawingInGameView.analyzeBackgroundPixels();
+            currentLevel++;
+
+            randomCommand();
+            updateCommandTextView();
+            readCommand();
+        }
+    }
+
+    private void loadPreviousLevel() {
+        if (currentLevel > 1) {
+            timeLimitHandler.removeCallbacksAndMessages(null);
+            drawingInGameView.cleanScreen();
+            timeOfStartLevel = 0;
+
+            currentLevel--;
+            restoreGeneratedGameMaterial(currentLevel - 1);
             drawingInGameView.analyzeBackgroundPixels();
 
             randomCommand();
@@ -364,7 +445,7 @@ public class GameMainActivity extends Activity {
 
             String command = "";
             Pattern pattern = Pattern.compile("(_)(.?)(.png)");
-            Matcher matcher = pattern.matcher(currentMaterialFile);
+            Matcher matcher = pattern.matcher(generatedMaterials.get(currentLevel - 1).filename);
             if (matcher.find()) {
                 String mark = matcher.group(2);
 
@@ -373,12 +454,15 @@ public class GameMainActivity extends Activity {
 
                     if (Character.isLetterOrDigit(markCharacter)) {
                         if (Character.isDigit(markCharacter)) {
-                            command = randomCommand.replace(getResources().getString(R.string.settings_tab_reinforcement_command_2_letter), "");
+                            command = randomCommand.replace(getResources()
+                                    .getString(R.string.settings_tab_reinforcement_command_2_letter), "");
                         } else if (Character.isLetter(markCharacter)) {
-                            command = randomCommand.replace(getResources().getString(R.string.settings_tab_reinforcement_command_2_digit), "");
+                            command = randomCommand.replace(getResources()
+                                    .getString(R.string.settings_tab_reinforcement_command_2_digit), "");
                         }
                         command = command.replace("/", "");
-                        command = command.replace(getResources().getString(R.string.settings_tab_reinforcement_command_mark_tag), mark);
+                        command = command.replace(getResources()
+                                .getString(R.string.settings_tab_reinforcement_command_mark_tag), mark);
                     }
                 }
             }
