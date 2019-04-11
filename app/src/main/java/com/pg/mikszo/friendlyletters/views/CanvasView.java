@@ -26,7 +26,7 @@ public class CanvasView extends View {
     protected Paint paint = new Paint();
     protected Path path = new Path();
     protected float strokeWidth = 25f;
-    protected int trackColor = Color.BLACK;
+    protected int traceColor = Color.BLACK;
     protected boolean isDrawnSomething = false;
     protected float radiusCursor = 20.0f;
     protected final float positionForTurningOffCursor = -1.0f;
@@ -37,7 +37,7 @@ public class CanvasView extends View {
         super(context, attributeSet);
 
         paint.setAntiAlias(true);
-        paint.setColor(trackColor);
+        paint.setColor(traceColor);
         paint.setStrokeJoin(Paint.Join.ROUND);
         paint.setStrokeCap(Paint.Cap.ROUND);
         paint.setStyle(Paint.Style.STROKE);
@@ -88,9 +88,9 @@ public class CanvasView extends View {
         invalidate();
     }
 
-    public void setTrackColor(int trackColor) {
-        this.trackColor = trackColor;
-        this.paint.setColor(trackColor);
+    public void setTraceColor(int traceColor) {
+        this.traceColor = traceColor;
+        this.paint.setColor(traceColor);
     }
 
     public void setStrokeWidth(float strokeWidth) {
@@ -109,7 +109,7 @@ public class CanvasView extends View {
         bitmap.getPixels(allPixels, 0, width, 0, 0, width, height);
 
         for (int i = 0; i < width * height; i++) {
-            if (allPixels[i] != trackColor) {
+            if (allPixels[i] != traceColor) {
                 allPixels[i] = Color.alpha(Color.TRANSPARENT);
             }
         }

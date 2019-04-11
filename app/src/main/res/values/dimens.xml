@@ -2,8 +2,10 @@
 <resources>
     <dimen name="game_exit_button_size">50dp</dimen>
     <item name="game_track_width_relative_to_size_of_field" type="dimen" format="float">0.072</item>
+    <dimen name="game_buttons_margin">15dp</dimen>
+    <dimen name="game_change_material_buttons_size">100dp</dimen>
 
-    <dimen name="settings_return_to_main_settings_size">40dp</dimen>
+    <dimen name="settings_return_button_size">40dp</dimen>
     <dimen name="settings_return_to_main_settings_padding">2dp</dimen>
     <dimen name="settings_menu_bar_padding_size_top">5dp</dimen>
     <dimen name="settings_menu_bar_padding_size_bottom">15dp</dimen>
