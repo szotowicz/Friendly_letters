@@ -120,6 +120,7 @@
         android:layout_height="fill_parent">
 
         <LinearLayout
+            android:id="@+id/aspect_section_containers"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -129,6 +130,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/settings_tab_aspect_material_color"
+                android:textStyle="bold"
                 android:textColor="@color/color_settings_content_font"
                 android:textSize="@dimen/settings_aspect_content_font_size" />
 
@@ -139,12 +141,13 @@
                 android:layout_gravity="center_horizontal"
                 android:orientation="horizontal"
                 android:paddingTop="10dp"
-                android:paddingBottom="15dp"></LinearLayout>
+                android:paddingBottom="25dp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/settings_tab_aspect_trace_color"
+                android:textStyle="bold"
                 android:textColor="@color/color_settings_content_font"
                 android:textSize="@dimen/settings_aspect_content_font_size" />
 
@@ -155,12 +158,13 @@
                 android:layout_gravity="center_horizontal"
                 android:orientation="horizontal"
                 android:paddingTop="10dp"
-                android:paddingBottom="15dp"></LinearLayout>
+                android:paddingBottom="25dp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/settings_tab_aspect_background"
+                android:textStyle="bold"
                 android:textColor="@color/color_settings_content_font"
                 android:textSize="@dimen/settings_aspect_content_font_size" />
 
@@ -170,7 +174,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:orientation="horizontal"
-                android:paddingTop="10dp"></LinearLayout>
+                android:paddingTop="10dp" />
         </LinearLayout>
     </ScrollView>
 

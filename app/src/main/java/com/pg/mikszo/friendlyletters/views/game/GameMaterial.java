@@ -15,4 +15,5 @@ public class GameMaterial {
     public int colorBackground;
     public int colorMaterial;
     public int colorTrace;
+    public boolean isCorrectlySolved;
 }

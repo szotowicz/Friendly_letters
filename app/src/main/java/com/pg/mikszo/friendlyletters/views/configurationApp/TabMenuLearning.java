@@ -77,7 +77,7 @@ public class TabMenuLearning {
                 setHardLevelButton.setBackground(background);
                 view.setBackground(backgroundSelected);
 
-                configuration.difficultyLevel = 1;
+                configuration.difficultyLevel = 0;
                 settingsManager.updateFileWithConfigurations(configuration, configurationID);
             }
         });
@@ -88,7 +88,7 @@ public class TabMenuLearning {
                 setHardLevelButton.setBackground(background);
                 view.setBackground(backgroundSelected);
 
-                configuration.difficultyLevel = 2;
+                configuration.difficultyLevel = 1;
                 settingsManager.updateFileWithConfigurations(configuration, configurationID);
             }
         });
@@ -99,17 +99,17 @@ public class TabMenuLearning {
                 setMediumLevelButton.setBackground(background);
                 view.setBackground(backgroundSelected);
 
-                configuration.difficultyLevel = 3;
+                configuration.difficultyLevel = 2;
                 settingsManager.updateFileWithConfigurations(configuration, configurationID);
             }
         });
 
         int currentDifficultyLevel = configuration.difficultyLevel;
-        if (currentDifficultyLevel == 1) {
+        if (currentDifficultyLevel == 0) {
             setEasyLevelButton.setBackground(backgroundSelected);
-        } else if (currentDifficultyLevel == 2) {
+        } else if (currentDifficultyLevel == 1) {
             setMediumLevelButton.setBackground(backgroundSelected);
-        } else if (currentDifficultyLevel == 3) {
+        } else if (currentDifficultyLevel == 2) {
             setHardLevelButton.setBackground(backgroundSelected);
         }
     }

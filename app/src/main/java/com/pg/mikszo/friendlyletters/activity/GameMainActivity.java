@@ -12,6 +12,7 @@ package com.pg.mikszo.friendlyletters.activity;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -22,7 +23,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -82,17 +82,6 @@ public class GameMainActivity extends Activity {
     protected void onDestroy() {
         textReader.releaseTextReader();
         super.onDestroy();
-    }
-
-    public void restartGameOnClick(View view) {
-        loadGameView();
-    }
-
-    public void gameExitOnClick(View view) {
-        drawingInGameView.cleanScreen();
-        //TODO : remove it?
-        // 1. Is it needed?
-        // 2. Maybe for clean screen?
     }
 
     public void nextMaterialOnClick(View view) {
@@ -174,7 +163,6 @@ public class GameMainActivity extends Activity {
     }
 
     private void generateNewGameMaterial() {
-        //TODO: better generator, without repetition in next level
         GameMaterial newGameMaterial = new GameMaterial();
 
         String[] availableBackgroundColors = configuration.backgroundColors;
@@ -202,9 +190,32 @@ public class GameMainActivity extends Activity {
         } else {
             try {
                 int randomAvailableBackground = new Random().nextInt(availableShapes.length);
-                String currentMaterialFile = availableShapes[randomAvailableBackground];
+                String materialFile = availableShapes[randomAvailableBackground];
+                if (availableShapes.length > 1 && generatedMaterials.size() > 0) {
+                    while (true) {
+                        randomAvailableBackground = new Random().nextInt(availableShapes.length);
+                        materialFile = availableShapes[randomAvailableBackground];
+
+                        if (!materialFile.equals(generatedMaterials.get(currentLevel - 1).filename)) {
+                            if (availableShapes.length > 2 && generatedMaterials.size() > 1) {
+                                if (!materialFile.equals(generatedMaterials.get(currentLevel - 2).filename)) {
+                                    if (availableShapes.length > 3 && generatedMaterials.size() > 2) {
+                                        if (!materialFile.equals(generatedMaterials.get(currentLevel - 3).filename)) {
+                                            break;
+                                        }
+                                    } else {
+                                        break;
+                                    }
+                                }
+                            } else {
+                                break;
+                            }
+                        }
+                    }
+                }
+
                 File randomAvailableBackgroundFile = FileHelper.getAbsolutePathOfFile(
-                        currentMaterialFile, this);
+                        materialFile, this);
 
                 if (randomAvailableBackgroundFile == null) {
                     configuration = new SettingsManager(this).getActiveConfiguration();
@@ -219,7 +230,9 @@ public class GameMainActivity extends Activity {
                         PorterDuff.Mode.SRC_IN);
                 drawingInGameView.setMaterialImage(randomBackground);
 
-                newGameMaterial.filename = currentMaterialFile;
+                newGameMaterial.filename = materialFile;
+                newGameMaterial.isCorrectlySolved = false;
+
                 generatedMaterials.add(newGameMaterial);
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
@@ -271,7 +284,7 @@ public class GameMainActivity extends Activity {
                         timeLimitHandler.postDelayed(new Runnable() {
                             @Override
                             public void run() {
-                                /* TODO. Remove because is checkCorrectnessOfDrawing()?
+                                /* TODO. Remove because is checkCorrectnessOfDrawing()? No, time out status
                                 new LoggerCSV(getApplicationContext()).addNewRecord(currentMaterialFile, "time out",
                                         currentBackgroundColorNumber, currentMaterialColorNumber,
                                         currentTraceColorNumber, currentLevel, currentNumberOfRepetitions,
@@ -280,7 +293,7 @@ public class GameMainActivity extends Activity {
                                     readVerbalPraises();
                                     loadNextLevel();
                                 } else {
-                                    gameOver();
+                                    resetCurrentLevel();
                                 }
                             }
                         }, configuration.timeLimit * 1000);
@@ -296,7 +309,6 @@ public class GameMainActivity extends Activity {
                                 delayResetHandler.postDelayed(new Runnable() {
                                     @Override
                                     public void run() {
-                                        //Toast.makeText(getApplication().getBaseContext(), "WRONG!", Toast.LENGTH_SHORT).show();
                                         resetCurrentLevel();
                                     }
                                 }, 1000);
@@ -349,11 +361,16 @@ public class GameMainActivity extends Activity {
                 result = true;
             }
         }
-        /* TODO
+        /* TODO logger
         new LoggerCSV(this).addNewRecord(currentMaterialFile, result, backgroundPixels,
                 currentBackground, currentTrace, currentBackgroundColorNumber, currentMaterialColorNumber,
                 currentTraceColorNumber, currentLevel, currentNumberOfRepetitions,
                 (System.nanoTime() - timeOfStartLevel) - (delayCheckingHandlerMillis * 1000000), settings); */
+
+        if (result) {
+            generatedMaterials.get(currentLevel - 1).isCorrectlySolved = true;
+        }
+
         return result;
     }
 
@@ -369,7 +386,11 @@ public class GameMainActivity extends Activity {
         }
 
         if (currentNumberOfRepetitions > limitOfRepetitions) {
-            gameOver();
+            if (currentLevel == configuration.numberOfLevels) {
+                gameOver();
+            } else {
+                loadNextLevel();
+            }
         } else {
             readCommand();
         }
@@ -417,13 +438,21 @@ public class GameMainActivity extends Activity {
     }
 
     private void gameOver() {
-        //TODO implement
-        if (currentLevel > configuration.numberOfLevels) {
-            Toast.makeText(this, "WINNER!", Toast.LENGTH_SHORT).show();
+        if (configuration.testMode) {
+            int correctlySolved = 0;
+            for (GameMaterial gameMaterial : generatedMaterials) {
+                if (gameMaterial.isCorrectlySolved) {
+                    correctlySolved++;
+                }
+            }
+            Intent gameReport = new Intent(getBaseContext(), GameReportActivity.class);
+            gameReport.putExtra(getString(R.string.intent_game_report_correctly_solved), correctlySolved);
+            startActivity(gameReport);
+            finish();
         } else {
-            Toast.makeText(this, "GAME OVER", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(getBaseContext(), GameStartActivity.class));
+            finish();
         }
-        setContentView(R.layout.activity_game_restart);
     }
 
     private void readVerbalPraises() {
