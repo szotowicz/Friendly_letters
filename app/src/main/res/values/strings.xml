@@ -10,10 +10,16 @@
     <string name="file_with_configurations_dir_name" translatable="false">settings</string>
     <string name="file_with_configurations_file_name" translatable="false">configurations.json</string>
     <string name="intent_name_configuration_id" translatable="false">configurationID</string>
+    <string name="intent_game_report_correctly_solved" translatable="false">reportCorrectlySolved</string>
 
     <string name="start_game_title">Przyjazne Litery</string>
     <string name="start_game_message">Aktywna konfiguracja</string>
-    <string name="restart_game_message">Zagraj ponownie</string>
+
+    <string name="game_report_difficulty_level">Poziom trudności</string>
+    <string name="game_report_number_of_level">Liczba kroków</string>
+    <string name="game_report_correctly_solved">Poprawnie napisanych</string>
+    <string name="game_report_effectiveness">Skuteczność</string>
+    <string name="game_report_button">OK</string>
 
     <string name="splash_activity_title">Przyjazne Litery</string>
     <string name="splash_activity_message">Aplikacje powstające w ramach wspólnego projektu Politechniki Gdańskiej i Fundacji Instytutu Wspomagania Rozwoju Dziecka w Gdański (www.iwrd.pl). W ramach projektu, kierujemy się dwiema zasadami: non-profit oraz open-source. IWRD, Politechnika Gdańska ani żaden uczestnik projektu nie odnosi materialnych korzyści z udziału w wytwarzaniu aplikacji.</string>
@@ -53,8 +59,6 @@
     <string name="check_decisions_negative_button">NIE</string>
     <string name="check_decisions_negative_button_cancel">Anuluj</string>
 
-    <string name="game_restart_button">Zagraj ponownie</string>
-
     <string name="settings_configurations">LISTA KONFIGURACJI</string>
     <string name="settings_configurations_create_new">UTWÓRZ</string>
 
@@ -73,9 +77,9 @@
     <string name="settings_tab_learning">SPOSÓB UCZENIA</string>
     <string name="settings_tab_learning_learning_mode">Tryb testu</string>
     <string name="settings_tab_learning_difficulty_level">Poziom trudności:</string>
-    <string name="settings_tab_learning_difficulty_level_easy">Łatwy</string>
-    <string name="settings_tab_learning_difficulty_level_medium">Średni</string>
-    <string name="settings_tab_learning_difficulty_level_hard">Trudny</string>
+    <string name="settings_tab_learning_difficulty_level_easy">ŁATWY</string>
+    <string name="settings_tab_learning_difficulty_level_medium">ŚREDNI</string>
+    <string name="settings_tab_learning_difficulty_level_hard">TRUDNY</string>
     <string name="settings_tab_learning_level_count">Liczba kroków:</string>
     <string name="settings_tab_learning_attempt_count">Liczba prób:</string>
     <string name="settings_tab_learning_time_limit">Limit czasu pisania:</string>

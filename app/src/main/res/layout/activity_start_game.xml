@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/color_game_restart_view_background"
-    tools:context=".activity.StartGameActivity">
+    tools:context=".activity.GameStartActivity">
 
     <ImageView
         android:layout_width="match_parent"
@@ -14,6 +14,7 @@
         android:contentDescription="@string/app_name" />
 
     <LinearLayout
+        android:id="@+id/start_game_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
@@ -37,10 +38,11 @@
             android:textColor="#FFFFFF" />
 
         <Button
+            android:id="@+id/start_game_button"
             android:layout_width="200dp"
             android:layout_height="200dp"
             android:onClick="startGameOnClick"
-            android:background="@drawable/button_start"/>
+            android:background="@drawable/button_start" />
     </LinearLayout>
 
 </RelativeLayout>

@@ -41,7 +41,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.StartGameActivity"
+        <activity
+            android:name=".activity.GameStartActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="sensorLandscape"
             android:taskAffinity="com.pg.mikszo.startgameactivity"
@@ -63,6 +64,11 @@
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="sensorLandscape"
             android:taskAffinity="com.pg.mikszo.settingstabsactivity"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
+        <activity android:name=".activity.GameReportActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="sensorLandscape"
+            android:taskAffinity="com.pg.mikszo.gamereportactivity"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
     </application>
 

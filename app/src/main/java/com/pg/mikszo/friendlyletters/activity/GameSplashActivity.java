@@ -32,7 +32,7 @@ public class GameSplashActivity extends Activity {
                 } catch (Exception ignored) {
 
                 } finally {
-                    startActivity(new Intent(getBaseContext(), StartGameActivity.class));
+                    startActivity(new Intent(getBaseContext(), GameStartActivity.class));
                     finish();
                 }
             }

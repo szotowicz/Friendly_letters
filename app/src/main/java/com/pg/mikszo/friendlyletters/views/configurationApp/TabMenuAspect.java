@@ -16,6 +16,7 @@ import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -161,6 +162,30 @@ public class TabMenuAspect {
                         updateSettingFromTabAspect(section, buttonColorsDrawable);
                     }
                 });
+
+                final View container = activity.findViewById(R.id.aspect_section_containers);
+                newButton.getViewTreeObserver().addOnGlobalLayoutListener(
+                        new ViewTreeObserver.OnGlobalLayoutListener() {
+                            @Override
+                            public void onGlobalLayout() {
+                                newButton.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                                final int width = container.getWidth();
+
+                                int subWidth = width / buttonColors.length;
+                                int margin = subWidth / 8;
+                                int buttonSize = subWidth / 2;
+
+                                LinearLayout.LayoutParams updatedParams;
+                                if (section == availableAspectSections.backgroundSection) {
+                                    updatedParams = new LinearLayout.LayoutParams(buttonSize, (int)(buttonSize * 0.65));
+                                } else {
+                                    updatedParams = new LinearLayout.LayoutParams(buttonSize, buttonSize);
+                                }
+                                updatedParams.setMargins(margin, 0, margin, 0);
+
+                                newButton.setLayoutParams(updatedParams);
+                            }
+                        });
 
                 layoutContainer.addView(newButton);
             }
