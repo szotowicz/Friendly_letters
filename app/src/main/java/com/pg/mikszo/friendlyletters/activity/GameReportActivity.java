@@ -11,7 +11,6 @@
 package com.pg.mikszo.friendlyletters.activity;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -21,7 +20,7 @@ import com.pg.mikszo.friendlyletters.R;
 import com.pg.mikszo.friendlyletters.settings.Configuration;
 import com.pg.mikszo.friendlyletters.settings.SettingsManager;
 
-public class GameReportActivity extends Activity {
+public class GameReportActivity extends BaseActivity {
 
     @SuppressLint({"SetTextI18n", "DefaultLocale"})
     @Override
@@ -53,7 +52,16 @@ public class GameReportActivity extends Activity {
                 + String.format("%.2f", effectiveness / configuration.numberOfLevels) + "%");
     }
 
+    @Override
+    public void onBackPressed() {
+        runGameStartActivity();
+    }
+
     public void closeReportOnClick(View view) {
+        runGameStartActivity();
+    }
+
+    private void runGameStartActivity() {
         startActivity(new Intent(getBaseContext(), GameStartActivity.class));
         finish();
     }

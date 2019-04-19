@@ -17,8 +17,12 @@ public class TextReader {
             @Override
             public void onInit(int status) {
                 if (status == TextToSpeech.SUCCESS) {
-                    //TODO pl or eng
-                    int result = tts.setLanguage(new Locale("pl_PL"));
+                    Locale currentLanguage = Locale.ENGLISH;
+                    if (Locale.getDefault().getDisplayLanguage().equals("polski")) {
+                        currentLanguage =  new Locale("pl_PL");
+                    }
+
+                    int result = tts.setLanguage(currentLanguage);
                     if (result == TextToSpeech.LANG_NOT_SUPPORTED ||
                             result == TextToSpeech.LANG_MISSING_DATA) {
                         Log.e("[ERROR - TTS]", "Language is not supported");

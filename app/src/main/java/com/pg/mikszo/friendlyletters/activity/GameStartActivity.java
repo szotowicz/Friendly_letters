@@ -11,20 +11,24 @@
 package com.pg.mikszo.friendlyletters.activity;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.pg.mikszo.friendlyletters.R;
 import com.pg.mikszo.friendlyletters.settings.Configuration;
 import com.pg.mikszo.friendlyletters.settings.SettingsManager;
 
-public class GameStartActivity extends Activity {
+public class GameStartActivity extends BaseActivity {
+
+    private Button startGameButton;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -36,7 +40,7 @@ public class GameStartActivity extends Activity {
         message.setText(getString(R.string.start_game_message) + ": " + configuration.configurationName);
 
         final View viewContainer = findViewById(R.id.start_game_container);
-        final Button startGameButton = findViewById(R.id.start_game_button);
+        startGameButton = findViewById(R.id.start_game_button);
         startGameButton.getViewTreeObserver().addOnGlobalLayoutListener(
                 new ViewTreeObserver.OnGlobalLayoutListener() {
                     @Override
@@ -47,9 +51,39 @@ public class GameStartActivity extends Activity {
                         startGameButton.setLayoutParams(updatedParams);
                     }
                 });
+
+        if (hasStoragePermission()) {
+            startGameButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    runGameStartActivity();
+                }
+            });
+        }
     }
 
-    public void startGameOnClick(View view) {
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == PERMISSIONS_REQUEST_USE_STORAGE) {
+            if ((grantResults.length > 0) && (grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
+                startGameButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        runGameStartActivity();
+                    }
+                });
+            } else {
+                //TODO: test
+                Toast.makeText(getBaseContext(),
+                        getResources().getString(R.string.information_message_permit_must_be_granted),
+                        Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    public void runGameStartActivity() {
         startActivity(new Intent(getBaseContext(), GameMainActivity.class));
         finish();
     }

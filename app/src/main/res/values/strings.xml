@@ -1,7 +1,7 @@
 <resources>
-    <string name="app_name" translatable="false">Friendly letters</string>
-    <string name="app_game_activity_name" translatable="false">Friendly letters</string>
-    <string name="app_setting_activity_name" translatable="false">Friendly letters - settings</string>
+    <string name="app_name">Friendly Letters</string>
+    <string name="app_game_activity_name">Friendly Letters</string>
+    <string name="app_setting_activity_name">Friendly Letters - settings</string>
 
     <string name="resources_dir_name" translatable="false">FriendlyLetters</string>
     <string name="prefix_shape_file_name" translatable="false">FLshape_</string>
@@ -12,93 +12,94 @@
     <string name="intent_name_configuration_id" translatable="false">configurationID</string>
     <string name="intent_game_report_correctly_solved" translatable="false">reportCorrectlySolved</string>
 
-    <string name="start_game_title">Przyjazne Litery</string>
-    <string name="start_game_message">Aktywna konfiguracja</string>
+    <string name="start_game_title">Friendly Letters</string>
+    <string name="start_game_message">Active configuration</string>
 
-    <string name="game_report_difficulty_level">Poziom trudności</string>
-    <string name="game_report_number_of_level">Liczba kroków</string>
-    <string name="game_report_correctly_solved">Poprawnie napisanych</string>
-    <string name="game_report_effectiveness">Skuteczność</string>
+    <string name="game_report_difficulty_level">Difficulty level</string>
+    <string name="game_report_number_of_level">Number of steps</string>
+    <string name="game_report_correctly_solved">Correctly written</string>
+    <string name="game_report_effectiveness">Effectiveness</string>
     <string name="game_report_button">OK</string>
 
-    <string name="splash_activity_title">Przyjazne Litery</string>
-    <string name="splash_activity_message">Aplikacje powstające w ramach wspólnego projektu Politechniki Gdańskiej i Fundacji Instytutu Wspomagania Rozwoju Dziecka w Gdański (www.iwrd.pl). W ramach projektu, kierujemy się dwiema zasadami: non-profit oraz open-source. IWRD, Politechnika Gdańska ani żaden uczestnik projektu nie odnosi materialnych korzyści z udziału w wytwarzaniu aplikacji.</string>
+    <string name="splash_activity_title">Friendly Letters</string>
+    <string name="splash_activity_message">Applications created as part of the Gdansk University of Technology project and Institute for Child Development in Gdansk (www.iwrd.pl). As part of the project, we follow two principles: non-profit and open-source. IWRD, Gdansk University of Technology and no participant in the project have material benefits from participating in the development of the application.</string>
 
-    <string name="information_message_saving_failed">Dodawanie nowego kształtu zakończone niepowodzeniem. Sprawdź uprawnienia aplikacji</string>
-    <string name="information_message_removing_material_failed">Usuwanie materiału zakończone niepowodzeniem. Sprawdź uprawnienia aplikacji</string>
-    <string name="information_message_saving_new_material_success">Materiał został dodany</string>
-    <string name="information_message_lack_of_materials">Brak dostępnych materiałów. Sprawdź ustawienia aplikacji</string>
-    <string name="information_message_new_material_is_not_drawn">Żaden kształt nie został narysowany</string>
-    <string name="information_message_least_one_element_must_be_available">Minimum jeden element musi być dostępny</string>
-    <string name="information_message_some_material_must_be_selected">Należy zaznaczyć wybrane materiały</string>
-    <string name="information_message_removing_is_possible_for_disabled_materials">Tylko wyłączone materiały mogą zostać usunięte. Wyłącz je, a następnie skorzystaj z opcji usunięcia</string>
-    <string name="information_message_new_configuration_has_been_added">Dodano konfigurację do listy</string>
-    <string name="information_message_configuration_has_been_removed">Konfiguracja została usunięta</string>
-    <string name="information_message_removing_activated_configuration">Tylko nieaktywne konfiguracje mogą zostać usunięte</string>
-    <string name="information_message_least_one_configuration_must_be_available">Minimum jedna konfiguracja musi być dostępna</string>
-    <string name="information_message_configuration_has_been_activated">Wybrana konfiguracja została aktywowana</string>
-    <string name="information_message_provided_incorrect_configuration_name">Podana nazwa jest niepoprawna. Nazwa powinna zawierać wyłącznie znaki alfanumeryczne</string>
-    <string name="information_message_provided_incorrect_mark">Podana nazwa jest niepoprawna. Nazwa powinna być jednoznakowa</string>
+    <string name="information_message_saving_failed">Adding a new shape failed. Check the application\'s permissions</string>
+    <string name="information_message_removing_material_failed">Removal of the material failed. Check the application\'s permissions</string>
+    <string name="information_message_saving_new_material_success">The material has been added</string>
+    <string name="information_message_lack_of_materials">No materials available. Check the application settings</string>
+    <string name="information_message_new_material_is_not_drawn">No shape has been drawn</string>
+    <string name="information_message_least_one_element_must_be_available">At least one element must be available</string>
+    <string name="information_message_some_material_must_be_selected">Choose selected materials</string>
+    <string name="information_message_removing_is_possible_for_disabled_materials">Only excluded materials can be removed. Turn them off, and then use the delete option</string>
+    <string name="information_message_new_configuration_has_been_added">Configuration has been added to the list</string>
+    <string name="information_message_configuration_has_been_removed">Configuration has been removed</string>
+    <string name="information_message_removing_activated_configuration">Only inactive configurations can be deleted</string>
+    <string name="information_message_least_one_configuration_must_be_available">At least configuration must be available</string>
+    <string name="information_message_configuration_has_been_activated">The selected configuration has been activated</string>
+    <string name="information_message_provided_incorrect_configuration_name">The name you entered is incorrect. The name should only contain alphanumeric characters</string>
+    <string name="information_message_provided_incorrect_mark">The name you entered is incorrect. The name should be one-character</string>
+    <string name="information_message_permit_must_be_granted">Appropriate permissions should be granted for proper operation of the application</string>
 
-    <string name="information_message_positive_button_close">ZAMKNIJ</string>
-    <string name="information_message_test_mode_message">Włączony tryb testu oznacza pojedynczą liczbę prób na każdy krok oraz brak wyświetlanych i czytanych poleceń. Po każdym teście wyświetlane jest podsumowanie. Pamiętaj o ustawieniu odpowiedniej liczby kroków.</string>
-    <string name="information_message_commands_reading_message">Włączona opcja odczytywania głosowego poleceń oznacza, że przed każdym krokiem zostanie odczytane jedno polecenie spośród wybranych. Pamiętaj, że tylko znaki alfanumeryczne są wzmacniane.</string>
-    <string name="information_message_commands_displaying_message">Włączona opcja wyświetlania poleceń oznacza, że w każdy kroku zostanie wyświetlone jedno polecenie spośród wybranych. Pamiętaj, że tylko znaki alfanumeryczne są wzmacniane.</string>
-    <string name="information_message_verbal_praises_reading_message">Włączona opcja odczytywania głosowego pochwał oznacza, że po każdym poprawnie wykonanym kroku zostanie odczytana jedna pochwała spośród wybranych.</string>
+    <string name="information_message_positive_button_close">CLOSE</string>
+    <string name="information_message_test_mode_message">Enabled test mode means a single number of attempts per step and no commands displayed or read. A summary is displayed after each test. Remember to set the right number of steps.</string>
+    <string name="information_message_commands_reading_message">Enabled voice command reading means that before each step one command from selected ones will be read. Remember that only alphanumeric characters are reinforced.</string>
+    <string name="information_message_commands_displaying_message">The option to display commands means that one command from selected ones will be displayed in each step. Remember that only alphanumeric characters are reinforced.</string>
+    <string name="information_message_verbal_praises_reading_message">Enabled reading of vocal praise means that after each correctly performed step, one praise from selected ones will be read.</string>
 
-    <string name="check_removing_decisions_title">Ostrzeżenie</string>
-    <string name="check_removing_materials_decisions_message">Czy na pewno chcesz trwale usunąć wszystkie zaznaczone materiały?</string>
-    <string name="check_removing_configuration_decisions_message">Czy na pewno chcesz trwale usunąć wybraną konfigurację?</string>
-    <string name="check_importing_decisions_title">Informacja</string>
-    <string name="check_importing_materials_decisions_message">Niewielka liczba dostępnych materiałów. Czy chcesz dodać domyślny zestaw?</string>
-    <string name="check_creating_configuration">Nazwa nowej konfiguracji</string>
-    <string name="check_creating_material_title">Nazwa nowego materiału</string>
-    <string name="check_creating_material_message">Wprowadź jednoznakową nazwę dla materiału. Nazwa jest opcjonalna, jednak jej brak uniemożliwi realizację wzmocnień. Tylko znaki alfanumeryczne są wzmacniane. Pamiętaj, że wielkość liter ma znaczenie.</string>
-    <string name="check_decisions_positive_button">TAK</string>
-    <string name="check_decisions_positive_button_add">Dodaj</string>
-    <string name="check_decisions_negative_button">NIE</string>
-    <string name="check_decisions_negative_button_cancel">Anuluj</string>
+    <string name="check_removing_decisions_title">Warning</string>
+    <string name="check_removing_materials_decisions_message">Are you sure you want to permanently delete all selected materials?</string>
+    <string name="check_removing_configuration_decisions_message">Are you sure you want to permanently delete the selected configuration?</string>
+    <string name="check_importing_decisions_title">Information</string>
+    <string name="check_importing_materials_decisions_message">A small number of available materials. Do you want to add the default set?</string>
+    <string name="check_creating_configuration">The name of the new configuration</string>
+    <string name="check_creating_material_title">The name of the new material</string>
+    <string name="check_creating_material_message">Enter the one-character name for the material. The name is optional, but its absence will prevent reinforcements. Only alphanumeric characters are reinforced. Remember that letter size is important to display.</string>
+    <string name="check_decisions_positive_button">YES</string>
+    <string name="check_decisions_positive_button_add">Add</string>
+    <string name="check_decisions_negative_button">NO</string>
+    <string name="check_decisions_negative_button_cancel">Cancel</string>
 
-    <string name="settings_configurations">LISTA KONFIGURACJI</string>
-    <string name="settings_configurations_create_new">UTWÓRZ</string>
+    <string name="settings_configurations">LIST OF CONFIGURATIONS</string>
+    <string name="settings_configurations_create_new">CREATE</string>
 
-    <string name="settings_tab_aspect">WYGLĄD</string>
-    <string name="settings_tab_aspect_material_color">Kolor wzoru:</string>
-    <string name="settings_tab_aspect_trace_color">Kolor pisania:</string>
-    <string name="settings_tab_aspect_background">Kolor tła:</string>
+    <string name="settings_tab_aspect">APPEARANCE</string>
+    <string name="settings_tab_aspect_material_color">Color of pattern:</string>
+    <string name="settings_tab_aspect_trace_color">Color of writing:</string>
+    <string name="settings_tab_aspect_background">Background colour:</string>
 
-    <string name="settings_tab_material">MATERIAŁ</string>
-    <string name="settings_tab_material_button_remove_material">Usuń materiał</string>
-    <string name="settings_tab_material_button_enable_material">Włącz / Wyłącz</string>
-    <string name="settings_tab_material_button_add_new_material">Utwórz nowy</string>
-    <string name="settings_tab_add_new_material_clean">WYCZYŚĆ</string>
-    <string name="settings_tab_add_new_material_add">DODAJ</string>
+    <string name="settings_tab_material">MATERIAL</string>
+    <string name="settings_tab_material_button_remove_material">Delete material</string>
+    <string name="settings_tab_material_button_enable_material">ON / OFF</string>
+    <string name="settings_tab_material_button_add_new_material">Create new</string>
+    <string name="settings_tab_add_new_material_clean">CLEAN</string>
+    <string name="settings_tab_add_new_material_add">ADD</string>
 
-    <string name="settings_tab_learning">SPOSÓB UCZENIA</string>
-    <string name="settings_tab_learning_learning_mode">Tryb testu</string>
-    <string name="settings_tab_learning_difficulty_level">Poziom trudności:</string>
-    <string name="settings_tab_learning_difficulty_level_easy">ŁATWY</string>
-    <string name="settings_tab_learning_difficulty_level_medium">ŚREDNI</string>
-    <string name="settings_tab_learning_difficulty_level_hard">TRUDNY</string>
-    <string name="settings_tab_learning_level_count">Liczba kroków:</string>
-    <string name="settings_tab_learning_attempt_count">Liczba prób:</string>
-    <string name="settings_tab_learning_time_limit">Limit czasu pisania:</string>
+    <string name="settings_tab_learning">METHOD OF LEARNING</string>
+    <string name="settings_tab_learning_learning_mode">Test mode</string>
+    <string name="settings_tab_learning_difficulty_level">Difficulty level:</string>
+    <string name="settings_tab_learning_difficulty_level_easy">EASY</string>
+    <string name="settings_tab_learning_difficulty_level_medium">MEDIUM</string>
+    <string name="settings_tab_learning_difficulty_level_hard">HARD</string>
+    <string name="settings_tab_learning_level_count">Number of steps:</string>
+    <string name="settings_tab_learning_attempt_count">Number of attempts:</string>
+    <string name="settings_tab_learning_time_limit">Writing time limit:</string>
 
-    <string name="settings_tab_reinforcement">WZMOCNIENIA</string>
-    <string name="settings_tab_reinforcement_choose_commands">Wybierz rodzaje poleceń:</string>
-    <string name="settings_tab_reinforcement_commands_reading">Odczytywanie głosowe poleceń</string>
-    <string name="settings_tab_reinforcement_commands_displaying">Wyświetlanie poleceń</string>
-    <string name="settings_tab_reinforcement_choose_verbal_praises">Wybierz pochwały słowne:</string>
-    <string name="settings_tab_reinforcement_verbal_praises_reading">Odczytywanie głosowe pochwał</string>
-    <string name="settings_tab_reinforcement_command_1">Napisz</string>
-    <string name="settings_tab_reinforcement_command_2_letter">Litera</string>
-    <string name="settings_tab_reinforcement_command_2_digit">Cyfra</string>
-    <string name="settings_tab_reinforcement_command_mark_tag">{znak}</string>
-    <string name="settings_tab_reinforcement_verbal_praise_1">Brawo</string>
-    <string name="settings_tab_reinforcement_verbal_praise_2">Świetnie</string>
-    <string name="settings_tab_reinforcement_verbal_praise_3">Dobrze</string>
-    <string name="settings_tab_reinforcement_verbal_praise_4">Super</string>
+    <string name="settings_tab_reinforcement">REINFORCEMENT</string>
+    <string name="settings_tab_reinforcement_choose_commands">Choose the types of commands:</string>
+    <string name="settings_tab_reinforcement_commands_reading">Voice reading of command</string>
+    <string name="settings_tab_reinforcement_commands_displaying">Displaying commands</string>
+    <string name="settings_tab_reinforcement_choose_verbal_praises">Choose verbal praise:</string>
+    <string name="settings_tab_reinforcement_verbal_praises_reading">Voice reading of praise</string>
+    <string name="settings_tab_reinforcement_command_1">Write</string>
+    <string name="settings_tab_reinforcement_command_2_letter">Letter</string>
+    <string name="settings_tab_reinforcement_command_2_digit">Digit</string>
+    <string name="settings_tab_reinforcement_command_mark_tag">{sign}</string>
+    <string name="settings_tab_reinforcement_verbal_praise_1">Perfect</string>
+    <string name="settings_tab_reinforcement_verbal_praise_2">Excellently</string>
+    <string name="settings_tab_reinforcement_verbal_praise_3">All right</string>
+    <string name="settings_tab_reinforcement_verbal_praise_4">Great</string>
 
-    <string name="text_reader_exception_one">jeden</string>
+    <string name="text_reader_exception_one">one</string>
 
 </resources>

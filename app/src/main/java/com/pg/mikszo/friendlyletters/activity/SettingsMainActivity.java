@@ -10,12 +10,14 @@
  */
 package com.pg.mikszo.friendlyletters.activity;
 
-import android.app.Activity;
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.text.InputType;
 import android.view.Gravity;
 import android.view.View;
@@ -31,23 +33,47 @@ import com.pg.mikszo.friendlyletters.settings.SettingsManager;
 
 import java.util.regex.Pattern;
 
-public class SettingsMainActivity extends Activity {
+public class SettingsMainActivity extends BaseActivity {
 
     private SettingsManager settingsManager;
     private Configuration[] allConfigurations;
     private Button activeConfiguration;
+    private Toast activateConfigurationToast;
 
+    @SuppressLint("ShowToast")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.settingsManager = new SettingsManager(this);
         allConfigurations = settingsManager.getAllConfigurations();
+        activateConfigurationToast = Toast.makeText(this,
+                R.string.information_message_configuration_has_been_activated,
+                Toast.LENGTH_SHORT);
 
         setContentView(R.layout.activity_settings_main);
-        loadAvailableConfigurations();
+        if (hasStoragePermission()) {
+            loadAvailableConfigurations();
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == PERMISSIONS_REQUEST_USE_STORAGE) {
+            if ((grantResults.length > 0) && (grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
+                loadAvailableConfigurations();
+            } else {
+                //TODO: test
+                Toast.makeText(getBaseContext(),
+                        getResources().getString(R.string.information_message_permit_must_be_granted),
+                        Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 
     public void createNewConfigurationsOnClick(View view) {
+        activateConfigurationToast.cancel();
         AlertDialog.Builder builder = new AlertDialog.Builder(this, AlertDialog.THEME_DEVICE_DEFAULT_LIGHT);
         builder.setTitle(R.string.check_creating_configuration);
 
@@ -113,6 +139,7 @@ public class SettingsMainActivity extends Activity {
             configurationNameBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    activateConfigurationToast.cancel();
                     activateConfiguration(configurationID);
                     activeConfiguration = (Button)view;
                     ((Button)view).setTextColor(getResources().getColor(R.color.color_settings_configuration_active));
@@ -143,6 +170,7 @@ public class SettingsMainActivity extends Activity {
             configurationCopy.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    activateConfigurationToast.cancel();
                     duplicateConfiguration(configurationID);
                 }
             });
@@ -170,6 +198,7 @@ public class SettingsMainActivity extends Activity {
             configurationEdit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    activateConfigurationToast.cancel();
                     editConfiguration(configurationID);
                 }
             });
@@ -192,6 +221,7 @@ public class SettingsMainActivity extends Activity {
             configurationRemove.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    activateConfigurationToast.cancel();
                     removeConfiguration(configurationID);
                 }
             });
@@ -224,9 +254,10 @@ public class SettingsMainActivity extends Activity {
         }
         allConfigurations[configurationID].configurationActivated = true;
         settingsManager.updateFileWithConfigurations(allConfigurations);
-        Toast.makeText(this,
+        activateConfigurationToast = Toast.makeText(this,
                 R.string.information_message_configuration_has_been_activated,
-                Toast.LENGTH_SHORT).show();
+                Toast.LENGTH_SHORT);
+        activateConfigurationToast.show();
     }
 
     private void duplicateConfiguration(final int configurationID) {
