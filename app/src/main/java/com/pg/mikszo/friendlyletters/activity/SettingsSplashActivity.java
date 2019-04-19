@@ -10,13 +10,12 @@
  */
 package com.pg.mikszo.friendlyletters.activity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
 import com.pg.mikszo.friendlyletters.R;
 
-public class SettingsSplashActivity extends Activity {
+public class SettingsSplashActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

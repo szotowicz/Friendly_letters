@@ -10,7 +10,6 @@
  */
 package com.pg.mikszo.friendlyletters.activity;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -32,7 +31,7 @@ import com.pg.mikszo.friendlyletters.views.configurationApp.TabMenuMaterial;
 import com.pg.mikszo.friendlyletters.views.configurationApp.TabMenuReinforcement;
 import com.pg.mikszo.friendlyletters.settings.SettingsManager;
 
-public class SettingsTabsActivity extends Activity {
+public class SettingsTabsActivity extends BaseActivity {
 
     private SettingsManager settingsManager;
     private enum availableTabs { aspect, material, learning, reinforcement, addMaterial }
@@ -44,9 +43,19 @@ public class SettingsTabsActivity extends Activity {
         super.onCreate(savedInstanceState);
         settingsManager = new SettingsManager(this);
         this.configurationID = getIntent().getIntExtra(
-                getResources().getString(R.string.intent_name_configuration_id), 2);
+                getResources().getString(R.string.intent_name_configuration_id), 0);
 
         new TabMenuAspect(this, settingsManager, configurationID);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (selectedTab == availableTabs.addMaterial) {
+            selectedTab = availableTabs.material;
+            new TabMenuMaterial(this, settingsManager, configurationID);
+        } else {
+            super.onBackPressed();
+        }
     }
 
     public void tabAspectOnClick(View view) {

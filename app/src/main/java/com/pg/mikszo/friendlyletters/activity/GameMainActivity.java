@@ -11,7 +11,6 @@
 package com.pg.mikszo.friendlyletters.activity;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
@@ -46,7 +45,7 @@ import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class GameMainActivity extends Activity {
+public class GameMainActivity extends BaseActivity {
 
     private Configuration configuration;
     private DrawingInGameView drawingInGameView;
@@ -82,6 +81,11 @@ public class GameMainActivity extends Activity {
     protected void onDestroy() {
         textReader.releaseTextReader();
         super.onDestroy();
+    }
+
+    @Override
+    public void onBackPressed() {
+        // Game has disable onBackPressed() functions
     }
 
     public void nextMaterialOnClick(View view) {
@@ -284,7 +288,7 @@ public class GameMainActivity extends Activity {
                         timeLimitHandler.postDelayed(new Runnable() {
                             @Override
                             public void run() {
-                                /* TODO. Remove because is checkCorrectnessOfDrawing()? No, time out status
+                                /* TODO logger
                                 new LoggerCSV(getApplicationContext()).addNewRecord(currentMaterialFile, "time out",
                                         currentBackgroundColorNumber, currentMaterialColorNumber,
                                         currentTraceColorNumber, currentLevel, currentNumberOfRepetitions,
