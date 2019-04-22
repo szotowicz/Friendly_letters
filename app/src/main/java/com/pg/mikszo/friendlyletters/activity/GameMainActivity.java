@@ -29,6 +29,7 @@ import android.widget.Toast;
 import com.pg.mikszo.friendlyletters.FileHelper;
 import com.pg.mikszo.friendlyletters.R;
 import com.pg.mikszo.friendlyletters.TextReader;
+import com.pg.mikszo.friendlyletters.logger.LoggerCSV;
 import com.pg.mikszo.friendlyletters.settings.Configuration;
 import com.pg.mikszo.friendlyletters.settings.ReinforcementManager;
 import com.pg.mikszo.friendlyletters.views.game.DrawingInGameView;
@@ -57,7 +58,7 @@ public class GameMainActivity extends BaseActivity {
     private String[] availableVerbalPraises;
     private TextReader textReader;
 
-    private int currentLevel;
+    private int currentStep;
     private int currentNumberOfRepetitions;
     private List<GameMaterial> generatedMaterials = new ArrayList<>();
 
@@ -89,17 +90,15 @@ public class GameMainActivity extends BaseActivity {
     }
 
     public void nextMaterialOnClick(View view) {
-        //TODO : Log it?
-        loadNextLevel();
+        loadNextLevel(true);
     }
 
     public void previousMaterialOnClick(View view) {
-        //TODO : Log it?
         loadPreviousLevel();
     }
 
     private void loadGameView() {
-        currentLevel = 1;
+        currentStep = 1;
         currentNumberOfRepetitions = 1;
         setContentView(R.layout.activity_game_main);
 
@@ -200,11 +199,11 @@ public class GameMainActivity extends BaseActivity {
                         randomAvailableBackground = new Random().nextInt(availableShapes.length);
                         materialFile = availableShapes[randomAvailableBackground];
 
-                        if (!materialFile.equals(generatedMaterials.get(currentLevel - 1).filename)) {
+                        if (!materialFile.equals(generatedMaterials.get(currentStep - 1).filename)) {
                             if (availableShapes.length > 2 && generatedMaterials.size() > 1) {
-                                if (!materialFile.equals(generatedMaterials.get(currentLevel - 2).filename)) {
+                                if (!materialFile.equals(generatedMaterials.get(currentStep - 2).filename)) {
                                     if (availableShapes.length > 3 && generatedMaterials.size() > 2) {
-                                        if (!materialFile.equals(generatedMaterials.get(currentLevel - 3).filename)) {
+                                        if (!materialFile.equals(generatedMaterials.get(currentStep - 3).filename)) {
                                             break;
                                         }
                                     } else {
@@ -288,45 +287,48 @@ public class GameMainActivity extends BaseActivity {
                         timeLimitHandler.postDelayed(new Runnable() {
                             @Override
                             public void run() {
-                                /* TODO logger
-                                new LoggerCSV(getApplicationContext()).addNewRecord(currentMaterialFile, "time out",
-                                        currentBackgroundColorNumber, currentMaterialColorNumber,
-                                        currentTraceColorNumber, currentLevel, currentNumberOfRepetitions,
-                                        (System.nanoTime() - timeOfStartLevel) - (delayCheckingHandlerMillis * 1000000), settings); */
-                                if (checkCorrectnessOfDrawing()) {
+                                if (checkCorrectnessOfDrawing(true)) {
                                     readVerbalPraises();
-                                    loadNextLevel();
+                                    loadNextLevel(false);
                                 } else {
                                     resetCurrentLevel();
                                 }
                             }
                         }, configuration.timeLimit * 1000);
                     }
+                } else if (motionEvent.getAction() == MotionEvent.ACTION_MOVE) {
+                    if (timeOfStartLevel == 0) {
+                        drawingInGameView.isTouchScreenEnabled = false;
+                    }
                 } else if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
-                    delayCheckingHandler.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            if (checkCorrectnessOfDrawing()) {
-                                readVerbalPraises();
-                                loadNextLevel();
-                            } else {
-                                delayResetHandler.postDelayed(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        resetCurrentLevel();
-                                    }
-                                }, 1000);
+                    if (timeOfStartLevel == 0) {
+                        drawingInGameView.isTouchScreenEnabled = true;
+                    } else {
+                        delayCheckingHandler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                if (checkCorrectnessOfDrawing(false)) {
+                                    readVerbalPraises();
+                                    loadNextLevel(false);
+                                } else {
+                                    delayResetHandler.postDelayed(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            resetCurrentLevel();
+                                        }
+                                    }, 1000);
+                                }
+                                delayCheckingHandler.removeCallbacksAndMessages(null);
                             }
-                            delayCheckingHandler.removeCallbacksAndMessages(null);
-                        }
-                    }, delayCheckingHandlerMillis);
+                        }, delayCheckingHandlerMillis);
+                    }
                 }
                 return false;
             }
         });
     }
 
-    private boolean checkCorrectnessOfDrawing() {
+    private boolean checkCorrectnessOfDrawing(boolean isEndOfTime) {
         boolean result;
         int backgroundPixels = drawingInGameView.getBackgroundImagePixels();
         int[] currentPixels = drawingInGameView.analyzeTracePixels();
@@ -365,14 +367,31 @@ public class GameMainActivity extends BaseActivity {
                 result = true;
             }
         }
-        /* TODO logger
-        new LoggerCSV(this).addNewRecord(currentMaterialFile, result, backgroundPixels,
-                currentBackground, currentTrace, currentBackgroundColorNumber, currentMaterialColorNumber,
-                currentTraceColorNumber, currentLevel, currentNumberOfRepetitions,
-                (System.nanoTime() - timeOfStartLevel) - (delayCheckingHandlerMillis * 1000000), settings); */
+
+        LoggerCSV.loggerStatus loggerStatus;
+        Long time;
+        if (isEndOfTime) {
+            if (result) {
+                loggerStatus = LoggerCSV.loggerStatus.TIMEOUT_CHECK_TRUE;
+            } else {
+                loggerStatus = LoggerCSV.loggerStatus.TIMEOUT_CHECK_FALSE;
+            }
+            time = System.nanoTime() - timeOfStartLevel;
+        } else {
+            if (result) {
+                loggerStatus = LoggerCSV.loggerStatus.CHECK_TRUE;
+            } else {
+                loggerStatus = LoggerCSV.loggerStatus.CHECK_FALSE;
+            }
+            time = (System.nanoTime() - timeOfStartLevel) - (delayCheckingHandlerMillis * 1000000);
+        }
+        new LoggerCSV(this).addNewRecord(loggerStatus,
+                generatedMaterials.get(currentStep - 1), configuration,
+                backgroundPixels, currentBackground, currentTrace,
+                currentStep, currentNumberOfRepetitions, time);
 
         if (result) {
-            generatedMaterials.get(currentLevel - 1).isCorrectlySolved = true;
+            generatedMaterials.get(currentStep - 1).isCorrectlySolved = true;
         }
 
         return result;
@@ -381,8 +400,8 @@ public class GameMainActivity extends BaseActivity {
     private void resetCurrentLevel() {
         timeLimitHandler.removeCallbacksAndMessages(null);
         drawingInGameView.cleanScreen();
-        timeOfStartLevel = 0;
         currentNumberOfRepetitions++;
+        timeOfStartLevel = 0;
 
         int limitOfRepetitions = 1;
         if (!configuration.testMode) {
@@ -390,34 +409,41 @@ public class GameMainActivity extends BaseActivity {
         }
 
         if (currentNumberOfRepetitions > limitOfRepetitions) {
-            if (currentLevel == configuration.numberOfLevels) {
+            if (currentStep == configuration.numberOfSteps) {
                 gameOver();
             } else {
-                loadNextLevel();
+                loadNextLevel(false);
             }
         } else {
             readCommand();
         }
     }
 
-    private void loadNextLevel() {
+    private void loadNextLevel(boolean fromOnClick) {
         timeLimitHandler.removeCallbacksAndMessages(null);
+        delayResetHandler.removeCallbacksAndMessages(null);
+        delayCheckingHandler.removeCallbacksAndMessages(null);
+
+        if (fromOnClick) {
+            reportChangeOfMaterial(LoggerCSV.loggerStatus.CLICK_NEXT);
+        }
+
         drawingInGameView.cleanScreen();
         timeOfStartLevel = 0;
 
-        if (currentLevel == configuration.numberOfLevels) {
+        if (currentStep == configuration.numberOfSteps) {
             gameOver();
         } else {
             currentNumberOfRepetitions = 1;
-            if (currentLevel == generatedMaterials.size()) {
+            if (currentStep == generatedMaterials.size()) {
                 generateNewGameMaterial();
-            } else if (currentLevel < generatedMaterials.size()) {
-                restoreGeneratedGameMaterial(currentLevel);
+            } else if (currentStep < generatedMaterials.size()) {
+                restoreGeneratedGameMaterial(currentStep);
             } else {
                 Log.e("[ERROR - GAME]", "Wrong index of generatedMaterials");
             }
+            currentStep++;
             drawingInGameView.analyzeBackgroundPixels();
-            currentLevel++;
 
             randomCommand();
             updateCommandTextView();
@@ -426,19 +452,37 @@ public class GameMainActivity extends BaseActivity {
     }
 
     private void loadPreviousLevel() {
-        if (currentLevel > 1) {
+        if (currentStep > 1) {
             timeLimitHandler.removeCallbacksAndMessages(null);
+            delayResetHandler.removeCallbacksAndMessages(null);
+            delayCheckingHandler.removeCallbacksAndMessages(null);
+
+            reportChangeOfMaterial(LoggerCSV.loggerStatus.CLICK_PREVIOUS);
+
             drawingInGameView.cleanScreen();
             timeOfStartLevel = 0;
 
-            currentLevel--;
-            restoreGeneratedGameMaterial(currentLevel - 1);
+            currentStep--;
+            restoreGeneratedGameMaterial(currentStep - 1);
             drawingInGameView.analyzeBackgroundPixels();
 
             randomCommand();
             updateCommandTextView();
             readCommand();
         }
+    }
+
+    private void reportChangeOfMaterial(LoggerCSV.loggerStatus status) {
+        int backgroundPixels = drawingInGameView.getBackgroundImagePixels();
+        int[] currentPixels = drawingInGameView.analyzeTracePixels();
+        int currentTrace = currentPixels[0];
+        int currentBackground = currentPixels[1];
+        long time = timeOfStartLevel > 0 ? System.nanoTime() - timeOfStartLevel : 0;
+
+        new LoggerCSV(this).addNewRecord(status,
+                generatedMaterials.get(currentStep - 1), configuration,
+                backgroundPixels, currentBackground, currentTrace,
+                currentStep, currentNumberOfRepetitions, time);
     }
 
     private void gameOver() {
@@ -478,7 +522,7 @@ public class GameMainActivity extends BaseActivity {
 
             String command = "";
             Pattern pattern = Pattern.compile("(_)(.?)(.png)");
-            Matcher matcher = pattern.matcher(generatedMaterials.get(currentLevel - 1).filename);
+            Matcher matcher = pattern.matcher(generatedMaterials.get(currentStep - 1).filename);
             if (matcher.find()) {
                 String mark = matcher.group(2);
 

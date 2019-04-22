@@ -30,7 +30,7 @@
     <string name="information_message_lack_of_materials">No materials available. Check the application settings</string>
     <string name="information_message_new_material_is_not_drawn">No shape has been drawn</string>
     <string name="information_message_least_one_element_must_be_available">At least one element must be available</string>
-    <string name="information_message_some_material_must_be_selected">Choose selected materials</string>
+    <string name="information_message_some_material_must_be_selected">Select materials</string>
     <string name="information_message_removing_is_possible_for_disabled_materials">Only excluded materials can be removed. Turn them off, and then use the delete option</string>
     <string name="information_message_new_configuration_has_been_added">Configuration has been added to the list</string>
     <string name="information_message_configuration_has_been_removed">Configuration has been removed</string>
@@ -48,8 +48,8 @@
     <string name="information_message_verbal_praises_reading_message">Enabled reading of vocal praise means that after each correctly performed step, one praise from selected ones will be read.</string>
 
     <string name="check_removing_decisions_title">Warning</string>
-    <string name="check_removing_materials_decisions_message">Are you sure you want to permanently delete all selected materials?</string>
-    <string name="check_removing_configuration_decisions_message">Are you sure you want to permanently delete the selected configuration?</string>
+    <string name="check_removing_materials_decisions_message">Do you want to permanently delete all selected materials?</string>
+    <string name="check_removing_configuration_decisions_message">Do you want to permanently delete the selected configuration?</string>
     <string name="check_importing_decisions_title">Information</string>
     <string name="check_importing_materials_decisions_message">A small number of available materials. Do you want to add the default set?</string>
     <string name="check_creating_configuration">The name of the new configuration</string>
@@ -71,7 +71,7 @@
     <string name="settings_tab_material">MATERIAL</string>
     <string name="settings_tab_material_button_remove_material">Delete material</string>
     <string name="settings_tab_material_button_enable_material">ON / OFF</string>
-    <string name="settings_tab_material_button_add_new_material">Create new</string>
+    <string name="settings_tab_material_button_add_new_material">Create material</string>
     <string name="settings_tab_add_new_material_clean">CLEAN</string>
     <string name="settings_tab_add_new_material_add">ADD</string>
 

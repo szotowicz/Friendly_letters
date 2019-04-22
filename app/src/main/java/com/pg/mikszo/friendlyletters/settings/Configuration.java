@@ -15,7 +15,7 @@ public class Configuration {
     public boolean configurationActivated;
     public boolean testMode;
     public int difficultyLevel;
-    public int numberOfLevels;
+    public int numberOfSteps;
     public int numberOfRepetitions;
     public int timeLimit;
     public String[] materialColors;

@@ -28,10 +28,11 @@ public class CanvasView extends View {
     protected float strokeWidth = 25f;
     protected int traceColor = Color.BLACK;
     protected boolean isDrawnSomething = false;
+    protected boolean isPathStarted = false;
     protected float radiusCursor = 20.0f;
-    protected final float positionForTurningOffCursor = -1.0f;
-    protected float xPosition = positionForTurningOffCursor;
-    protected float yPosition = positionForTurningOffCursor;
+    protected float xPosition = 0.0f;
+    protected float yPosition = 0.0f;
+
 
     public CanvasView(Context context, AttributeSet attributeSet) {
         super(context, attributeSet);
@@ -54,13 +55,13 @@ public class CanvasView extends View {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 path.moveTo(xPosition, yPosition);
+                isPathStarted = true;
             case MotionEvent.ACTION_MOVE:
                 path.lineTo(xPosition, yPosition);
                 break;
             case MotionEvent.ACTION_UP:
                 path.lineTo(xPosition + 0.01f, yPosition + 0.01f);
-                xPosition = positionForTurningOffCursor;
-                yPosition = positionForTurningOffCursor;
+                isPathStarted = false;
                 break;
             default:
                 return false;
@@ -84,6 +85,7 @@ public class CanvasView extends View {
 
     public void cleanScreen() {
         isDrawnSomething = false;
+        isPathStarted = false;
         this.path.reset();
         invalidate();
     }

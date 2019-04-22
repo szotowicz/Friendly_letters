@@ -7,6 +7,7 @@
     tools:context=".activity.GameReportActivity">
 
     <ImageView
+        android:id="@+id/game_report_background"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:src="@drawable/triangles"
@@ -16,57 +17,70 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
-        android:orientation="vertical">
+        android:gravity="center">
 
-        <TextView
+        <LinearLayout
+            android:id="@+id/game_report_container"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/start_game_title"
-            android:textSize="30sp"
-            android:textStyle="bold"
-            android:textColor="#FFFFFF" />
-
-        <TextView
-            android:id="@+id/game_report_difficulty_level"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingTop="30dp"
-            android:paddingBottom="10dp"
-            android:textSize="15sp"
-            android:textColor="#FFFFFF" />
-
-        <TextView
-            android:id="@+id/game_report_number_of_level"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingBottom="10dp"
-            android:textSize="15sp"
-            android:textColor="#FFFFFF" />
-
-        <TextView
-            android:id="@+id/game_report_correctly_solved"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingBottom="10dp"
-            android:textSize="15sp"
-            android:textColor="#FFFFFF" />
-
-        <TextView
-            android:id="@+id/game_report_effectiveness"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingBottom="40dp"
-            android:textSize="15sp"
-            android:textColor="#FFFFFF" />
-
-        <Button
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            android:text="@string/game_report_button"
+            android:gravity="center"
             android:padding="10dp"
-            android:background="@drawable/game_report_button"
-            android:onClick="closeReportOnClick" />
+            android:background="@drawable/game_report_container_background"
+            android:orientation="vertical"
+            tools:ignore="UselessParent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/start_game_title"
+                android:textSize="32sp"
+                android:textStyle="bold"
+                android:textColor="#515151" />
+
+            <TextView
+                android:id="@+id/game_report_difficulty_level"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="30dp"
+                android:paddingBottom="10dp"
+                android:textSize="15sp"
+                android:textColor="#6C6C6C" />
+
+            <TextView
+                android:id="@+id/game_report_number_of_level"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="10dp"
+                android:textSize="15sp"
+                android:textColor="#6C6C6C" />
+
+            <TextView
+                android:id="@+id/game_report_correctly_solved"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="10dp"
+                android:textSize="15sp"
+                android:textColor="#6C6C6C" />
+
+            <TextView
+                android:id="@+id/game_report_effectiveness"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="45dp"
+                android:textSize="15sp"
+                android:textColor="#6C6C6C" />
+
+            <Button
+                android:layout_width="240dp"
+                android:layout_height="wrap_content"
+                android:text="@string/game_report_button"
+                android:padding="10dp"
+                android:background="@drawable/game_report_button"
+                android:textColor="#515151"
+                android:onClick="closeReportOnClick" />
+
+        </LinearLayout>
+
     </LinearLayout>
 
 </RelativeLayout>
