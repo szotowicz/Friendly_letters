@@ -37,7 +37,7 @@ public class AddNewMaterial extends CanvasView {
     protected void onDraw(Canvas c) {
         super.onDraw(c);
         canvas.drawPath(path, paint);
-        if (xPosition != positionForTurningOffCursor && yPosition != positionForTurningOffCursor) {
+        if (isPathStarted) {
             canvas.drawCircle(xPosition, yPosition, radiusCursor, paint);
         }
     }

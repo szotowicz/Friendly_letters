@@ -30,8 +30,7 @@ public class DrawingInGameView extends CanvasView {
     private int backgroundImageTop;
     private int backgroundImageBottom;
     private int backgroundImagePixels = -1;
-    private boolean isPathStarted = false;
-    private boolean isTouchScreenEnabled = true;
+    public boolean isTouchScreenEnabled = true;
 
     public DrawingInGameView(Context context, AttributeSet attributeSet) {
         super(context, attributeSet);
@@ -40,43 +39,46 @@ public class DrawingInGameView extends CanvasView {
     @SuppressLint("ClickableViewAccessibility")
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        if (isTouchScreenEnabled) {
-            isDrawnSomething = true;
-            xPosition = event.getX();
-            yPosition = event.getY();
+        try {
+            if (isTouchScreenEnabled) {
+                isDrawnSomething = true;
+                xPosition = event.getX();
+                yPosition = event.getY();
 
-            switch (event.getAction()) {
-                case MotionEvent.ACTION_DOWN:
-                    if (doesDrawWell(xPosition, yPosition)) {
-                        path.moveTo(xPosition, yPosition);
-                        isPathStarted = true;
-                    }
-                case MotionEvent.ACTION_MOVE:
-                    if (doesDrawWell(xPosition, yPosition)) {
-                        if (isPathStarted) {
-                            path.lineTo(xPosition, yPosition);
-                        } else {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        if (doesDrawWell(xPosition, yPosition)) {
                             path.moveTo(xPosition, yPosition);
                             isPathStarted = true;
                         }
-                    } else {
+                    case MotionEvent.ACTION_MOVE:
+                        if (doesDrawWell(xPosition, yPosition)) {
+                            if (isPathStarted) {
+                                path.lineTo(xPosition, yPosition);
+                            } else {
+                                path.moveTo(xPosition, yPosition);
+                                isPathStarted = true;
+                            }
+                        } else {
+                            isPathStarted = false;
+                        }
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        if (isPathStarted && doesDrawWell(xPosition, yPosition)) {
+                            path.lineTo(xPosition + 0.01f, yPosition + 0.01f);
+                        }
                         isPathStarted = false;
-                    }
-                    break;
-                case MotionEvent.ACTION_UP:
-                    if (doesDrawWell(xPosition, yPosition)) {
-                        path.lineTo(xPosition + 0.01f, yPosition + 0.01f);
-                    }
-                    xPosition = positionForTurningOffCursor;
-                    yPosition = positionForTurningOffCursor;
-                    isPathStarted = false;
-                    break;
-                default:
-                    return false;
+                        break;
+                    default:
+                        return false;
+                }
+                invalidate();
             }
-            invalidate();
+            return true;
+        } catch (Exception e) {
+            isPathStarted = false;
+            return false;
         }
-        return true;
     }
 
     @Override
@@ -85,7 +87,7 @@ public class DrawingInGameView extends CanvasView {
         materialImage.draw(canvas);
         if (isTouchScreenEnabled) {
             canvas.drawPath(path, paint);
-            if (xPosition != positionForTurningOffCursor && yPosition != positionForTurningOffCursor) {
+            if (isPathStarted) {
                 canvas.drawCircle(xPosition, yPosition, radiusCursor, paint);
             }
         }
@@ -147,6 +149,7 @@ public class DrawingInGameView extends CanvasView {
         isTouchScreenEnabled = false;
         this.materialImage = materialImage;
         this.materialImage.setBounds(backgroundImageLeft, backgroundImageTop, backgroundImageRight, backgroundImageBottom);
+        // Some time after loading the picture, drawing should not work
         Thread delayTouches = new Thread() {
             @Override
             public void run() {

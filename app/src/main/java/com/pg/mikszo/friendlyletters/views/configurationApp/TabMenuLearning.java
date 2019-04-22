@@ -120,7 +120,7 @@ public class TabMenuLearning {
         final int levelCountMin = activity.getResources().getInteger(R.integer.settings_learning_level_count_min);
         final int levelCountMax = activity.getResources().getInteger(R.integer.settings_learning_level_count_max);
         seekBarLevelCount.setMax(levelCountMax - levelCountMin);
-        seekBarLevelCount.setProgress(configuration.numberOfLevels - levelCountMin);
+        seekBarLevelCount.setProgress(configuration.numberOfSteps - levelCountMin);
         levelCountMonitor.setText(String.valueOf(seekBarLevelCount.getProgress() + levelCountMin));
         seekBarLevelCount.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -135,7 +135,7 @@ public class TabMenuLearning {
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 levelCountMonitor.setText(String.valueOf(seekBarLevelCount.getProgress() + levelCountMin));
 
-                configuration.numberOfLevels = seekBarLevelCount.getProgress() + levelCountMin;
+                configuration.numberOfSteps = seekBarLevelCount.getProgress() + levelCountMin;
                 settingsManager.updateFileWithConfigurations(configuration, configurationID);
             }
         });
