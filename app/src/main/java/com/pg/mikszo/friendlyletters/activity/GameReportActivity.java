@@ -12,7 +12,6 @@ package com.pg.mikszo.friendlyletters.activity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.os.Bundle;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.ImageView;
@@ -25,10 +24,10 @@ import com.pg.mikszo.friendlyletters.settings.SettingsManager;
 
 public class GameReportActivity extends BaseActivity {
 
-    @SuppressLint({"SetTextI18n", "DefaultLocale"})
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    @SuppressLint({"SetTextI18n", "DefaultLocale"})
+    // This function is loaded in every BaseActivity child
+    protected void loadOnCreateView() {
         Configuration configuration = new SettingsManager(this).getActiveConfiguration();
         setContentView(R.layout.activity_game_report);
 
@@ -50,7 +49,7 @@ public class GameReportActivity extends BaseActivity {
 
         textView = findViewById(R.id.game_report_effectiveness);
         double effectiveness = getIntent().getIntExtra(getString(R.string.intent_game_report_correctly_solved), 0)
-                        * 100;
+                * 100;
         textView.setText(getString(R.string.game_report_effectiveness) + ": "
                 + String.format("%.2f", effectiveness / configuration.numberOfSteps) + "%");
 
@@ -77,6 +76,11 @@ public class GameReportActivity extends BaseActivity {
                 });
     }
 
+    private void runGameStartActivity() {
+        startActivity(new Intent(getBaseContext(), GameStartActivity.class));
+        finish();
+    }
+
     @Override
     public void onBackPressed() {
         runGameStartActivity();
@@ -84,10 +88,5 @@ public class GameReportActivity extends BaseActivity {
 
     public void closeReportOnClick(View view) {
         runGameStartActivity();
-    }
-
-    private void runGameStartActivity() {
-        startActivity(new Intent(getBaseContext(), GameStartActivity.class));
-        finish();
     }
 }

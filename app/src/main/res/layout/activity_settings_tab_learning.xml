@@ -40,7 +40,7 @@
         <FrameLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight=".21"
+            android:layout_weight=".25"
             android:background="@color/color_settings_tab_background"
             android:paddingTop="@dimen/settings_menu_bar_padding_size_top"
             android:paddingBottom="@dimen/settings_menu_bar_padding_size_bottom">
@@ -59,7 +59,7 @@
         <FrameLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight=".21"
+            android:layout_weight=".25"
             android:background="@color/color_settings_tab_background"
             android:paddingTop="@dimen/settings_menu_bar_padding_size_top"
             android:paddingBottom="@dimen/settings_menu_bar_padding_size_bottom">
@@ -78,7 +78,7 @@
         <FrameLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight=".31"
+            android:layout_weight=".25"
             android:background="@drawable/settings_menu_border"
             android:paddingTop="@dimen/settings_menu_bar_padding_size_top"
             android:paddingBottom="@dimen/settings_menu_bar_padding_size_bottom">
@@ -98,7 +98,7 @@
         <FrameLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight=".28"
+            android:layout_weight=".25"
             android:background="@color/color_settings_tab_background"
             android:paddingTop="@dimen/settings_menu_bar_padding_size_top"
             android:paddingBottom="@dimen/settings_menu_bar_padding_size_bottom">

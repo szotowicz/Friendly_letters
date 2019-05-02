@@ -12,15 +12,11 @@ package com.pg.mikszo.friendlyletters.activity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.pg.mikszo.friendlyletters.R;
 import com.pg.mikszo.friendlyletters.settings.Configuration;
@@ -30,10 +26,10 @@ public class GameStartActivity extends BaseActivity {
 
     private Button startGameButton;
 
-    @SuppressLint("SetTextI18n")
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    @SuppressLint("SetTextI18n")
+    // This function is loaded in every BaseActivity child
+    protected void loadOnCreateView() {
         Configuration configuration = new SettingsManager(this).getActiveConfiguration();
         setContentView(R.layout.activity_start_game);
         TextView message = findViewById(R.id.start_game_message);
@@ -52,38 +48,15 @@ public class GameStartActivity extends BaseActivity {
                     }
                 });
 
-        if (hasStoragePermission()) {
-            startGameButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    runGameStartActivity();
-                }
-            });
-        }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
-                                           @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == PERMISSIONS_REQUEST_USE_STORAGE) {
-            if ((grantResults.length > 0) && (grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
-                startGameButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        runGameStartActivity();
-                    }
-                });
-            } else {
-                //TODO: test
-                Toast.makeText(getBaseContext(),
-                        getResources().getString(R.string.information_message_permit_must_be_granted),
-                        Toast.LENGTH_SHORT).show();
+        startGameButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                runGameStartActivity();
             }
-        }
+        });
     }
 
-    public void runGameStartActivity() {
+    private void runGameStartActivity() {
         startActivity(new Intent(getBaseContext(), GameMainActivity.class));
         finish();
     }

@@ -14,23 +14,54 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.pm.PackageManager;
 import android.os.Build;
+import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+
+import com.pg.mikszo.friendlyletters.R;
 
 public abstract class BaseActivity extends Activity {
 
-    protected final int PERMISSIONS_REQUEST_USE_STORAGE = 10;
+    private final int STORAGE_PERMISSIONS_REQUEST_CODE = 10;
 
-    protected boolean hasStoragePermission() {
+    protected abstract void loadOnCreateView();
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_splash);
+        if (hasStoragePermission()) {
+            loadOnCreateView();
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == STORAGE_PERMISSIONS_REQUEST_CODE) {
+            if ((grantResults.length > 1) && (grantResults[0] == PackageManager.PERMISSION_GRANTED)
+                    && (grantResults[1] == PackageManager.PERMISSION_GRANTED)) {
+                loadOnCreateView();
+            } else {
+                hasStoragePermission();
+            }
+        }
+    }
+
+    private boolean hasStoragePermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
                     == PackageManager.PERMISSION_GRANTED
-                    && checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
+                    && ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
                     == PackageManager.PERMISSION_GRANTED) {
                 return true;
             } else {
-                requestPermissions(new String[] {
+                ActivityCompat.requestPermissions(this, new String[] {
                         Manifest.permission.WRITE_EXTERNAL_STORAGE,
                         Manifest.permission.READ_EXTERNAL_STORAGE
-                }, PERMISSIONS_REQUEST_USE_STORAGE);
+                }, STORAGE_PERMISSIONS_REQUEST_CODE);
                 return false;
             }
         } else {

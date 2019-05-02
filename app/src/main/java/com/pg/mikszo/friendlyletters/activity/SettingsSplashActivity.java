@@ -11,23 +11,18 @@
 package com.pg.mikszo.friendlyletters.activity;
 
 import android.content.Intent;
-import android.os.Bundle;
-
-import com.pg.mikszo.friendlyletters.R;
 
 public class SettingsSplashActivity extends BaseActivity {
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_splash);
-
+    // This function is loaded in every BaseActivity child
+    protected void loadOnCreateView() {
         Thread welcomeThread = new Thread() {
             @Override
             public void run() {
                 try {
                     super.run();
-                    sleep(2000);
+                    sleep(1200);
                 } catch (Exception ignored) {
 
                 } finally {

@@ -43,30 +43,30 @@ public class AddNewMaterial extends CanvasView {
     }
 
     public void saveScreenImage(String mark) {
-        if (isDrawnSomething) {
-            try {
-                final View view = this;
-                Bitmap bitmap = Bitmap.createBitmap(view.getWidth(), view.getHeight(), Bitmap.Config.ARGB_8888);
-                view.draw(new Canvas(bitmap));
+        try {
+            final View view = this;
+            Bitmap bitmap = Bitmap.createBitmap(view.getWidth(), view.getHeight(), Bitmap.Config.ARGB_8888);
+            view.draw(new Canvas(bitmap));
 
-                String imagePath = getPathForNewImage(mark);
-                if (imagePath != null && !imagePath.trim().equals("")) {
-                    File imageFile = new File(imagePath);
-                    FileOutputStream fileOutputStream = new FileOutputStream(imageFile);
+            String imagePath = getPathForNewImage(mark);
+            if (imagePath != null && !imagePath.trim().equals("")) {
+                File imageFile = new File(imagePath);
+                FileOutputStream fileOutputStream = new FileOutputStream(imageFile);
 
-                    Bitmap transparentBitmap = makeBitmapTransparent(bitmap);
-                    transparentBitmap.compress(Bitmap.CompressFormat.PNG, 100, fileOutputStream);
-                    fileOutputStream.close();
+                Bitmap transparentBitmap = makeBitmapTransparent(bitmap);
+                transparentBitmap.compress(Bitmap.CompressFormat.PNG, 100, fileOutputStream);
+                fileOutputStream.close();
 
-                    Toast.makeText(getContext(), R.string.information_message_saving_new_material_success, Toast.LENGTH_SHORT).show();
-                }
-            } catch (Exception ex) {
-                Log.e("[ERROR]", ex.getMessage());
-                Toast.makeText(getContext(), R.string.information_message_saving_failed, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), R.string.information_message_saving_new_material_success, Toast.LENGTH_SHORT).show();
             }
-        } else {
-            Toast.makeText(getContext(), R.string.information_message_new_material_is_not_drawn, Toast.LENGTH_SHORT).show();
+        } catch (Exception ex) {
+            Log.e("[ERROR]", ex.getMessage());
+            Toast.makeText(getContext(), R.string.information_message_saving_failed, Toast.LENGTH_SHORT).show();
         }
+    }
+
+    public boolean isDrawnSomething() {
+        return isDrawnSomething;
     }
 
     private String getPathForNewImage(String mark) {
