@@ -14,7 +14,6 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
-import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.util.TypedValue;
@@ -69,35 +68,13 @@ public class GameMainActivity extends BaseActivity {
     private int delayCheckingHandlerMillis = 700;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    // This function is loaded in every BaseActivity child
+    protected void loadOnCreateView() {
         this.configuration = new SettingsManager(this).getActiveConfiguration();
         this.availableCommands = new ReinforcementManager(this).getAvailableCommands();
         this.availableVerbalPraises = new ReinforcementManager(this).getAvailableVerbalPraises();
-        loadGameView();
         textReader = new TextReader(getApplicationContext());
-    }
 
-    @Override
-    protected void onDestroy() {
-        textReader.releaseTextReader();
-        super.onDestroy();
-    }
-
-    @Override
-    public void onBackPressed() {
-        // Game has disable onBackPressed() functions
-    }
-
-    public void nextMaterialOnClick(View view) {
-        loadNextLevel(true);
-    }
-
-    public void previousMaterialOnClick(View view) {
-        loadPreviousLevel();
-    }
-
-    private void loadGameView() {
         currentStep = 1;
         currentNumberOfRepetitions = 1;
         setContentView(R.layout.activity_game_main);
@@ -163,6 +140,25 @@ public class GameMainActivity extends BaseActivity {
                         readCommandOnLoad.start();
                     }
                 });
+    }
+
+    @Override
+    protected void onDestroy() {
+        textReader.releaseTextReader();
+        super.onDestroy();
+    }
+
+    @Override
+    public void onBackPressed() {
+        // Game has disable onBackPressed() functions
+    }
+
+    public void nextMaterialOnClick(View view) {
+        loadNextLevel(true);
+    }
+
+    public void previousMaterialOnClick(View view) {
+        loadPreviousLevel();
     }
 
     private void generateNewGameMaterial() {
@@ -335,37 +331,50 @@ public class GameMainActivity extends BaseActivity {
         int currentTrace = currentPixels[0];
         int currentBackground = currentPixels[1];
 
-        //TODO: analyze it
-        if (configuration.difficultyLevel == 1) {
+        if (configuration.difficultyLevel == 0) {
+            // Easy level policy:
+            //    must remain less than 40% of the background
+            //    trace cannot be less than 80% of the background
+            //    trace cannot be greater than 130% of the background
             if (backgroundPixels * 0.4 < currentBackground) {
                 result = false;
-            } else if (backgroundPixels * 0.7 > currentTrace) {
+            } else if (backgroundPixels * 0.8 > currentTrace) {
                 result = false;
-            } else if (backgroundPixels * 1.3 < currentTrace) {
+            } else if (backgroundPixels * 1.30 < currentTrace) {
+                result = false;
+            } else {
+                result = true;
+            }
+        } else if (configuration.difficultyLevel == 1) {
+            // Medium level policy:
+            //    must remain less than 30% of the background
+            //    trace cannot be less than 85% of the background
+            //    trace cannot be greater than 125% of the background
+            if (backgroundPixels * 0.3 < currentBackground) {
+                result = false;
+            } else if (backgroundPixels * 0.85 > currentTrace) {
+                result = false;
+            } else if (backgroundPixels * 1.25 < currentTrace) {
                 result = false;
             } else {
                 result = true;
             }
         } else if (configuration.difficultyLevel == 2) {
-            if (backgroundPixels * 0.3 < currentBackground) {
+            // Hard level policy:
+            //    must remain less than 20% of the background
+            //    trace cannot be less than 90% of the background
+            //    trace cannot be greater than 120% of the background
+            if (backgroundPixels * 0.2 < currentBackground) {
                 result = false;
-            } else if (backgroundPixels * 0.8 > currentTrace) {
+            } else if (backgroundPixels * 0.9 > currentTrace) {
                 result = false;
-            } else if (backgroundPixels * 1.2 < currentTrace) {
+            } else if (backgroundPixels * 1.20 < currentTrace) {
                 result = false;
             } else {
                 result = true;
             }
         } else {
-            if (backgroundPixels * 0.2 < currentBackground) {
-                result = false;
-            } else if (backgroundPixels * 0.9 > currentTrace) {
-                result = false;
-            } else if (backgroundPixels * 1.1 < currentTrace) {
-                result = false;
-            } else {
-                result = true;
-            }
+            result = false;
         }
 
         LoggerCSV.loggerStatus loggerStatus;

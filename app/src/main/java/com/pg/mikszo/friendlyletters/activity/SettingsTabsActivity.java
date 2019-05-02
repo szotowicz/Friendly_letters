@@ -13,7 +13,6 @@ package com.pg.mikszo.friendlyletters.activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.Bundle;
 import android.text.InputType;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -39,12 +38,11 @@ public class SettingsTabsActivity extends BaseActivity {
     private int configurationID;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    // This function is loaded in every BaseActivity child
+    protected void loadOnCreateView() {
         settingsManager = new SettingsManager(this);
         this.configurationID = getIntent().getIntExtra(
                 getResources().getString(R.string.intent_name_configuration_id), 0);
-
         new TabMenuAspect(this, settingsManager, configurationID);
     }
 
@@ -119,45 +117,48 @@ public class SettingsTabsActivity extends BaseActivity {
 
     public void addMaterialToResourcesOnClick(View view) {
         final AddNewMaterial addNewMaterial = findViewById(R.id.addingShapeView);
+        if (addNewMaterial.isDrawnSomething()){
+            AlertDialog.Builder builder = new AlertDialog.Builder(this, AlertDialog.THEME_DEVICE_DEFAULT_LIGHT);
+            builder.setTitle(R.string.check_creating_material_title);
+            builder.setMessage(R.string.check_creating_material_message);
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(this, AlertDialog.THEME_DEVICE_DEFAULT_LIGHT);
-        builder.setTitle(R.string.check_creating_material_title);
-        builder.setMessage(R.string.check_creating_material_message);
+            final EditText input = new EditText(this);
+            input.setInputType(InputType.TYPE_CLASS_TEXT);
+            builder.setView(input);
 
-        final EditText input = new EditText(this);
-        input.setInputType(InputType.TYPE_CLASS_TEXT);
-        builder.setView(input);
-
-        builder.setPositiveButton(R.string.check_decisions_positive_button_add, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-                String markForNewMaterial = input.getText().toString().trim();
-                if (markForNewMaterial.length() == 1) {
-                    if (!Character.isLetterOrDigit(markForNewMaterial.charAt(0))) {
-                        markForNewMaterial = "";
+            builder.setPositiveButton(R.string.check_decisions_positive_button_add, new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    String markForNewMaterial = input.getText().toString().trim();
+                    if (markForNewMaterial.length() == 1) {
+                        if (!Character.isLetterOrDigit(markForNewMaterial.charAt(0))) {
+                            markForNewMaterial = "";
+                        }
+                        addNewMaterial.saveScreenImage(markForNewMaterial);
+                        addNewMaterial.cleanScreen();
+                        dialog.dismiss();
+                    } else if (markForNewMaterial.length() == 0) {
+                        addNewMaterial.saveScreenImage(markForNewMaterial);
+                        addNewMaterial.cleanScreen();
+                        dialog.dismiss();
+                    } else {
+                        Toast.makeText(getBaseContext(),
+                                R.string.information_message_provided_incorrect_mark,
+                                Toast.LENGTH_SHORT).show();
                     }
-                    addNewMaterial.saveScreenImage(markForNewMaterial);
-                    addNewMaterial.cleanScreen();
-                    dialog.dismiss();
-                } else if (markForNewMaterial.length() == 0) {
-                    addNewMaterial.saveScreenImage(markForNewMaterial);
-                    addNewMaterial.cleanScreen();
-                    dialog.dismiss();
-                } else {
-                    Toast.makeText(getBaseContext(),
-                            R.string.information_message_provided_incorrect_mark,
-                            Toast.LENGTH_SHORT).show();
                 }
-            }
-        });
+            });
 
-        builder.setNegativeButton(R.string.check_decisions_negative_button_cancel, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
+            builder.setNegativeButton(R.string.check_decisions_negative_button_cancel, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
 
-        builder.create().show();
+            builder.create().show();
+        } else {
+            Toast.makeText(this, R.string.information_message_new_material_is_not_drawn, Toast.LENGTH_SHORT).show();
+        }
     }
 
     public void showInformationAboutTestMode(View view) {

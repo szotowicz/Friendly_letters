@@ -14,10 +14,7 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Typeface;
-import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.text.InputType;
 import android.view.Gravity;
 import android.view.View;
@@ -40,10 +37,10 @@ public class SettingsMainActivity extends BaseActivity {
     private Button activeConfiguration;
     private Toast activateConfigurationToast;
 
-    @SuppressLint("ShowToast")
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    @SuppressLint("ShowToast")
+    // This function is loaded in every BaseActivity child
+    protected void loadOnCreateView() {
         this.settingsManager = new SettingsManager(this);
         allConfigurations = settingsManager.getAllConfigurations();
         activateConfigurationToast = Toast.makeText(this,
@@ -51,25 +48,7 @@ public class SettingsMainActivity extends BaseActivity {
                 Toast.LENGTH_SHORT);
 
         setContentView(R.layout.activity_settings_main);
-        if (hasStoragePermission()) {
-            loadAvailableConfigurations();
-        }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
-                                           @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == PERMISSIONS_REQUEST_USE_STORAGE) {
-            if ((grantResults.length > 0) && (grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
-                loadAvailableConfigurations();
-            } else {
-                //TODO: test
-                Toast.makeText(getBaseContext(),
-                        getResources().getString(R.string.information_message_permit_must_be_granted),
-                        Toast.LENGTH_SHORT).show();
-            }
-        }
+        loadAvailableConfigurations();
     }
 
     public void createNewConfigurationsOnClick(View view) {
