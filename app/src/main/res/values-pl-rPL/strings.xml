@@ -29,7 +29,8 @@
     <string name="information_message_removing_activated_configuration">Tylko nieaktywne konfiguracje mogą zostać usunięte</string>
     <string name="information_message_least_one_configuration_must_be_available">Minimum jedna konfiguracja musi być dostępna</string>
     <string name="information_message_configuration_has_been_activated">Wybrana konfiguracja została aktywowana</string>
-    <string name="information_message_provided_incorrect_configuration_name">Podana nazwa jest niepoprawna. Nazwa powinna zawierać wyłącznie znaki alfanumeryczne</string>
+    <string name="information_message_provided_incorrect_configuration_name">Nazwa może zawierać wyłącznie znaki alfanumeryczne</string>
+    <string name="information_message_provided_incorrect_length_configuration_name">Nazwa nie może być dłuższa niż 40 znaków</string>
     <string name="information_message_provided_incorrect_mark">Podana nazwa jest niepoprawna. Nazwa powinna być jednoznakowa</string>
     <string name="information_message_permit_must_be_granted">Do prawidłowego działania aplikacji należy przyznać wymagane uprawnienia</string>
 

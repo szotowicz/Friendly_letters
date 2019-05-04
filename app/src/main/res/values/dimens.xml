@@ -8,7 +8,7 @@
     <dimen name="settings_return_button_size">40dp</dimen>
     <dimen name="settings_return_to_main_settings_padding">2dp</dimen>
     <dimen name="settings_menu_bar_padding_size_top">5dp</dimen>
-    <dimen name="settings_menu_bar_padding_size_bottom">15dp</dimen>
+    <dimen name="settings_menu_bar_padding_size_bottom">12dp</dimen>
     <dimen name="settings_menu_bar_font_size">18sp</dimen>
 
     <dimen name="settings_aspect_content_font_size">17sp</dimen>

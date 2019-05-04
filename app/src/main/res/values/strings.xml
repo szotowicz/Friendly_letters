@@ -10,6 +10,8 @@
     <string name="file_with_configurations_dir_name" translatable="false">settings</string>
     <string name="file_with_configurations_file_name" translatable="false">configurations.json</string>
     <string name="intent_name_configuration_id" translatable="false">configurationID</string>
+    <string name="intent_material_name_on_start_game" translatable="false">materialOnStartGame</string>
+    <string name="intent_command_on_start_game" translatable="false">commandOnStartGame</string>
     <string name="intent_game_report_correctly_solved" translatable="false">reportCorrectlySolved</string>
 
     <string name="start_game_title">Friendly Letters</string>
@@ -37,7 +39,8 @@
     <string name="information_message_removing_activated_configuration">Only inactive configurations can be deleted</string>
     <string name="information_message_least_one_configuration_must_be_available">At least configuration must be available</string>
     <string name="information_message_configuration_has_been_activated">The selected configuration has been activated</string>
-    <string name="information_message_provided_incorrect_configuration_name">The name you entered is incorrect. The name should only contain alphanumeric characters</string>
+    <string name="information_message_provided_incorrect_configuration_name">The name should only contain alphanumeric characters</string>
+    <string name="information_message_provided_incorrect_length_configuration_name">The name can not be longer than 40 characters</string>
     <string name="information_message_provided_incorrect_mark">The name you entered is incorrect. The name should be one-character</string>
     <string name="information_message_permit_must_be_granted">Appropriate permissions should be granted for proper operation of the application</string>
 
@@ -75,7 +78,7 @@
     <string name="settings_tab_add_new_material_clean">CLEAN</string>
     <string name="settings_tab_add_new_material_add">ADD</string>
 
-    <string name="settings_tab_learning">METHOD OF LEARNING</string>
+    <string name="settings_tab_learning">LEARNING WAY</string>
     <string name="settings_tab_learning_learning_mode">Test mode</string>
     <string name="settings_tab_learning_difficulty_level">Difficulty level:</string>
     <string name="settings_tab_learning_difficulty_level_easy">EASY</string>
