@@ -30,4 +30,7 @@ dependencies {
 
     // https://square.github.io/picasso/
     implementation 'com.squareup.picasso:picasso:2.71828'
+
+    // https://github.com/grantland/android-autofittextview
+    implementation 'me.grantland:autofittextview:0.2.1'
 }

@@ -45,10 +45,14 @@
             android:paddingTop="@dimen/settings_menu_bar_padding_size_top"
             android:paddingBottom="@dimen/settings_menu_bar_padding_size_bottom">
 
-            <Button
-                android:id="@+id/aspectButton"
+            <me.grantland.widget.AutofitTextView
+                android:id="@+id/aspect_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:gravity="center"
+                android:clickable="true"
+                android:focusable="true"
                 android:background="@android:color/transparent"
                 android:onClick="tabAspectOnClick"
                 android:text="@string/settings_tab_aspect"
@@ -64,10 +68,14 @@
             android:paddingTop="@dimen/settings_menu_bar_padding_size_top"
             android:paddingBottom="@dimen/settings_menu_bar_padding_size_bottom">
 
-            <Button
-                android:id="@+id/materialButton"
+            <me.grantland.widget.AutofitTextView
+                android:id="@+id/material_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:gravity="center"
+                android:clickable="true"
+                android:focusable="true"
                 android:background="@android:color/transparent"
                 android:onClick="tabMaterialOnClick"
                 android:text="@string/settings_tab_material"
@@ -84,10 +92,14 @@
             android:paddingTop="@dimen/settings_menu_bar_padding_size_top"
             android:paddingBottom="@dimen/settings_menu_bar_padding_size_bottom">
 
-            <Button
-                android:id="@+id/learningButton"
+            <me.grantland.widget.AutofitTextView
+                android:id="@+id/learning_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:gravity="center"
+                android:clickable="true"
+                android:focusable="true"
                 android:background="@android:color/transparent"
                 android:onClick="tabLearningOnClick"
                 android:text="@string/settings_tab_learning"
@@ -103,10 +115,14 @@
             android:paddingTop="@dimen/settings_menu_bar_padding_size_top"
             android:paddingBottom="@dimen/settings_menu_bar_padding_size_bottom">
 
-            <Button
-                android:id="@+id/reinforcementButton"
+            <me.grantland.widget.AutofitTextView
+                android:id="@+id/reinforcement_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:gravity="center"
+                android:clickable="true"
+                android:focusable="true"
                 android:background="@android:color/transparent"
                 android:onClick="tabReinforcementOnClick"
                 android:text="@string/settings_tab_reinforcement"
@@ -135,20 +151,20 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-            <LinearLayout
-                android:id="@+id/settings_resources_of_materials_clone_container"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/color_settings_materials_resources_border"
-                android:orientation="vertical">
-            </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/settings_resources_of_materials_clone_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/color_settings_materials_resources_border"
+                    android:orientation="vertical">
+                </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/settings_resources_of_materials_container"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-            </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/settings_resources_of_materials_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                </LinearLayout>
 
             </RelativeLayout>
         </ScrollView>
@@ -172,7 +188,7 @@
                 android:padding="12dp"
                 android:text="@string/settings_tab_material_button_remove_material"
                 android:textSize="@dimen/settings_material_buttons_font_size"
-                tools:ignore="NestedWeights" />
+                tools:ignore="ButtonStyle,NestedWeights" />
 
             <Button
                 android:id="@+id/tab_material_enable_material"
@@ -184,7 +200,8 @@
                 android:background="@drawable/settings_material_tab_buttons"
                 android:padding="12dp"
                 android:text="@string/settings_tab_material_button_enable_material"
-                android:textSize="@dimen/settings_material_buttons_font_size" />
+                android:textSize="@dimen/settings_material_buttons_font_size"
+                tools:ignore="ButtonStyle" />
 
             <Button
                 android:layout_width="0dp"
@@ -196,7 +213,8 @@
                 android:onClick="tabAddNewMaterialOnClick"
                 android:padding="12dp"
                 android:text="@string/settings_tab_material_button_add_new_material"
-                android:textSize="@dimen/settings_material_buttons_font_size" />
+                android:textSize="@dimen/settings_material_buttons_font_size"
+                tools:ignore="ButtonStyle" />
 
         </LinearLayout>
 

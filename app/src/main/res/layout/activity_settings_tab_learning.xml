@@ -45,10 +45,14 @@
             android:paddingTop="@dimen/settings_menu_bar_padding_size_top"
             android:paddingBottom="@dimen/settings_menu_bar_padding_size_bottom">
 
-            <Button
-                android:id="@+id/aspectButton"
+            <me.grantland.widget.AutofitTextView
+                android:id="@+id/aspect_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:gravity="center"
+                android:clickable="true"
+                android:focusable="true"
                 android:background="@android:color/transparent"
                 android:onClick="tabAspectOnClick"
                 android:text="@string/settings_tab_aspect"
@@ -64,10 +68,14 @@
             android:paddingTop="@dimen/settings_menu_bar_padding_size_top"
             android:paddingBottom="@dimen/settings_menu_bar_padding_size_bottom">
 
-            <Button
-                android:id="@+id/materialButton"
+            <me.grantland.widget.AutofitTextView
+                android:id="@+id/material_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:gravity="center"
+                android:clickable="true"
+                android:focusable="true"
                 android:background="@android:color/transparent"
                 android:onClick="tabMaterialOnClick"
                 android:text="@string/settings_tab_material"
@@ -83,10 +91,14 @@
             android:paddingTop="@dimen/settings_menu_bar_padding_size_top"
             android:paddingBottom="@dimen/settings_menu_bar_padding_size_bottom">
 
-            <Button
-                android:id="@+id/learningButton"
+            <me.grantland.widget.AutofitTextView
+                android:id="@+id/learning_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:gravity="center"
+                android:clickable="true"
+                android:focusable="true"
                 android:background="@android:color/transparent"
                 android:onClick="tabLearningOnClick"
                 android:text="@string/settings_tab_learning"
@@ -103,10 +115,14 @@
             android:paddingTop="@dimen/settings_menu_bar_padding_size_top"
             android:paddingBottom="@dimen/settings_menu_bar_padding_size_bottom">
 
-            <Button
-                android:id="@+id/reinforcementButton"
+            <me.grantland.widget.AutofitTextView
+                android:id="@+id/reinforcement_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:gravity="center"
+                android:clickable="true"
+                android:focusable="true"
                 android:background="@android:color/transparent"
                 android:onClick="tabReinforcementOnClick"
                 android:text="@string/settings_tab_reinforcement"

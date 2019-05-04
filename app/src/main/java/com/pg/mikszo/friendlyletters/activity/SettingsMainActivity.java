@@ -22,6 +22,7 @@ import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.pg.mikszo.friendlyletters.R;
@@ -30,11 +31,13 @@ import com.pg.mikszo.friendlyletters.settings.SettingsManager;
 
 import java.util.regex.Pattern;
 
+import me.grantland.widget.AutofitHelper;
+
 public class SettingsMainActivity extends BaseActivity {
 
     private SettingsManager settingsManager;
     private Configuration[] allConfigurations;
-    private Button activeConfiguration;
+    private TextView activeConfiguration;
     private Toast activateConfigurationToast;
 
     @Override
@@ -73,10 +76,6 @@ public class SettingsMainActivity extends BaseActivity {
                     Toast.makeText(getBaseContext(),
                             R.string.information_message_new_configuration_has_been_added,
                             Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(getBaseContext(),
-                            R.string.information_message_provided_incorrect_configuration_name,
-                            Toast.LENGTH_SHORT).show();
                 }
                 dialog.dismiss();
             }
@@ -109,34 +108,38 @@ public class SettingsMainActivity extends BaseActivity {
             newConfiguration.setGravity(Gravity.CENTER);
             newConfiguration.setWeightSum(1.0f);
 
-            final Button configurationNameBtn = new Button(this);
-            configurationNameBtn.setLayoutParams(new LinearLayout.LayoutParams(
+            final TextView configurationNameTextView = new TextView(this);
+            configurationNameTextView.setLayoutParams(new LinearLayout.LayoutParams(
                     0,
                     LinearLayout.LayoutParams.WRAP_CONTENT,
                     0.9f));
-            configurationNameBtn.setText(allConfigurations[i].configurationName);
-            configurationNameBtn.setOnClickListener(new View.OnClickListener() {
+            configurationNameTextView.setText(allConfigurations[i].configurationName);
+            configurationNameTextView.setTextSize(20f);
+            configurationNameTextView.setGravity(Gravity.CENTER);
+            configurationNameTextView.setSingleLine();
+            configurationNameTextView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     activateConfigurationToast.cancel();
                     activateConfiguration(configurationID);
-                    activeConfiguration = (Button)view;
-                    ((Button)view).setTextColor(getResources().getColor(R.color.color_settings_configuration_active));
-                    ((Button)view).setTypeface(null, Typeface.BOLD);
+                    activeConfiguration = (TextView)view;
+                    ((TextView)view).setTextColor(getResources().getColor(R.color.color_settings_configuration_active));
+                    ((TextView)view).setTypeface(null, Typeface.BOLD);
                     view.setBackgroundResource(R.drawable.settings_configuration_active);
                 }
             });
             if (allConfigurations[i].configurationActivated) {
-                activeConfiguration = configurationNameBtn;
+                activeConfiguration = configurationNameTextView;
                 activeConfiguration.setTextColor(getResources().getColor(R.color.color_settings_configuration_active));
                 activeConfiguration.setTypeface(null, Typeface.BOLD);
                 activeConfiguration.setBackgroundResource(R.drawable.settings_configuration_active);
             } else {
-                configurationNameBtn.setTextColor(getResources().getColor(R.color.color_settings_configuration_nonactive));
-                configurationNameBtn.setTypeface(null, Typeface.NORMAL);
-                configurationNameBtn.setBackgroundResource(R.drawable.settings_configuration_nonactive);
+                configurationNameTextView.setTextColor(getResources().getColor(R.color.color_settings_configuration_nonactive));
+                configurationNameTextView.setTypeface(null, Typeface.NORMAL);
+                configurationNameTextView.setBackgroundResource(R.drawable.settings_configuration_nonactive);
             }
-            newConfiguration.addView(configurationNameBtn);
+            AutofitHelper.create(configurationNameTextView);
+            newConfiguration.addView(configurationNameTextView);
 
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                     0,
@@ -163,7 +166,7 @@ public class SettingsMainActivity extends BaseActivity {
                             layoutParams.setMargins(20, 0, 0, 0);
                             configurationCopy.setLayoutParams(layoutParams);
 
-                            configurationNameBtn.setLayoutParams(new LinearLayout.LayoutParams(
+                            configurationNameTextView.setLayoutParams(new LinearLayout.LayoutParams(
                                     0,
                                     size,
                                     0.9f));
@@ -324,10 +327,19 @@ public class SettingsMainActivity extends BaseActivity {
 
     private boolean validateNameForConfiguration(String nameForConfiguration) {
         if (nameForConfiguration.length() <= 0 || nameForConfiguration.length() > 40) {
+            Toast.makeText(getBaseContext(),
+                    R.string.information_message_provided_incorrect_length_configuration_name,
+                    Toast.LENGTH_SHORT).show();
             return false;
         }
 
         Pattern pattern = Pattern.compile("[^a-z0-9 ]", Pattern.CASE_INSENSITIVE);
-        return !pattern.matcher(nameForConfiguration).find();
+        if (pattern.matcher(nameForConfiguration).find()) {
+            Toast.makeText(getBaseContext(),
+                    R.string.information_message_provided_incorrect_configuration_name,
+                    Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
     }
 }
