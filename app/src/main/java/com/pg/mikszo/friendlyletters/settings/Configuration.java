@@ -13,6 +13,7 @@ package com.pg.mikszo.friendlyletters.settings;
 public class Configuration {
     public String configurationName;
     public boolean configurationActivated;
+    public String lastEdition;
     public boolean testMode;
     public int difficultyLevel;
     public int numberOfSteps;

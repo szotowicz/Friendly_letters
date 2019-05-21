@@ -10,8 +10,6 @@
     <string name="file_with_configurations_dir_name" translatable="false">settings</string>
     <string name="file_with_configurations_file_name" translatable="false">configurations.json</string>
     <string name="intent_name_configuration_id" translatable="false">configurationID</string>
-    <string name="intent_material_name_on_start_game" translatable="false">materialOnStartGame</string>
-    <string name="intent_command_on_start_game" translatable="false">commandOnStartGame</string>
     <string name="intent_game_report_correctly_solved" translatable="false">reportCorrectlySolved</string>
 
     <string name="start_game_title">Friendly Letters</string>
@@ -45,10 +43,10 @@
     <string name="information_message_permit_must_be_granted">Appropriate permissions should be granted for proper operation of the application</string>
 
     <string name="information_message_positive_button_close">CLOSE</string>
-    <string name="information_message_test_mode_message">Enabled test mode means a single number of attempts per step and no commands displayed or read. A summary is displayed after each test. Remember to set the right number of steps.</string>
+    <string name="information_message_test_mode_message">Enabled test mode means a single number of attempts per step and no praise. A summary is displayed after each test. Remember to set the right number of steps.</string>
     <string name="information_message_commands_reading_message">Enabled voice command reading means that before each step one command from selected ones will be read. Remember that only alphanumeric characters are reinforced.</string>
     <string name="information_message_commands_displaying_message">The option to display commands means that one command from selected ones will be displayed in each step. Remember that only alphanumeric characters are reinforced.</string>
-    <string name="information_message_verbal_praises_reading_message">Enabled reading of vocal praise means that after each correctly performed step, one praise from selected ones will be read.</string>
+    <string name="information_message_verbal_praises_reading_message">Enabled option to read praise means that after each correctly performed step, one praise from selected ones will be read.</string>
 
     <string name="check_removing_decisions_title">Warning</string>
     <string name="check_removing_materials_decisions_message">Do you want to permanently delete all selected materials?</string>

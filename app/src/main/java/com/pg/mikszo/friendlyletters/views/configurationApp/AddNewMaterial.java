@@ -10,6 +10,7 @@
  */
 package com.pg.mikszo.friendlyletters.views.configurationApp;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -69,13 +70,14 @@ public class AddNewMaterial extends CanvasView {
         return isDrawnSomething;
     }
 
+    @SuppressLint("SimpleDateFormat")
     private String getPathForNewImage(String mark) {
         String appFolder = FileHelper.getAppFolderPath(getContext()).toString();
 
         if (appFolder != null && !appFolder.trim().equals("")) {
-            final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss", Locale.US);
+            final String timestamp = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
             String fileName  = getContext().getString(R.string.prefix_shape_file_name)
-                    + dateFormat.format(new Date()) + "_" + mark + ".png";
+                    + timestamp + "_" + mark + ".png";
 
             return appFolder + File.separator + fileName;
         } else {

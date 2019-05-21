@@ -264,10 +264,6 @@ public class SettingsMainActivity extends BaseActivity {
                     Toast.makeText(getBaseContext(),
                             R.string.information_message_new_configuration_has_been_added,
                             Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(getBaseContext(),
-                            R.string.information_message_provided_incorrect_configuration_name,
-                            Toast.LENGTH_SHORT).show();
                 }
                 dialog.dismiss();
             }
@@ -340,6 +336,7 @@ public class SettingsMainActivity extends BaseActivity {
                     Toast.LENGTH_SHORT).show();
             return false;
         }
+
         return true;
     }
 }

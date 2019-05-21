@@ -79,16 +79,27 @@ public class GameMainActivity extends BaseActivity {
         currentNumberOfRepetitions = 1;
         setContentView(R.layout.activity_game_main);
 
+        Thread readCommandOnLoad = new Thread() {
+            @Override
+            public void run() {
+                try {
+                    super.run();
+                    sleep(100);
+                } catch (Exception ignored) {
+
+                } finally {
+                    readCommand();
+                }
+            }
+        };
+        readCommandOnLoad.start();
+
         gameMainLayout = findViewById(R.id.activity_game_main_layout);
         commandTextView = findViewById(R.id.game_command_text_view);
         if (!configuration.commandsDisplaying || configuration.availableCommands.length == 0 || configuration.testMode) {
             commandTextView.setVisibility(View.INVISIBLE);
         }
 
-        final String materialNameOnStart = getIntent()
-                .getStringExtra(getString(R.string.intent_material_name_on_start_game));
-        currentCommands = getIntent()
-                .getStringExtra(getString(R.string.intent_command_on_start_game));
         drawingInGameView = findViewById(R.id.drawing_in_game_view);
         drawingInGameView.getViewTreeObserver().addOnGlobalLayoutListener(
                 new ViewTreeObserver.OnGlobalLayoutListener() {
@@ -110,8 +121,7 @@ public class GameMainActivity extends BaseActivity {
                         drawingInGameView.setStrokeWidth(imageSize * typedValue.getFloat());
                         drawingInGameView.setRadiusCursor(imageSize * typedValue.getFloat());
 
-                        generateMaterialOnStart(materialNameOnStart);
-                        updateCommandTextView();
+                        generateNewGameMaterial();
                         drawingInGameView.analyzeBackgroundPixels();
                         setTouchListener();
 
@@ -126,6 +136,9 @@ public class GameMainActivity extends BaseActivity {
                             nextMaterialButton.getLayoutParams().height = width / 7;
                             nextMaterialButton.getLayoutParams().width = width / 7;
                         }
+
+                        randomCommand();
+                        updateCommandTextView();
                     }
                 });
     }
@@ -141,55 +154,23 @@ public class GameMainActivity extends BaseActivity {
         // Game has disable onBackPressed() function
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Configuration activeConfiguration = new SettingsManager(this).getActiveConfiguration();
+        if (!configuration.configurationName.equals(activeConfiguration.configurationName)
+                || !configuration.lastEdition.equals(activeConfiguration.lastEdition)) {
+            startActivity(new Intent(getBaseContext(), GameStartActivity.class));
+            finish();
+        }
+    }
+
     public void nextMaterialOnClick(View view) {
         loadNextLevel(true);
     }
 
     public void previousMaterialOnClick(View view) {
         loadPreviousLevel();
-    }
-
-    private void generateMaterialOnStart(String materialFile) {
-        // Function generateMaterialOnStart() allows read command faster
-        GameMaterial newGameMaterial = new GameMaterial();
-
-        String[] availableBackgroundColors = configuration.backgroundColors;
-        int currentBackgroundColorNumber = new Random().nextInt(availableBackgroundColors.length);
-        gameMainLayout.setBackgroundColor(new ColorsManager(this).getBackgroundColorById(
-                availableBackgroundColors[currentBackgroundColorNumber]));
-        newGameMaterial.colorBackground = currentBackgroundColorNumber;
-
-        String[] availableMaterialColors = configuration.materialColors;
-        int currentMaterialColorNumber = new Random().nextInt(availableMaterialColors.length);
-        drawingInGameView.setMaterialColor(new ColorsManager(this).getMaterialColorById(
-                availableMaterialColors[currentMaterialColorNumber]));
-        newGameMaterial.colorMaterial = currentMaterialColorNumber;
-
-        String[] availableTraceColors = configuration.traceColors;
-        int currentTraceColorNumber = new Random().nextInt(availableTraceColors.length);
-        drawingInGameView.setTraceColor(new ColorsManager(this).getTraceColorById(
-                availableTraceColors[currentTraceColorNumber]));
-        newGameMaterial.colorTrace = currentTraceColorNumber;
-
-        try {
-            File randomAvailableBackgroundFile = FileHelper.getAbsolutePathOfFile(
-                    materialFile, this);
-
-            assert randomAvailableBackgroundFile != null;
-            Drawable randomBackground = Drawable.createFromStream(
-                    new FileInputStream(randomAvailableBackgroundFile), null);
-            randomBackground.setColorFilter(new ColorsManager(this).getMaterialColorById(
-                    availableMaterialColors[currentMaterialColorNumber]),
-                    PorterDuff.Mode.SRC_IN);
-            drawingInGameView.setMaterialImage(randomBackground);
-
-            newGameMaterial.filename = materialFile;
-            newGameMaterial.isCorrectlySolved = false;
-
-            generatedMaterials.add(newGameMaterial);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
     }
 
     private void generateNewGameMaterial() {
@@ -544,7 +525,7 @@ public class GameMainActivity extends BaseActivity {
     }
 
     private void readVerbalPraises() {
-        if (configuration.verbalPraisesReading) {
+        if (configuration.verbalPraisesReading && !configuration.testMode) {
             int randomVerbalPraisesIndex =
                     Integer.parseInt(configuration.availableVerbalPraises[
                             new Random().nextInt(configuration.availableVerbalPraises.length)]);
@@ -554,7 +535,7 @@ public class GameMainActivity extends BaseActivity {
     }
 
     private void randomCommand() {
-        if (configuration.availableCommands.length > 0 && !configuration.testMode) {
+        if (configuration.availableCommands.length > 0) {
             int randomCommandIndex = Integer.parseInt(
                     configuration.availableCommands[new Random().nextInt(
                             configuration.availableCommands.length)]);
@@ -588,7 +569,7 @@ public class GameMainActivity extends BaseActivity {
     }
 
     private void updateCommandTextView() {
-        if (configuration.commandsDisplaying && configuration.availableCommands.length > 0 && !configuration.testMode) {
+        if (configuration.commandsDisplaying && configuration.availableCommands.length > 0) {
             if (currentCommands.trim().length() == 0){
                 commandTextView.setVisibility(View.INVISIBLE);
             } else {
@@ -599,7 +580,7 @@ public class GameMainActivity extends BaseActivity {
     }
 
     private void readCommand() {
-        if (configuration.commandsReading && currentCommands.trim().length() > 1 && !configuration.testMode) {
+        if (configuration.commandsReading && currentCommands.trim().length() > 1) {
             textReader.read(currentCommands);
         }
     }
