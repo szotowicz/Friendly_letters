@@ -161,6 +161,36 @@
                 android:orientation="horizontal"
                 android:paddingTop="10dp"
                 android:paddingBottom="10dp">
+
+                <Button
+                    android:id="@+id/reinforcement_command_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="znak"
+                    android:textColor="@color/color_settings_reinforcement_button_nonactive_font"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:background="@drawable/settings_reinforcement_nonactive_buttons"
+                    tools:ignore="ButtonStyle" />
+
+                <Button
+                    android:id="@+id/reinforcement_command_2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="znak2"
+                    android:textColor="@color/color_settings_reinforcement_button_nonactive_font"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:background="@drawable/settings_reinforcement_nonactive_buttons"
+                    tools:ignore="ButtonStyle" />
             </LinearLayout>
 
             <LinearLayout
@@ -238,6 +268,67 @@
                 android:orientation="horizontal"
                 android:paddingTop="10dp"
                 android:paddingBottom="10dp">
+
+                <Button
+                    android:id="@+id/reinforcement_verbal_praise_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/settings_tab_reinforcement_verbal_praise_1"
+                    android:textColor="@color/color_settings_reinforcement_button_nonactive_font"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:background="@drawable/settings_reinforcement_nonactive_buttons"
+                    tools:ignore="ButtonStyle" />
+
+                <Button
+                    android:id="@+id/reinforcement_verbal_praise_2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/settings_tab_reinforcement_verbal_praise_2"
+                    android:textColor="@color/color_settings_reinforcement_button_nonactive_font"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:background="@drawable/settings_reinforcement_nonactive_buttons"
+                    tools:ignore="ButtonStyle" />
+
+                <Button
+                    android:id="@+id/reinforcement_verbal_praise_3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/settings_tab_reinforcement_verbal_praise_3"
+                    android:textColor="@color/color_settings_reinforcement_button_nonactive_font"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:background="@drawable/settings_reinforcement_nonactive_buttons"
+                    tools:ignore="ButtonStyle" />
+
+                <Button
+                    android:id="@+id/reinforcement_verbal_praise_4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/settings_tab_reinforcement_verbal_praise_4"
+                    android:textColor="@color/color_settings_reinforcement_button_nonactive_font"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:background="@drawable/settings_reinforcement_nonactive_buttons"
+                    tools:ignore="ButtonStyle" />
+
             </LinearLayout>
 
             <LinearLayout

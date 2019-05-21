@@ -14,21 +14,15 @@ import android.app.Activity;
 import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.pg.mikszo.friendlyletters.R;
 import com.pg.mikszo.friendlyletters.settings.Configuration;
 import com.pg.mikszo.friendlyletters.settings.ReinforcementManager;
 import com.pg.mikszo.friendlyletters.settings.SettingsManager;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 public class TabMenuReinforcement {
 
@@ -51,41 +45,40 @@ public class TabMenuReinforcement {
     }
 
     private void createViewElements() {
-        LinearLayout commandsContainer = activity.findViewById(R.id.settings_reinforcement_commands_container);
-        String[] availableCommands = new ReinforcementManager(activity).getAvailableCommands();
-        createTabReinforcementSection(commandsContainer, availableCommands, availableSections.commands);
+        final String[] availableCommands = new ReinforcementManager(activity).getAvailableCommands();
+        Button commandButton1 = activity.findViewById(R.id.reinforcement_command_1);
+        Button commandButton2 = activity.findViewById(R.id.reinforcement_command_2);
+        if (availableCommands.length >= 2) {
+            commandButton1.setText(availableCommands[0]);
+            commandButton2.setText(availableCommands[1]);
+        }
+        createTabReinforcementSection(new Button[] {commandButton1, commandButton2}, availableSections.commands);
 
         CheckBox commandsReading = activity.findViewById(R.id.settings_reinforcement_commands_reading);
         commandsReading.setChecked(configuration.commandsReading);
-        if (configuration.testMode) {
-            commandsReading.setEnabled(false);
-        } else {
-            commandsReading.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                    configuration.commandsReading = !configuration.commandsReading;
-                    settingsManager.updateFileWithConfigurations(configuration, configurationID);
-                }
-            });
-        }
+        commandsReading.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                configuration.commandsReading = !configuration.commandsReading;
+                settingsManager.updateFileWithConfigurations(configuration, configurationID);
+            }
+        });
 
         CheckBox commandsDisplaying = activity.findViewById(R.id.settings_reinforcement_commands_displaying);
         commandsDisplaying.setChecked(configuration.commandsDisplaying);
-        if (configuration.testMode) {
-            commandsDisplaying.setEnabled(false);
-        } else {
-            commandsDisplaying.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                    configuration.commandsDisplaying = !configuration.commandsDisplaying;
-                    settingsManager.updateFileWithConfigurations(configuration, configurationID);
-                }
-            });
-        }
+        commandsDisplaying.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                configuration.commandsDisplaying = !configuration.commandsDisplaying;
+                settingsManager.updateFileWithConfigurations(configuration, configurationID);
+            }
+        });
 
-        LinearLayout verbalPraisesContainer = activity.findViewById(R.id.settings_reinforcement_verbal_praises_container);
-        String[] availableVerbalPraises = new ReinforcementManager(activity).getAvailableVerbalPraises();
-        createTabReinforcementSection(verbalPraisesContainer, availableVerbalPraises, availableSections.verbalPraises);
+        createTabReinforcementSection(new Button[] {
+                activity.findViewById(R.id.reinforcement_verbal_praise_1),
+                activity.findViewById(R.id.reinforcement_verbal_praise_2),
+                activity.findViewById(R.id.reinforcement_verbal_praise_3),
+                activity.findViewById(R.id.reinforcement_verbal_praise_4)}, availableSections.verbalPraises);
 
         CheckBox verbalPraisesReading = activity.findViewById(R.id.settings_reinforcement_verbal_praises_reading);
         verbalPraisesReading.setChecked(configuration.verbalPraisesReading);
@@ -102,8 +95,7 @@ public class TabMenuReinforcement {
         }
     }
 
-    private void createTabReinforcementSection(final LinearLayout layoutContainer,
-                                               final String[] buttonsText, final availableSections section) {
+    private void createTabReinforcementSection(final Button[] buttonsInSection, final availableSections section) {
         final Drawable activeButtonDrawable = ContextCompat.getDrawable(
                 activity, R.drawable.settings_reinforcement_active_buttons);
         final Drawable nonactiveButtonDrawable = ContextCompat.getDrawable(
@@ -113,27 +105,20 @@ public class TabMenuReinforcement {
             activeButtons = configuration.availableCommands;
         } else {
             activeButtons = configuration.availableVerbalPraises;
+            if (configuration.testMode) {
+                for (Button buttonPraise : buttonsInSection) {
+                    buttonPraise.setEnabled(false);
+                }
+            }
         }
 
-        for (int buttonId = 0; buttonId < buttonsText.length; buttonId++) {
-            final Button newButton = new Button(activity);
-            newButton.setText(buttonsText[buttonId]);
-
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                    ViewGroup.LayoutParams.WRAP_CONTENT,
-                    ViewGroup.LayoutParams.WRAP_CONTENT);
-            params.setMargins(10, 0, 10, 0);
-            newButton.setLayoutParams(params);
-            newButton.setPadding(30, 20, 30, 20);
+        for (int buttonId = 0; buttonId < buttonsInSection.length; buttonId++) {
+            final Button newButton = buttonsInSection[buttonId];
 
             if (isButtonActive(buttonId, activeButtons)) {
                 newButton.setBackground(activeButtonDrawable);
                 newButton.setTextColor(activity.getResources()
                         .getColor(R.color.color_settings_reinforcement_button_active_font));
-            } else {
-                newButton.setBackground(nonactiveButtonDrawable);
-                newButton.setTextColor(activity.getResources()
-                        .getColor(R.color.color_settings_reinforcement_button_nonactive_font));
             }
 
             final int finalButtonId = buttonId;
@@ -179,8 +164,6 @@ public class TabMenuReinforcement {
                     settingsManager.updateFileWithConfigurations(configuration, configurationID);
                 }
             });
-
-            layoutContainer.addView(newButton);
         }
     }
 

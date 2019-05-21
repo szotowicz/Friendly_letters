@@ -13,6 +13,7 @@ package com.pg.mikszo.friendlyletters.activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Bundle;
 import android.text.InputType;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -20,7 +21,6 @@ import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.pg.mikszo.friendlyletters.R;
@@ -44,6 +44,7 @@ public class SettingsTabsActivity extends BaseActivity {
         settingsManager = new SettingsManager(this);
         this.configurationID = getIntent().getIntExtra(
                 getResources().getString(R.string.intent_name_configuration_id), 0);
+        selectedTab = availableTabs.aspect;
         new TabMenuAspect(this, settingsManager, configurationID);
     }
 

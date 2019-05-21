@@ -10,6 +10,7 @@
  */
 package com.pg.mikszo.friendlyletters.settings;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 
 import com.google.gson.Gson;
@@ -21,8 +22,10 @@ import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 public class SettingsManager {
@@ -117,7 +120,9 @@ public class SettingsManager {
         }
     }
 
+    @SuppressLint("SimpleDateFormat")
     public void updateFileWithConfigurations(Configuration configurationToUpdate, int configurationID) {
+        configurationToUpdate.lastEdition = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
         Configuration[] allConfigurations = getConfigurationsFromJSON();
         allConfigurations[configurationID] = configurationToUpdate;
         updateFileWithConfigurations(allConfigurations);

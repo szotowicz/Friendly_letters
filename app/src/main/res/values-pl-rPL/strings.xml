@@ -35,7 +35,7 @@
     <string name="information_message_permit_must_be_granted">Do prawidłowego działania aplikacji należy przyznać wymagane uprawnienia</string>
 
     <string name="information_message_positive_button_close">ZAMKNIJ</string>
-    <string name="information_message_test_mode_message">Włączony tryb testu oznacza pojedynczą liczbę prób na każdy krok oraz brak wyświetlanych i czytanych poleceń. Po każdym teście wyświetlane jest podsumowanie. Pamiętaj o ustawieniu odpowiedniej liczby kroków.</string>
+    <string name="information_message_test_mode_message">Włączony tryb testu oznacza pojedynczą liczbę prób na każdy krok oraz brak pochwał. Po każdym teście wyświetlane jest podsumowanie. Pamiętaj o ustawieniu odpowiedniej liczby kroków.</string>
     <string name="information_message_commands_reading_message">Włączona opcja odczytywania głosowego poleceń oznacza, że przed każdym krokiem zostanie odczytane jedno polecenie spośród wybranych. Pamiętaj, że tylko znaki alfanumeryczne są wzmacniane.</string>
     <string name="information_message_commands_displaying_message">Włączona opcja wyświetlania poleceń oznacza, że w każdy kroku zostanie wyświetlone jedno polecenie spośród wybranych. Pamiętaj, że tylko znaki alfanumeryczne są wzmacniane.</string>
     <string name="information_message_verbal_praises_reading_message">Włączona opcja odczytywania głosowego pochwał oznacza, że po każdym poprawnie wykonanym kroku zostanie odczytana jedna pochwała spośród wybranych.</string>
