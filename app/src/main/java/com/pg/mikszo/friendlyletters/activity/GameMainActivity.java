@@ -20,7 +20,11 @@ import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewTreeObserver;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -79,26 +83,25 @@ public class GameMainActivity extends BaseActivity {
         currentNumberOfRepetitions = 1;
         setContentView(R.layout.activity_game_main);
 
-        Thread readCommandOnLoad = new Thread() {
+        gameMainLayout = findViewById(R.id.activity_game_main_layout);
+        commandTextView = findViewById(R.id.game_command_text_view);
+        if (!configuration.commandsDisplaying || configuration.availableCommands.length == 0 || configuration.testMode) {
+            commandTextView.setVisibility(View.INVISIBLE);
+        }
+
+        new Thread() {
             @Override
             public void run() {
                 try {
                     super.run();
-                    sleep(100);
+                    sleep(500);
                 } catch (Exception ignored) {
 
                 } finally {
                     readCommand();
                 }
             }
-        };
-        readCommandOnLoad.start();
-
-        gameMainLayout = findViewById(R.id.activity_game_main_layout);
-        commandTextView = findViewById(R.id.game_command_text_view);
-        if (!configuration.commandsDisplaying || configuration.availableCommands.length == 0 || configuration.testMode) {
-            commandTextView.setVisibility(View.INVISIBLE);
-        }
+        }.start();
 
         drawingInGameView = findViewById(R.id.drawing_in_game_view);
         drawingInGameView.getViewTreeObserver().addOnGlobalLayoutListener(
@@ -123,7 +126,6 @@ public class GameMainActivity extends BaseActivity {
 
                         generateNewGameMaterial();
                         drawingInGameView.analyzeBackgroundPixels();
-                        setTouchListener();
 
                         final Button previousMaterialButton = findViewById(R.id.game_previous_material);
                         final Button nextMaterialButton = findViewById(R.id.game_next_material);
@@ -141,6 +143,27 @@ public class GameMainActivity extends BaseActivity {
                         updateCommandTextView();
                     }
                 });
+
+        final ImageView animationImage = findViewById(R.id.game_animation_image);
+        Animation animation = AnimationUtils.loadAnimation(this, R.anim.animation_before_game);
+        animationImage.setAnimation(animation);
+        animation.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) { }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                animationImage.setVisibility(View.INVISIBLE);
+                setTouchListener();
+                Button previousMaterialButton = findViewById(R.id.game_previous_material);
+                Button nextMaterialButton = findViewById(R.id.game_next_material);
+                previousMaterialButton.setEnabled(true);
+                nextMaterialButton.setEnabled(true);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) { }
+        });
     }
 
     @Override
@@ -352,10 +375,8 @@ public class GameMainActivity extends BaseActivity {
                 result = false;
             } else if (backgroundPixels * 0.8 > currentTrace) {
                 result = false;
-            } else if (backgroundPixels * 1.30 < currentTrace) {
-                result = false;
             } else {
-                result = true;
+                result = !(backgroundPixels * 1.30 < currentTrace);
             }
         } else if (configuration.difficultyLevel == 1) {
             // Medium level policy:
@@ -366,10 +387,8 @@ public class GameMainActivity extends BaseActivity {
                 result = false;
             } else if (backgroundPixels * 0.85 > currentTrace) {
                 result = false;
-            } else if (backgroundPixels * 1.25 < currentTrace) {
-                result = false;
             } else {
-                result = true;
+                result = !(backgroundPixels * 1.25 < currentTrace);
             }
         } else if (configuration.difficultyLevel == 2) {
             // Hard level policy:
@@ -380,10 +399,8 @@ public class GameMainActivity extends BaseActivity {
                 result = false;
             } else if (backgroundPixels * 0.9 > currentTrace) {
                 result = false;
-            } else if (backgroundPixels * 1.20 < currentTrace) {
-                result = false;
             } else {
-                result = true;
+                result = !(backgroundPixels * 1.20 < currentTrace);
             }
         } else {
             result = false;

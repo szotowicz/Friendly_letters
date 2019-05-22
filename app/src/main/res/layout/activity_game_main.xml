@@ -29,6 +29,14 @@
         android:textSize="20sp"
         tools:ignore="RelativeOverlap" />
 
+    <ImageButton
+        android:id="@+id/game_animation_image"
+        android:layout_width="350dp"
+        android:layout_height="350dp"
+        android:animateLayoutChanges="true"
+        android:layout_centerInParent="true"
+        android:background="@drawable/smiley_face" />
+
     <Button
         android:id="@+id/game_previous_material"
         android:layout_width="@dimen/game_change_material_buttons_size"
@@ -40,6 +48,7 @@
         android:layout_marginLeft="@dimen/game_buttons_margin"
         android:layout_marginBottom="@dimen/game_buttons_margin"
         android:onClick="previousMaterialOnClick"
+        android:enabled="false"
         android:background="@drawable/previous_material" />
 
     <Button
@@ -53,6 +62,7 @@
         android:layout_marginRight="@dimen/game_buttons_margin"
         android:layout_marginBottom="@dimen/game_buttons_margin"
         android:onClick="nextMaterialOnClick"
+        android:enabled="false"
         android:background="@drawable/next_material" />
 
 </RelativeLayout>
