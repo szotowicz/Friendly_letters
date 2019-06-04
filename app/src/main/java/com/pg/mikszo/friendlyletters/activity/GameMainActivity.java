@@ -85,7 +85,9 @@ public class GameMainActivity extends BaseActivity {
 
         gameMainLayout = findViewById(R.id.activity_game_main_layout);
         commandTextView = findViewById(R.id.game_command_text_view);
-        if (!configuration.commandsDisplaying || configuration.availableCommands.length == 0 || configuration.testMode) {
+        if (!configuration.commandsDisplaying
+                || configuration.testMode
+                || configuration.availableCommands.length == 0) {
             commandTextView.setVisibility(View.INVISIBLE);
         }
 
@@ -94,7 +96,7 @@ public class GameMainActivity extends BaseActivity {
             public void run() {
                 try {
                     super.run();
-                    sleep(500);
+                    sleep(2000);
                 } catch (Exception ignored) {
 
                 } finally {
@@ -547,7 +549,7 @@ public class GameMainActivity extends BaseActivity {
                     Integer.parseInt(configuration.availableVerbalPraises[
                             new Random().nextInt(configuration.availableVerbalPraises.length)]);
             String randomVerbalPraises = availableVerbalPraises[randomVerbalPraisesIndex];
-            textReader.read(randomVerbalPraises);
+            textReader.readPraise(randomVerbalPraises);
         }
     }
 
@@ -598,7 +600,7 @@ public class GameMainActivity extends BaseActivity {
 
     private void readCommand() {
         if (configuration.commandsReading && currentCommands.trim().length() > 1) {
-            textReader.read(currentCommands);
+            textReader.readCommand(currentCommands);
         }
     }
 }
