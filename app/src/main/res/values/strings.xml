@@ -102,5 +102,28 @@
     <string name="settings_tab_reinforcement_verbal_praise_4">Great</string>
 
     <string name="text_reader_exception_one">one</string>
+    <string name="text_reader_exception_b">b</string>
+    <string name="text_reader_exception_c">c</string>
+    <string name="text_reader_exception_cc">c</string>
+    <string name="text_reader_exception_d">d</string>
+    <string name="text_reader_exception_f">f</string>
+    <string name="text_reader_exception_g">g</string>
+    <string name="text_reader_exception_h">h</string>
+    <string name="text_reader_exception_j">j</string>
+    <string name="text_reader_exception_k">k</string>
+    <string name="text_reader_exception_l">l</string>
+    <string name="text_reader_exception_ll">l</string>
+    <string name="text_reader_exception_m">m</string>
+    <string name="text_reader_exception_n">n</string>
+    <string name="text_reader_exception_nn">n</string>
+    <string name="text_reader_exception_p">p</string>
+    <string name="text_reader_exception_r">r</string>
+    <string name="text_reader_exception_s">s</string>
+    <string name="text_reader_exception_ss">s</string>
+    <string name="text_reader_exception_t">t</string>
+    <string name="text_reader_exception_w">w</string>
+    <string name="text_reader_exception_z">z</string>
+    <string name="text_reader_exception_zz">z</string>
+    <string name="text_reader_exception_zzz">z</string>
 
 </resources>

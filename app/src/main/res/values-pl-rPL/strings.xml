@@ -94,5 +94,28 @@
     <string name="settings_tab_reinforcement_verbal_praise_4">Super</string>
 
     <string name="text_reader_exception_one">jeden</string>
+    <string name="text_reader_exception_b">by</string>
+    <string name="text_reader_exception_c">cy</string>
+    <string name="text_reader_exception_cc">ci</string>
+    <string name="text_reader_exception_d">dy</string>
+    <string name="text_reader_exception_f">fy</string>
+    <string name="text_reader_exception_g">g</string>
+    <string name="text_reader_exception_h">h</string>
+    <string name="text_reader_exception_j">j</string>
+    <string name="text_reader_exception_k">k</string>
+    <string name="text_reader_exception_l">l</string>
+    <string name="text_reader_exception_ll">ły</string>
+    <string name="text_reader_exception_m">my</string>
+    <string name="text_reader_exception_n">ny</string>
+    <string name="text_reader_exception_nn">ni</string>
+    <string name="text_reader_exception_p">py</string>
+    <string name="text_reader_exception_r">r</string>
+    <string name="text_reader_exception_s">s</string>
+    <string name="text_reader_exception_ss">ś</string>
+    <string name="text_reader_exception_t">ty</string>
+    <string name="text_reader_exception_w">wy</string>
+    <string name="text_reader_exception_z">zy</string>
+    <string name="text_reader_exception_zz">źi</string>
+    <string name="text_reader_exception_zzz">ży</string>
 
 </resources>
