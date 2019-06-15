@@ -24,7 +24,6 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -70,6 +69,8 @@ public class GameMainActivity extends BaseActivity {
     private Handler delayResetHandler = new Handler();
     private Handler delayCheckingHandler = new Handler();
     private int delayCheckingHandlerMillis = 700;
+    private Handler delayNextMaterialHandler = new Handler();
+    private Handler delayPreviousMaterialHandler = new Handler();
 
     @Override
     // This function is loaded in every BaseActivity child
@@ -108,6 +109,7 @@ public class GameMainActivity extends BaseActivity {
         drawingInGameView = findViewById(R.id.drawing_in_game_view);
         drawingInGameView.getViewTreeObserver().addOnGlobalLayoutListener(
                 new ViewTreeObserver.OnGlobalLayoutListener() {
+                    @SuppressLint("ClickableViewAccessibility")
                     @Override
                     public void onGlobalLayout() {
                         drawingInGameView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
@@ -135,10 +137,51 @@ public class GameMainActivity extends BaseActivity {
                             previousMaterialButton.setVisibility(View.INVISIBLE);
                             nextMaterialButton.setVisibility(View.INVISIBLE);
                         } else {
-                            previousMaterialButton.getLayoutParams().height = width / 7;
-                            previousMaterialButton.getLayoutParams().width = width / 7;
-                            nextMaterialButton.getLayoutParams().height = width / 7;
-                            nextMaterialButton.getLayoutParams().width = width / 7;
+                            final int buttonSize = width / 8;
+                            previousMaterialButton.getLayoutParams().height = buttonSize;
+                            previousMaterialButton.getLayoutParams().width = buttonSize;
+                            nextMaterialButton.getLayoutParams().height = buttonSize;
+                            nextMaterialButton.getLayoutParams().width = buttonSize;
+
+                            RelativeLayout.LayoutParams pParams = (RelativeLayout.LayoutParams)previousMaterialButton.getLayoutParams();
+                            pParams.setMargins(pParams.leftMargin, 0, 0, (height / 2) - (buttonSize / 2));
+
+                            RelativeLayout.LayoutParams nParams = (RelativeLayout.LayoutParams)nextMaterialButton.getLayoutParams();
+                            nParams.setMargins(0, 0, nParams.rightMargin, (height / 2) - (buttonSize / 2));
+
+                            previousMaterialButton.setOnTouchListener(new View.OnTouchListener() {
+                                @Override
+                                public boolean onTouch(View view, MotionEvent motionEvent) {
+                                    if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
+                                        delayPreviousMaterialHandler.postDelayed(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                loadPreviousLevel();
+                                            }
+                                        }, 500);
+                                    } else if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
+                                        delayPreviousMaterialHandler.removeCallbacksAndMessages(null);
+                                    }
+                                    return false;
+                                }
+                            });
+
+                            nextMaterialButton.setOnTouchListener(new View.OnTouchListener() {
+                                @Override
+                                public boolean onTouch(View view, MotionEvent motionEvent) {
+                                    if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
+                                        delayNextMaterialHandler.postDelayed(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                loadNextLevel(true);
+                                            }
+                                        }, 500);
+                                    } else if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
+                                        delayNextMaterialHandler.removeCallbacksAndMessages(null);
+                                    }
+                                    return false;
+                                }
+                            });
                         }
 
                         randomCommand();
@@ -190,14 +233,6 @@ public class GameMainActivity extends BaseActivity {
         }
     }
 
-    public void nextMaterialOnClick(View view) {
-        loadNextLevel(true);
-    }
-
-    public void previousMaterialOnClick(View view) {
-        loadPreviousLevel();
-    }
-
     private void generateNewGameMaterial() {
         GameMaterial newGameMaterial = new GameMaterial();
 
@@ -219,23 +254,23 @@ public class GameMainActivity extends BaseActivity {
                 availableTraceColors[currentTraceColorNumber]));
         newGameMaterial.colorTrace = currentTraceColorNumber;
 
-        String[] availableShapes = configuration.availableShapes;
-        if (availableShapes.length == 0) {
+        String[] availableMaterials = configuration.availableMaterials;
+        if (availableMaterials.length == 0) {
             Toast.makeText(this, R.string.information_message_lack_of_materials,
                     Toast.LENGTH_SHORT).show();
         } else {
             try {
-                int randomAvailableBackground = new Random().nextInt(availableShapes.length);
-                String materialFile = availableShapes[randomAvailableBackground];
-                if (availableShapes.length > 1 && generatedMaterials.size() > 0) {
+                int randomAvailableBackground = new Random().nextInt(availableMaterials.length);
+                String materialFile = availableMaterials[randomAvailableBackground];
+                if (availableMaterials.length > 1 && generatedMaterials.size() > 0) {
                     while (true) {
-                        randomAvailableBackground = new Random().nextInt(availableShapes.length);
-                        materialFile = availableShapes[randomAvailableBackground];
+                        randomAvailableBackground = new Random().nextInt(availableMaterials.length);
+                        materialFile = availableMaterials[randomAvailableBackground];
 
                         if (!materialFile.equals(generatedMaterials.get(currentStep - 1).filename)) {
-                            if (availableShapes.length > 2 && generatedMaterials.size() > 1) {
+                            if (availableMaterials.length > 2 && generatedMaterials.size() > 1) {
                                 if (!materialFile.equals(generatedMaterials.get(currentStep - 2).filename)) {
-                                    if (availableShapes.length > 3 && generatedMaterials.size() > 2) {
+                                    if (availableMaterials.length > 3 && generatedMaterials.size() > 2) {
                                         if (!materialFile.equals(generatedMaterials.get(currentStep - 3).filename)) {
                                             break;
                                         }
@@ -250,6 +285,7 @@ public class GameMainActivity extends BaseActivity {
                     }
                 }
 
+                drawingInGameView.setOffsetOfStartPoint(materialFile);
                 File randomAvailableBackgroundFile = FileHelper.getAbsolutePathOfFile(
                         materialFile, this);
 
@@ -286,6 +322,7 @@ public class GameMainActivity extends BaseActivity {
         drawingInGameView.setTraceColor(new ColorsManager(this).getTraceColorById(
                 configuration.traceColors[restoredGameMaterial.colorTrace]));
 
+        drawingInGameView.setOffsetOfStartPoint(restoredGameMaterial.filename);
         File randomAvailableBackgroundFile = FileHelper.getAbsolutePathOfFile(
                 restoredGameMaterial.filename, this);
 

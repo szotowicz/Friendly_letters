@@ -32,7 +32,8 @@ public class CanvasView extends View {
     protected float radiusCursor = 20.0f;
     protected float xPosition = 0.0f;
     protected float yPosition = 0.0f;
-
+    protected int xStartOfMark = 0;
+    protected int yStartOfMark = 0;
 
     public CanvasView(Context context, AttributeSet attributeSet) {
         super(context, attributeSet);
@@ -48,9 +49,15 @@ public class CanvasView extends View {
     @SuppressLint("ClickableViewAccessibility")
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        isDrawnSomething = true;
         xPosition = event.getX();
         yPosition = event.getY();
+
+        if (!isDrawnSomething) {
+            xStartOfMark = (int)(xPosition * 100 / this.getWidth());
+            yStartOfMark = (int)(yPosition * 100 / this.getHeight());
+        }
+
+        isDrawnSomething = true;
 
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:

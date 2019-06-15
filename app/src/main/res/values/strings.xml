@@ -63,6 +63,7 @@
 
     <string name="settings_configurations">LIST OF CONFIGURATIONS</string>
     <string name="settings_configurations_create_new">CREATE</string>
+    <string name="settings_configurations_default_name">Default Configuration</string>
 
     <string name="settings_tab_aspect">APPEARANCE</string>
     <string name="settings_tab_aspect_material_color">Color of pattern:</string>

@@ -22,7 +22,7 @@ public class Configuration {
     public String[] materialColors;
     public String[] traceColors;
     public String[] backgroundColors;
-    public String[] availableShapes;
+    public String[] availableMaterials;
     public String[] availableCommands;
     public boolean commandsReading;
     public boolean commandsDisplaying;

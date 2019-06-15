@@ -77,7 +77,7 @@ public class AddNewMaterial extends CanvasView {
         if (appFolder != null && !appFolder.trim().equals("")) {
             final String timestamp = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
             String fileName  = getContext().getString(R.string.prefix_shape_file_name)
-                    + timestamp + "_" + mark + ".png";
+                    + timestamp + "_W" + xStartOfMark + "WH" + yStartOfMark + "H_" + mark + ".png";
 
             return appFolder + File.separator + fileName;
         } else {
