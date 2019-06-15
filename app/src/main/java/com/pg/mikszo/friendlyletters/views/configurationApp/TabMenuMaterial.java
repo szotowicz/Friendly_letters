@@ -124,7 +124,7 @@ public class TabMenuMaterial {
                     }
                 });
 
-                if (isMaterialEnabled(files[i * materialsInRow + j], configuration.availableShapes)) {
+                if (isMaterialEnabled(files[i * materialsInRow + j], configuration.availableMaterials)) {
                     cloneBackgroundSingleMaterial.setBackground(
                             ContextCompat.getDrawable(activity, R.drawable.settings_resources_of_materials_enabled));
                     enabledMaterials.add(new Material(singleMaterial, cloneBackgroundSingleMaterial));
@@ -352,7 +352,7 @@ public class TabMenuMaterial {
             enabledList.add(backgroundFileName);
         }
 
-        configuration.availableShapes = enabledList.toArray(new String[0]);
+        configuration.availableMaterials = enabledList.toArray(new String[0]);
         settingsManager.updateFileWithConfigurations(configuration, configurationID);
     }
 

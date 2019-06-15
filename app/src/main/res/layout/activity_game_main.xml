@@ -46,8 +46,7 @@
         android:layout_alignParentBottom="true"
         android:layout_marginStart="@dimen/game_buttons_margin"
         android:layout_marginLeft="@dimen/game_buttons_margin"
-        android:layout_marginBottom="@dimen/game_buttons_margin"
-        android:onClick="previousMaterialOnClick"
+        android:layout_marginBottom="250dp"
         android:enabled="false"
         android:background="@drawable/previous_material" />
 
@@ -60,8 +59,7 @@
         android:layout_alignParentBottom="true"
         android:layout_marginEnd="@dimen/game_buttons_margin"
         android:layout_marginRight="@dimen/game_buttons_margin"
-        android:layout_marginBottom="@dimen/game_buttons_margin"
-        android:onClick="nextMaterialOnClick"
+        android:layout_marginBottom="250dp"
         android:enabled="false"
         android:background="@drawable/next_material" />
 

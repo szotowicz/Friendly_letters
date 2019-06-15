@@ -15,6 +15,9 @@ import android.content.res.AssetManager;
 import android.os.Environment;
 import android.util.Log;
 
+import com.pg.mikszo.friendlyletters.settings.Configuration;
+import com.pg.mikszo.friendlyletters.settings.SettingsManager;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -130,6 +133,11 @@ public class FileHelper {
         copyFileAssets(context.getString(R.string.file_with_configurations_dir_name)
                         + File.separator + context.getString(R.string.file_with_configurations_file_name),
                 context.getString(R.string.file_with_configurations_file_name), context);
+
+        SettingsManager settingsManager = new SettingsManager(context);
+        Configuration activeConfiguration = settingsManager.getActiveConfiguration();
+        activeConfiguration.configurationName = context.getString(R.string.settings_configurations_default_name);
+        settingsManager.updateFileWithConfigurations(new Configuration[] { activeConfiguration });
     }
 
     public static List<String> getMatchesFiles(String[] files, Context context) {
