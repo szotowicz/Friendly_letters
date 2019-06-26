@@ -61,7 +61,7 @@ public class GameMainActivity extends BaseActivity {
     private TextReader textReader;
 
     private int currentStep;
-    private int currentNumberOfRepetitions;
+    private int currentRepetition;
     private List<GameMaterial> generatedMaterials = new ArrayList<>();
 
     private long timeOfStartLevel = 0;
@@ -81,7 +81,7 @@ public class GameMainActivity extends BaseActivity {
         textReader = new TextReader(this);
 
         currentStep = 1;
-        currentNumberOfRepetitions = 1;
+        currentRepetition = 1;
         setContentView(R.layout.activity_game_main);
 
         gameMainLayout = findViewById(R.id.activity_game_main_layout);
@@ -285,7 +285,6 @@ public class GameMainActivity extends BaseActivity {
                     }
                 }
 
-                drawingInGameView.setOffsetOfStartPoint(materialFile);
                 File randomAvailableBackgroundFile = FileHelper.getAbsolutePathOfFile(
                         materialFile, this);
 
@@ -306,6 +305,7 @@ public class GameMainActivity extends BaseActivity {
                 newGameMaterial.isCorrectlySolved = false;
 
                 generatedMaterials.add(newGameMaterial);
+                drawingInGameView.setOffsetOfStartPoint(newGameMaterial);
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
@@ -322,7 +322,7 @@ public class GameMainActivity extends BaseActivity {
         drawingInGameView.setTraceColor(new ColorsManager(this).getTraceColorById(
                 configuration.traceColors[restoredGameMaterial.colorTrace]));
 
-        drawingInGameView.setOffsetOfStartPoint(restoredGameMaterial.filename);
+        drawingInGameView.setOffsetOfStartPoint(restoredGameMaterial);
         File randomAvailableBackgroundFile = FileHelper.getAbsolutePathOfFile(
                 restoredGameMaterial.filename, this);
 
@@ -389,8 +389,7 @@ public class GameMainActivity extends BaseActivity {
                                     }, 1000);
                                 }
                                 delayCheckingHandler.removeCallbacksAndMessages(null);
-                            }
-                        }, delayCheckingHandlerMillis);
+                            }}, delayCheckingHandlerMillis);
                     }
                 }
                 return false;
@@ -399,6 +398,10 @@ public class GameMainActivity extends BaseActivity {
     }
 
     private boolean checkCorrectnessOfDrawing(boolean isEndOfTime) {
+        if (drawingInGameView.displayStartPointOnMark) {
+            return false;
+        }
+
         boolean result;
         int backgroundPixels = drawingInGameView.getBackgroundImagePixels();
         int[] currentPixels = drawingInGameView.analyzeTracePixels();
@@ -465,7 +468,7 @@ public class GameMainActivity extends BaseActivity {
         new LoggerCSV(this).addNewRecord(loggerStatus,
                 generatedMaterials.get(currentStep - 1), configuration,
                 backgroundPixels, currentBackground, currentTrace,
-                currentStep, currentNumberOfRepetitions, time);
+                currentStep, currentRepetition, time);
 
         if (result) {
             generatedMaterials.get(currentStep - 1).isCorrectlySolved = true;
@@ -477,7 +480,7 @@ public class GameMainActivity extends BaseActivity {
     private void resetCurrentLevel() {
         timeLimitHandler.removeCallbacksAndMessages(null);
         drawingInGameView.cleanScreen();
-        currentNumberOfRepetitions++;
+        currentRepetition++;
         timeOfStartLevel = 0;
 
         int limitOfRepetitions = 1;
@@ -485,7 +488,7 @@ public class GameMainActivity extends BaseActivity {
             limitOfRepetitions = configuration.numberOfRepetitions;
         }
 
-        if (currentNumberOfRepetitions > limitOfRepetitions) {
+        if (currentRepetition > limitOfRepetitions) {
             if (currentStep == configuration.numberOfSteps) {
                 gameOver();
             } else {
@@ -494,6 +497,8 @@ public class GameMainActivity extends BaseActivity {
         } else {
             readCommand();
         }
+
+        drawingInGameView.setCurrentStepAndRepetition(currentStep, currentRepetition);
     }
 
     private void loadNextLevel(boolean fromOnClick) {
@@ -511,7 +516,7 @@ public class GameMainActivity extends BaseActivity {
         if (currentStep == configuration.numberOfSteps) {
             gameOver();
         } else {
-            currentNumberOfRepetitions = 1;
+            currentRepetition = 1;
             if (currentStep == generatedMaterials.size()) {
                 generateNewGameMaterial();
             } else if (currentStep < generatedMaterials.size()) {
@@ -538,6 +543,7 @@ public class GameMainActivity extends BaseActivity {
 
             drawingInGameView.cleanScreen();
             timeOfStartLevel = 0;
+            currentRepetition = 1;
 
             currentStep--;
             restoreGeneratedGameMaterial(currentStep - 1);
@@ -559,7 +565,7 @@ public class GameMainActivity extends BaseActivity {
         new LoggerCSV(this).addNewRecord(status,
                 generatedMaterials.get(currentStep - 1), configuration,
                 backgroundPixels, currentBackground, currentTrace,
-                currentStep, currentNumberOfRepetitions, time);
+                currentStep, currentRepetition, time);
     }
 
     private void gameOver() {
@@ -633,6 +639,7 @@ public class GameMainActivity extends BaseActivity {
                 commandTextView.setText(currentCommands);
             }
         }
+        drawingInGameView.setCurrentStepAndRepetition(currentStep, currentRepetition);
     }
 
     private void readCommand() {

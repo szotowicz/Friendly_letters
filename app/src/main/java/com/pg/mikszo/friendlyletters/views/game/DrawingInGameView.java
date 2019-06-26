@@ -20,26 +20,35 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
+import com.pg.mikszo.friendlyletters.logger.LoggerCSV;
+import com.pg.mikszo.friendlyletters.settings.Configuration;
+import com.pg.mikszo.friendlyletters.settings.SettingsManager;
 import com.pg.mikszo.friendlyletters.views.CanvasView;
+import com.pg.mikszo.friendlyletters.views.configurationApp.Material;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class DrawingInGameView extends CanvasView {
     private Drawable materialImage;
+    private Configuration configuration;
+    private int currentStep;
+    private int currentRepetition;
+    private GameMaterial currentMaterial;
     private int materialColor;
     private int backgroundImageLeft;
     private int backgroundImageRight;
     private int backgroundImageTop;
     private int backgroundImageBottom;
     private int backgroundImagePixels = -1;
-    private boolean displayStartPointOnMark = true;
     private float startPointOffsetWidth = -0.1f;
     private float startPointOffsetHeight = -0.1f;
+    public boolean displayStartPointOnMark = true;
     public boolean isTouchScreenEnabled = false;
 
     public DrawingInGameView(Context context, AttributeSet attributeSet) {
         super(context, attributeSet);
+        this.configuration = new SettingsManager(context).getActiveConfiguration();
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -53,9 +62,14 @@ public class DrawingInGameView extends CanvasView {
 
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
-                        if (displayStartPointOnMark && doesDrawWell(xPosition, yPosition, traceColor)) {
-                            displayStartPointOnMark = false;
-                            isPathStarted = true;
+                        if (displayStartPointOnMark) {
+                            if (doesDrawWell(xPosition, yPosition, traceColor)) {
+                                displayStartPointOnMark = false;
+                                isPathStarted = true;
+                                reportStartDrawing(LoggerCSV.loggerStatus.START_FROM_POINT);
+                            } else {
+                                reportStartDrawing(LoggerCSV.loggerStatus.START_NOT_FROM_POINT);
+                            }
                         }
 
                         if (!displayStartPointOnMark && doesDrawWell(xPosition, yPosition, materialColor)) {
@@ -199,11 +213,12 @@ public class DrawingInGameView extends CanvasView {
         this.materialColor = materialColor;
     }
 
-    public void setOffsetOfStartPoint(String materialFileName) {
+    public void setOffsetOfStartPoint(GameMaterial material) {
+        this.currentMaterial = material;
         startPointOffsetWidth = -0.1f;
         startPointOffsetHeight = -0.1f;
 
-        Matcher matcherW = Pattern.compile("W(.*?)W").matcher(materialFileName);
+        Matcher matcherW = Pattern.compile("W(.*?)W").matcher(material.filename);
         if (matcherW.find()) {
             try {
                 int offsetWidth = Integer.parseInt(matcherW.group(1));
@@ -212,7 +227,7 @@ public class DrawingInGameView extends CanvasView {
             }
         }
 
-        Matcher matcherH = Pattern.compile("H(.*?)H").matcher(materialFileName);
+        Matcher matcherH = Pattern.compile("H(.*?)H").matcher(material.filename);
         if (matcherH.find()) {
             try {
                 int offsetHeight = Integer.parseInt(matcherH.group(1));
@@ -220,6 +235,11 @@ public class DrawingInGameView extends CanvasView {
             } catch (NumberFormatException ignored) {
             }
         }
+    }
+
+    public void setCurrentStepAndRepetition(int currentStep, int currentRepetition) {
+        this.currentStep = currentStep;
+        this.currentRepetition = currentRepetition;
     }
 
     public void setBackgroundImageDimension(int left, int top, int right, int bottom) {
@@ -265,5 +285,12 @@ public class DrawingInGameView extends CanvasView {
         }
 
         return false;
+    }
+
+    private void reportStartDrawing(LoggerCSV.loggerStatus status) {
+        new LoggerCSV(getContext()).addNewRecord(status,
+                currentMaterial, configuration,
+                0, 0, 0,
+                currentStep, currentRepetition, 0);
     }
 }
