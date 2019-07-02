@@ -15,6 +15,7 @@ public class Configuration {
     public boolean configurationActivated;
     public String lastEdition;
     public boolean testMode;
+    public boolean displayStartPoint;
     public int difficultyLevel;
     public int numberOfSteps;
     public int numberOfRepetitions;

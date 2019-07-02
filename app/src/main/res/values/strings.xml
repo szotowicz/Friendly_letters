@@ -43,7 +43,8 @@
     <string name="information_message_permit_must_be_granted">Appropriate permissions should be granted for proper operation of the application</string>
 
     <string name="information_message_positive_button_close">CLOSE</string>
-    <string name="information_message_test_mode_message">Enabled test mode means a single number of attempts per step and no praise. A summary is displayed after each test. Remember to set the right number of steps.</string>
+    <string name="information_message_test_mode_message">Enabled test mode means a single number of attempts per step, no praises and no starting point while writing. A summary is displayed after each test. Remember to set the right number of steps.</string>
+    <string name="information_message_start_point_message">Enabled starting point means that the point from which you have to start writing is displayed on the material. Remember that the test mode means the starting point is off.</string>
     <string name="information_message_commands_reading_message">Enabled voice command reading means that before each step one command from selected ones will be read. Remember that only alphanumeric characters are reinforced.</string>
     <string name="information_message_commands_displaying_message">The option to display commands means that one command from selected ones will be displayed in each step. Remember that only alphanumeric characters are reinforced.</string>
     <string name="information_message_verbal_praises_reading_message">Enabled option to read praise means that after each correctly performed step, one praise from selected ones will be read.</string>
@@ -79,6 +80,7 @@
 
     <string name="settings_tab_learning">LEARNING WAY</string>
     <string name="settings_tab_learning_learning_mode">Test mode</string>
+    <string name="settings_tab_learning_display_start_point">Start point</string>
     <string name="settings_tab_learning_difficulty_level">Difficulty level:</string>
     <string name="settings_tab_learning_difficulty_level_easy">EASY</string>
     <string name="settings_tab_learning_difficulty_level_medium">MEDIUM</string>
@@ -88,11 +90,11 @@
     <string name="settings_tab_learning_time_limit">Writing time limit:</string>
 
     <string name="settings_tab_reinforcement">REINFORCEMENT</string>
-    <string name="settings_tab_reinforcement_choose_commands">Choose the types of commands:</string>
+    <string name="settings_tab_reinforcement_choose_commands">Select command types:</string>
     <string name="settings_tab_reinforcement_commands_reading">Voice reading of command</string>
     <string name="settings_tab_reinforcement_commands_displaying">Displaying commands</string>
-    <string name="settings_tab_reinforcement_choose_verbal_praises">Choose verbal praise:</string>
-    <string name="settings_tab_reinforcement_verbal_praises_reading">Voice reading of praise</string>
+    <string name="settings_tab_reinforcement_choose_verbal_praises">Select verbal praise:</string>
+    <string name="settings_tab_reinforcement_verbal_praises_reading">Voice reading of verbal praise</string>
     <string name="settings_tab_reinforcement_command_1">Write</string>
     <string name="settings_tab_reinforcement_command_2_letter">Letter</string>
     <string name="settings_tab_reinforcement_command_2_digit">Digit</string>
@@ -102,25 +104,26 @@
     <string name="settings_tab_reinforcement_verbal_praise_3">All right</string>
     <string name="settings_tab_reinforcement_verbal_praise_4">Great</string>
 
+    <string name="text_reader_exception_zero">zero</string>
     <string name="text_reader_exception_one">one</string>
+    <string name="text_reader_exception_two">two</string>
+    <string name="text_reader_exception_three">three</string>
+    <string name="text_reader_exception_four">four</string>
+    <string name="text_reader_exception_five">five</string>
+    <string name="text_reader_exception_six">six</string>
+    <string name="text_reader_exception_seven">seven</string>
+    <string name="text_reader_exception_eight">eight</string>
+    <string name="text_reader_exception_nine">nine</string>
     <string name="text_reader_exception_b">b</string>
     <string name="text_reader_exception_c">c</string>
     <string name="text_reader_exception_cc">c</string>
     <string name="text_reader_exception_d">d</string>
     <string name="text_reader_exception_f">f</string>
-    <string name="text_reader_exception_g">g</string>
-    <string name="text_reader_exception_h">h</string>
-    <string name="text_reader_exception_j">j</string>
-    <string name="text_reader_exception_k">k</string>
-    <string name="text_reader_exception_l">l</string>
     <string name="text_reader_exception_ll">l</string>
     <string name="text_reader_exception_m">m</string>
     <string name="text_reader_exception_n">n</string>
     <string name="text_reader_exception_nn">n</string>
     <string name="text_reader_exception_p">p</string>
-    <string name="text_reader_exception_r">r</string>
-    <string name="text_reader_exception_s">s</string>
-    <string name="text_reader_exception_ss">s</string>
     <string name="text_reader_exception_t">t</string>
     <string name="text_reader_exception_w">w</string>
     <string name="text_reader_exception_z">z</string>

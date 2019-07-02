@@ -166,7 +166,7 @@
                     android:id="@+id/reinforcement_command_1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="znak"
+                    android:text="@string/settings_tab_reinforcement_command_mark_tag"
                     android:textColor="@color/color_settings_reinforcement_button_nonactive_font"
                     android:paddingTop="10dp"
                     android:paddingBottom="10dp"
@@ -181,7 +181,7 @@
                     android:id="@+id/reinforcement_command_2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="znak2"
+                    android:text="@string/settings_tab_reinforcement_command_mark_tag"
                     android:textColor="@color/color_settings_reinforcement_button_nonactive_font"
                     android:paddingTop="10dp"
                     android:paddingBottom="10dp"
@@ -199,13 +199,12 @@
                 android:gravity="center"
                 android:orientation="horizontal">
 
-                <Button
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:background="@drawable/information"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginEnd="10dp"
-                    android:onClick="showInformationAboutCommandsReading"/>
+                <CheckBox
+                    android:id="@+id/settings_reinforcement_commands_reading"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginEnd="5dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -214,10 +213,13 @@
                     android:textColor="@color/color_settings_content_font"
                     android:textSize="@dimen/settings_reinforcement_content_font_size" />
 
-                <CheckBox
-                    android:id="@+id/settings_reinforcement_commands_reading"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                <Button
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:background="@drawable/information"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp"
+                    android:onClick="showInformationAboutCommandsReading" />
             </LinearLayout>
 
             <LinearLayout
@@ -226,13 +228,12 @@
                 android:gravity="center"
                 android:orientation="horizontal">
 
-                <Button
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:background="@drawable/information"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginEnd="10dp"
-                    android:onClick="showInformationAboutCommandsDisplaying"/>
+                <CheckBox
+                    android:id="@+id/settings_reinforcement_commands_displaying"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginEnd="5dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -241,10 +242,13 @@
                     android:textColor="@color/color_settings_content_font"
                     android:textSize="@dimen/settings_reinforcement_content_font_size" />
 
-                <CheckBox
-                    android:id="@+id/settings_reinforcement_commands_displaying"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                <Button
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:background="@drawable/information"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp"
+                    android:onClick="showInformationAboutCommandsDisplaying" />
             </LinearLayout>
 
             <TextView
@@ -337,13 +341,12 @@
                 android:gravity="center"
                 android:orientation="horizontal">
 
-                <Button
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:background="@drawable/information"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginEnd="10dp"
-                    android:onClick="showInformationAboutVerbalPraisesReading"/>
+                <CheckBox
+                    android:id="@+id/settings_reinforcement_verbal_praises_reading"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginEnd="5dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -352,10 +355,13 @@
                     android:textColor="@color/color_settings_content_font"
                     android:textSize="@dimen/settings_reinforcement_content_font_size" />
 
-                <CheckBox
-                    android:id="@+id/settings_reinforcement_verbal_praises_reading"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                <Button
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:background="@drawable/information"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp"
+                    android:onClick="showInformationAboutVerbalPraisesReading" />
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

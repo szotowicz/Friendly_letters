@@ -131,6 +131,7 @@
         </FrameLayout>
     </LinearLayout>
 
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -138,16 +139,19 @@
         android:orientation="horizontal"
         android:weightSum="1.0">
 
-        <LinearLayout
+        <ScrollView
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight=".4"
-            android:background="@color/color_settings_background_tab_learning"
+            android:background="@color/color_settings_background_tab_learning">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:gravity="center_horizontal"
             android:orientation="vertical"
-            android:paddingLeft="30dp"
             android:paddingTop="10dp"
-            android:paddingRight="30dp">
+            android:paddingBottom="15dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -155,13 +159,12 @@
                 android:gravity="center"
                 android:orientation="horizontal">
 
-                <Button
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:background="@drawable/information"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginEnd="10dp"
-                    android:onClick="showInformationAboutTestMode"/>
+                <CheckBox
+                    android:id="@+id/settings_learning_mode"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginEnd="5dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -170,10 +173,42 @@
                     android:textColor="@color/color_settings_content_font"
                     android:textSize="@dimen/settings_learning_content_font_size" />
 
+                <Button
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:background="@drawable/information"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp"
+                    android:onClick="showInformationAboutTestMode" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal">
+
                 <CheckBox
-                    android:id="@+id/settings_learning_mode"
+                    android:id="@+id/settings_display_start_point"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginEnd="5dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/settings_tab_learning_display_start_point"
+                    android:textColor="@color/color_settings_content_font"
+                    android:textSize="@dimen/settings_learning_content_font_size" />
+
+                <Button
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:background="@drawable/information"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp"
+                    android:onClick="showInformationAboutStartPoint" />
             </LinearLayout>
 
             <TextView
@@ -191,6 +226,10 @@
                 android:layout_marginTop="5dp"
                 android:background="@drawable/settings_difficulty_level_buttons"
                 android:padding="10dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginEnd="30dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginStart="30dp"
                 android:text="@string/settings_tab_learning_difficulty_level_easy" />
 
             <Button
@@ -200,6 +239,10 @@
                 android:layout_marginTop="5dp"
                 android:background="@drawable/settings_difficulty_level_buttons"
                 android:padding="10dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginEnd="30dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginStart="30dp"
                 android:text="@string/settings_tab_learning_difficulty_level_medium" />
 
             <Button
@@ -209,8 +252,13 @@
                 android:layout_marginTop="5dp"
                 android:background="@drawable/settings_difficulty_level_buttons"
                 android:padding="10dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginEnd="30dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginStart="30dp"
                 android:text="@string/settings_tab_learning_difficulty_level_hard" />
         </LinearLayout>
+        </ScrollView>
 
         <LinearLayout
             android:layout_width="0dp"

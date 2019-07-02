@@ -44,6 +44,7 @@ public class TabMenuLearning {
 
     private void createViewElements() {
         createLearningModeView();
+        createStartPointView();
         createDifficultyLevelView();
         createLevelCountView();
         createAttemptCountView();
@@ -60,6 +61,20 @@ public class TabMenuLearning {
                 settingsManager.updateFileWithConfigurations(configuration, configurationID);
                 SeekBar seekBarAttemptCount = activity.findViewById(R.id.seek_bar_attempt_count);
                 seekBarAttemptCount.setEnabled(!configuration.testMode);
+                CheckBox startPointCheckBox = activity.findViewById(R.id.settings_display_start_point);
+                startPointCheckBox.setEnabled(!configuration.testMode);
+            }
+        });
+    }
+
+    private void createStartPointView() {
+        CheckBox startPointCheckBox = activity.findViewById(R.id.settings_display_start_point);
+        startPointCheckBox.setChecked(configuration.displayStartPoint);
+        startPointCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                configuration.displayStartPoint = !configuration.displayStartPoint;
+                settingsManager.updateFileWithConfigurations(configuration, configurationID);
             }
         });
     }
