@@ -18,18 +18,21 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.pg.mikszo.friendlyletters.AudioPlayer;
 import com.pg.mikszo.friendlyletters.R;
 import com.pg.mikszo.friendlyletters.settings.Configuration;
 import com.pg.mikszo.friendlyletters.settings.SettingsManager;
 
-public class GameReportActivity extends BaseActivity {
+public class GameTestReportActivity extends BaseActivity {
 
     @Override
     @SuppressLint({"SetTextI18n", "DefaultLocale"})
     // This function is loaded in every BaseActivity child
     protected void loadOnCreateView() {
         Configuration configuration = new SettingsManager(this).getActiveConfiguration();
-        setContentView(R.layout.activity_game_report);
+        setContentView(R.layout.activity_game_test_report);
+
+        new AudioPlayer(this).playRandomFanfare();
 
         TextView textView = findViewById(R.id.game_report_difficulty_level);
         String[] difficultyLevelNames = {

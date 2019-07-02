@@ -15,6 +15,8 @@ import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
+import android.support.v4.content.ContextCompat;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.MotionEvent;
@@ -22,12 +24,14 @@ import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.pg.mikszo.friendlyletters.AudioPlayer;
 import com.pg.mikszo.friendlyletters.FileHelper;
 import com.pg.mikszo.friendlyletters.R;
 import com.pg.mikszo.friendlyletters.TextReader;
@@ -59,6 +63,7 @@ public class GameMainActivity extends BaseActivity {
     private String[] availableCommands;
     private String[] availableVerbalPraises;
     private TextReader textReader;
+    private AudioPlayer audioPlayer;
 
     private int currentStep;
     private int currentRepetition;
@@ -72,6 +77,9 @@ public class GameMainActivity extends BaseActivity {
     private Handler delayNextMaterialHandler = new Handler();
     private Handler delayPreviousMaterialHandler = new Handler();
 
+    private List<ImageView> animationImagesCar = new ArrayList<>();
+    private List<ImageView> animationImagesBalloon = new ArrayList<>();
+
     @Override
     // This function is loaded in every BaseActivity child
     protected void loadOnCreateView() {
@@ -79,6 +87,7 @@ public class GameMainActivity extends BaseActivity {
         this.availableCommands = new ReinforcementManager(this).getAvailableCommands();
         this.availableVerbalPraises = new ReinforcementManager(this).getAvailableVerbalPraises();
         textReader = new TextReader(this);
+        audioPlayer = new AudioPlayer(this);
 
         currentStep = 1;
         currentRepetition = 1;
@@ -105,6 +114,23 @@ public class GameMainActivity extends BaseActivity {
                 }
             }
         }.start();
+
+        // Fill containers with animation images
+        animationImagesCar.add((ImageView)findViewById(R.id.game_animation_car_1));
+        animationImagesCar.add((ImageView)findViewById(R.id.game_animation_car_2));
+        animationImagesCar.add((ImageView)findViewById(R.id.game_animation_car_3));
+        animationImagesCar.add((ImageView)findViewById(R.id.game_animation_car_4));
+        animationImagesCar.add((ImageView)findViewById(R.id.game_animation_car_5));
+        animationImagesBalloon.add((ImageView)findViewById(R.id.game_animation_balloon_1));
+        animationImagesBalloon.add((ImageView)findViewById(R.id.game_animation_balloon_2));
+        animationImagesBalloon.add((ImageView)findViewById(R.id.game_animation_balloon_3));
+        animationImagesBalloon.add((ImageView)findViewById(R.id.game_animation_balloon_4));
+        animationImagesBalloon.add((ImageView)findViewById(R.id.game_animation_balloon_5));
+        animationImagesBalloon.add((ImageView)findViewById(R.id.game_animation_balloon_6));
+        animationImagesBalloon.add((ImageView)findViewById(R.id.game_animation_balloon_7));
+        animationImagesBalloon.add((ImageView)findViewById(R.id.game_animation_balloon_8));
+        animationImagesBalloon.add((ImageView)findViewById(R.id.game_animation_balloon_9));
+        animationImagesBalloon.add((ImageView)findViewById(R.id.game_animation_balloon_10));
 
         drawingInGameView = findViewById(R.id.drawing_in_game_view);
         drawingInGameView.getViewTreeObserver().addOnGlobalLayoutListener(
@@ -186,10 +212,20 @@ public class GameMainActivity extends BaseActivity {
 
                         randomCommand();
                         updateCommandTextView();
+
+                        // Set correct size of animation images
+                        for (ImageView imageView : animationImagesCar) {
+                            imageView.getLayoutParams().height = height / 5;
+                            imageView.getLayoutParams().width = height / 5;
+                        }
+                        for (ImageView imageView : animationImagesBalloon) {
+                            imageView.getLayoutParams().height = width / 10;
+                            imageView.getLayoutParams().width = width / 10;
+                        }
                     }
                 });
 
-        final ImageView animationImage = findViewById(R.id.game_animation_image);
+        final ImageView animationImage = findViewById(R.id.game_animation_on_start);
         Animation animation = AnimationUtils.loadAnimation(this, R.anim.animation_before_game);
         animationImage.setAnimation(animation);
         animation.setAnimationListener(new Animation.AnimationListener() {
@@ -358,13 +394,15 @@ public class GameMainActivity extends BaseActivity {
                             @Override
                             public void run() {
                                 if (checkCorrectnessOfDrawing(true)) {
+                                    delayCheckingHandler.removeCallbacksAndMessages(null);
                                     readVerbalPraises();
-                                    loadNextLevel(false);
+                                    //loadNextLevel(false);
+                                    startAnimationAndLoadNextLevel();
                                 } else {
                                     resetCurrentLevel();
                                 }
-                            }
-                        }, configuration.timeLimit * 1000);
+                                timeLimitHandler.removeCallbacksAndMessages(null);
+                            }}, configuration.timeLimit * 1000);
                     }
                 } else if (motionEvent.getAction() == MotionEvent.ACTION_MOVE) {
                     if (timeOfStartLevel == 0) {
@@ -378,8 +416,10 @@ public class GameMainActivity extends BaseActivity {
                             @Override
                             public void run() {
                                 if (checkCorrectnessOfDrawing(false)) {
+                                    timeLimitHandler.removeCallbacksAndMessages(null);
                                     readVerbalPraises();
-                                    loadNextLevel(false);
+                                    //loadNextLevel(false);
+                                    startAnimationAndLoadNextLevel();
                                 } else {
                                     delayResetHandler.postDelayed(new Runnable() {
                                         @Override
@@ -398,7 +438,7 @@ public class GameMainActivity extends BaseActivity {
     }
 
     private boolean checkCorrectnessOfDrawing(boolean isEndOfTime) {
-        if (drawingInGameView.displayStartPointOnMark) {
+        if (!drawingInGameView.startedFromStartPointOnMark) {
             return false;
         }
 
@@ -576,23 +616,18 @@ public class GameMainActivity extends BaseActivity {
                     correctlySolved++;
                 }
             }
-            Intent gameReport = new Intent(getBaseContext(), GameReportActivity.class);
+            Intent gameReport = new Intent(getBaseContext(), GameTestReportActivity.class);
             gameReport.putExtra(getString(R.string.intent_game_report_correctly_solved), correctlySolved);
             startActivity(gameReport);
             finish();
         } else {
+            if (audioPlayer.playEndOfTest()) {
+                //TODO
+                //textReader...
+            }
+            audioPlayer.playRandomFanfare();
             startActivity(new Intent(getBaseContext(), GameStartActivity.class));
             finish();
-        }
-    }
-
-    private void readVerbalPraises() {
-        if (configuration.verbalPraisesReading && !configuration.testMode) {
-            int randomVerbalPraisesIndex =
-                    Integer.parseInt(configuration.availableVerbalPraises[
-                            new Random().nextInt(configuration.availableVerbalPraises.length)]);
-            String randomVerbalPraises = availableVerbalPraises[randomVerbalPraisesIndex];
-            textReader.readPraise(randomVerbalPraises);
         }
     }
 
@@ -644,7 +679,130 @@ public class GameMainActivity extends BaseActivity {
 
     private void readCommand() {
         if (configuration.commandsReading && currentCommands.trim().length() > 1) {
-            textReader.readCommand(currentCommands);
+            //TODO
+            if (!audioPlayer.playCommand(currentCommands))
+            {
+                textReader.readCommand(currentCommands);
+            }
+        }
+    }
+
+    private void readVerbalPraises() {
+        if (configuration.verbalPraisesReading && !configuration.testMode) {
+            int randomVerbalPraisesIndex =
+                    Integer.parseInt(configuration.availableVerbalPraises[
+                            new Random().nextInt(configuration.availableVerbalPraises.length)]);
+            String randomVerbalPraises = availableVerbalPraises[randomVerbalPraisesIndex];
+
+            if (!audioPlayer.playRandomPraise(randomVerbalPraises))
+            {
+                textReader.readPraise(randomVerbalPraises);
+            }
+        }
+    }
+
+    private void startAnimationAndLoadNextLevel() {
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+
+        final int[] animationDrawableCars = {
+                R.drawable.anim_blue_car,
+                R.drawable.anim_orange_car,
+                R.drawable.anim_delivery_truck,
+                R.drawable.anim_green_car,
+                R.drawable.anim_present_car,
+                R.drawable.anim_fire_truck,
+                R.drawable.anim_jeep,
+                R.drawable.anim_van,
+                R.drawable.anim_garbage_truck,
+                R.drawable.anim_racing };
+        final int[] animationDrawableBalloon = {
+                R.drawable.anim_balloon1,
+                R.drawable.anim_balloon2,
+                R.drawable.anim_balloon3,
+                R.drawable.anim_balloon4,
+                R.drawable.anim_balloon5,
+                R.drawable.anim_balloon6,
+                R.drawable.anim_balloon7,
+                R.drawable.anim_balloon8,
+                R.drawable.anim_balloon9,
+                R.drawable.anim_balloon10,
+                R.drawable.anim_balloon11,
+                R.drawable.anim_balloon12,
+                R.drawable.anim_balloon13,
+                R.drawable.anim_balloon14 };
+
+        final int animationMode = new Random().nextInt(3);
+        final List<ImageView> animationImages;
+        if (animationMode == 2) {
+            animationImages = animationImagesBalloon;
+        } else {
+            animationImages = animationImagesCar;
+        }
+
+        for (int imageId = 0; imageId < animationImages.size(); imageId++) {
+            final ImageView animationImage = animationImages.get(imageId);
+
+            Animation animation = new TranslateAnimation(0, 0, 0, 0);
+            switch (animationMode) {
+                case 0:
+                    animation = new TranslateAnimation(-300, displayMetrics.widthPixels + 300, 0, 0);
+                    animationImage.setRotationY(0);
+                    animationImage.setBackground(ContextCompat.getDrawable(this,
+                            animationDrawableCars[new Random().nextInt(animationDrawableCars.length)]));
+                    break;
+                case 1:
+                    animation = new TranslateAnimation(displayMetrics.widthPixels, -300, 0, 0);
+                    animationImage.setRotationY(180);
+                    animationImage.setBackground(ContextCompat.getDrawable(this,
+                            animationDrawableCars[new Random().nextInt(animationDrawableCars.length)]));
+                    break;
+                case 2:
+                    animation = new TranslateAnimation(0, 0, displayMetrics.heightPixels, -300);
+                    animationImage.setBackground(ContextCompat.getDrawable(this,
+                            animationDrawableBalloon[new Random().nextInt(animationDrawableBalloon.length)]));
+                    break;
+                default:
+                    Log.e("[ERROR", "Animation mode is not supported");
+            }
+
+            final boolean isLastAnimation;
+            if (imageId == animationImagesCar.size() - 1)
+            {
+                animation.setDuration(3000);
+                isLastAnimation = true;
+            } else {
+                animation.setDuration(new Random().nextInt(1200) + 1800);
+                isLastAnimation = false;
+            }
+
+            animationImage.setVisibility(View.VISIBLE);
+            animationImage.setAnimation(animation);
+            animation.setAnimationListener(new Animation.AnimationListener() {
+                @Override
+                public void onAnimationStart(Animation animation) {
+                    Button previousMaterialButton = findViewById(R.id.game_previous_material);
+                    Button nextMaterialButton = findViewById(R.id.game_next_material);
+                    previousMaterialButton.setEnabled(false);
+                    nextMaterialButton.setEnabled(false);
+                }
+
+                @Override
+                public void onAnimationEnd(Animation animation) {
+                    animationImage.setVisibility(View.INVISIBLE);
+                    if (isLastAnimation) {
+                        loadNextLevel(false);
+                    }
+
+                    Button previousMaterialButton = findViewById(R.id.game_previous_material);
+                    Button nextMaterialButton = findViewById(R.id.game_next_material);
+                    previousMaterialButton.setEnabled(true);
+                    nextMaterialButton.setEnabled(true);
+                }
+
+                @Override
+                public void onAnimationRepeat(Animation animation) { }
+            });
         }
     }
 }

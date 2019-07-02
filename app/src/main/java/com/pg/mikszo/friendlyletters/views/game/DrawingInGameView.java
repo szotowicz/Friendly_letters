@@ -24,7 +24,6 @@ import com.pg.mikszo.friendlyletters.logger.LoggerCSV;
 import com.pg.mikszo.friendlyletters.settings.Configuration;
 import com.pg.mikszo.friendlyletters.settings.SettingsManager;
 import com.pg.mikszo.friendlyletters.views.CanvasView;
-import com.pg.mikszo.friendlyletters.views.configurationApp.Material;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -43,7 +42,7 @@ public class DrawingInGameView extends CanvasView {
     private int backgroundImagePixels = -1;
     private float startPointOffsetWidth = -0.1f;
     private float startPointOffsetHeight = -0.1f;
-    public boolean displayStartPointOnMark = true;
+    public boolean startedFromStartPointOnMark = false;
     public boolean isTouchScreenEnabled = false;
 
     public DrawingInGameView(Context context, AttributeSet attributeSet) {
@@ -62,9 +61,9 @@ public class DrawingInGameView extends CanvasView {
 
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
-                        if (displayStartPointOnMark) {
-                            if (doesDrawWell(xPosition, yPosition, traceColor)) {
-                                displayStartPointOnMark = false;
+                        if (!startedFromStartPointOnMark) {
+                            if (doesStartWell(xPosition, yPosition)) {
+                                startedFromStartPointOnMark = true;
                                 isPathStarted = true;
                                 reportStartDrawing(LoggerCSV.loggerStatus.START_FROM_POINT);
                             } else {
@@ -72,19 +71,19 @@ public class DrawingInGameView extends CanvasView {
                             }
                         }
 
-                        if (!displayStartPointOnMark && doesDrawWell(xPosition, yPosition, materialColor)) {
+                        if (startedFromStartPointOnMark && doesDrawWell(xPosition, yPosition, materialColor)) {
                             path.moveTo(xPosition, yPosition);
                         }
                     case MotionEvent.ACTION_MOVE:
-                        if (!displayStartPointOnMark && doesDrawWell(xPosition, yPosition, materialColor)) {
+                        if (startedFromStartPointOnMark && doesDrawWell(xPosition, yPosition, materialColor)) {
                             if (isPathStarted) {
                                 path.lineTo(xPosition, yPosition);
                             } else {
                                 path.moveTo(xPosition, yPosition);
                                 isPathStarted = true;
                             }
-                        } else if (doesDrawWell(xPosition, yPosition, traceColor)) {
-                            displayStartPointOnMark = false;
+                        } else if (doesStartWell(xPosition, yPosition)) {
+                            startedFromStartPointOnMark = true;
                             isPathStarted = true;
                             path.moveTo(xPosition, yPosition);
                         } else {
@@ -120,18 +119,17 @@ public class DrawingInGameView extends CanvasView {
             }
         }
 
-        if (startPointOffsetWidth > 0.0f && startPointOffsetHeight > 0.0f && displayStartPointOnMark) {
+        if (startPointOffsetWidth > 0.0f && startPointOffsetHeight > 0.0f && !startedFromStartPointOnMark &&
+                (configuration.displayStartPoint && !configuration.testMode)) {
             canvas.drawCircle((backgroundImageRight - backgroundImageLeft) * startPointOffsetWidth + backgroundImageLeft,
                     (backgroundImageBottom - backgroundImageTop) * startPointOffsetHeight + backgroundImageTop, 1, paint);
-        } else {
-            displayStartPointOnMark = false;
         }
     }
 
     @Override
     public void cleanScreen() {
         super.cleanScreen();
-        displayStartPointOnMark = true;
+        startedFromStartPointOnMark = false;
     }
 
     public void analyzeBackgroundPixels() {
@@ -188,7 +186,7 @@ public class DrawingInGameView extends CanvasView {
 
     public void setMaterialImage(Drawable materialImage) {
         isTouchScreenEnabled = false;
-        displayStartPointOnMark = true;
+        startedFromStartPointOnMark = false;
         this.materialImage = materialImage;
         this.materialImage.setBounds(backgroundImageLeft, backgroundImageTop, backgroundImageRight, backgroundImageBottom);
 
@@ -285,6 +283,14 @@ public class DrawingInGameView extends CanvasView {
         }
 
         return false;
+    }
+
+    private boolean doesStartWell(float xPos, float yPos) {
+        float xStartPoint = (backgroundImageRight - backgroundImageLeft) * startPointOffsetWidth + backgroundImageLeft;
+        float yStartPoint = (backgroundImageBottom - backgroundImageTop) * startPointOffsetHeight + backgroundImageTop;
+
+        return (xPos < xStartPoint * 1.1f && xPos > xStartPoint * 0.9f &&
+                yPos < yStartPoint * 1.1f && yPos > yStartPoint * 0.9f);
     }
 
     private void reportStartDrawing(LoggerCSV.loggerStatus status) {

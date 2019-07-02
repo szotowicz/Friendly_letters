@@ -1,0 +1,8 @@
+<!-- Icon made by DinosoftLabs from www.flaticon.com -->
+<vector android:height="24dp" android:viewportHeight="110"
+    android:viewportWidth="110" android:width="24dp" xmlns:android="http://schemas.android.com/apk/res/android">
+    <path android:fillColor="#dbd8dd" android:pathData="m53.919,90.923h2.162v12.431h-2.162z"/>
+    <path android:fillColor="#4288b9" android:pathData="m55,78.636 l-5.526,14.576h11.051z"/>
+    <path android:fillColor="#4da0dc" android:pathData="m84.898,36.544c0,16.512 -13.386,47.669 -29.898,47.669s-29.898,-31.157 -29.898,-47.669 13.386,-29.898 29.898,-29.898 29.898,13.386 29.898,29.898z"/>
+    <path android:fillColor="#5cb1e5" android:pathData="M33.378,29.96a7.724,3.227 131.757,1 0,10.288 -11.524a7.724,3.227 131.757,1 0,-10.288 11.524z"/>
+</vector>

@@ -164,51 +164,34 @@ public class SettingsTabsActivity extends BaseActivity {
     }
 
     public void showInformationAboutTestMode(View view) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this, AlertDialog.THEME_DEVICE_DEFAULT_LIGHT);
-        builder.setTitle(R.string.settings_tab_learning_learning_mode);
-        builder.setMessage(R.string.information_message_test_mode_message);
+        showInformationDialog(R.string.settings_tab_learning_learning_mode,
+                R.string.information_message_test_mode_message);
+    }
 
-        builder.setPositiveButton(R.string.information_message_positive_button_close, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
-
-        builder.create().show();
+    public void showInformationAboutStartPoint(View view) {
+        showInformationDialog(R.string.settings_tab_learning_display_start_point,
+                R.string.information_message_start_point_message);
     }
 
     public void showInformationAboutCommandsReading(View view) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this, AlertDialog.THEME_DEVICE_DEFAULT_LIGHT);
-        builder.setTitle(R.string.settings_tab_reinforcement_commands_reading);
-        builder.setMessage(R.string.information_message_commands_reading_message);
-
-        builder.setPositiveButton(R.string.information_message_positive_button_close, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
-
-        builder.create().show();
+        showInformationDialog(R.string.settings_tab_reinforcement_commands_reading,
+                R.string.information_message_commands_reading_message);
     }
 
     public void showInformationAboutCommandsDisplaying(View view) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this, AlertDialog.THEME_DEVICE_DEFAULT_LIGHT);
-        builder.setTitle(R.string.settings_tab_reinforcement_commands_displaying);
-        builder.setMessage(R.string.information_message_commands_displaying_message);
-
-        builder.setPositiveButton(R.string.information_message_positive_button_close, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
-
-        builder.create().show();
+        showInformationDialog(R.string.settings_tab_reinforcement_commands_displaying,
+                R.string.information_message_commands_displaying_message);
     }
 
     public void showInformationAboutVerbalPraisesReading(View view) {
+        showInformationDialog(R.string.settings_tab_reinforcement_verbal_praises_reading,
+                R.string.information_message_verbal_praises_reading_message);
+    }
+
+    private void showInformationDialog(int title, int message) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this, AlertDialog.THEME_DEVICE_DEFAULT_LIGHT);
-        builder.setTitle(R.string.settings_tab_reinforcement_verbal_praises_reading);
-        builder.setMessage(R.string.information_message_verbal_praises_reading_message);
+        builder.setTitle(title);
+        builder.setMessage(message);
 
         builder.setPositiveButton(R.string.information_message_positive_button_close, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {

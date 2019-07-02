@@ -65,7 +65,7 @@
             android:screenOrientation="sensorLandscape"
             android:taskAffinity="com.pg.mikszo.settingstabsactivity"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
-        <activity android:name=".activity.GameReportActivity"
+        <activity android:name=".activity.GameTestReportActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="sensorLandscape"
             android:taskAffinity="com.pg.mikszo.gamereportactivity"

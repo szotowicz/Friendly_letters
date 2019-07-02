@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/color_game_restart_view_background"
-    tools:context=".activity.GameReportActivity">
+    tools:context=".activity.GameTestReportActivity">
 
     <ImageView
         android:id="@+id/game_report_background"
