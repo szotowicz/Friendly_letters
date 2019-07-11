@@ -385,40 +385,32 @@ public class GameMainActivity extends BaseActivity {
         drawingInGameView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
-                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
-                    delayCheckingHandler.removeCallbacksAndMessages(null);
-                    delayResetHandler.removeCallbacksAndMessages(null);
-                    if (timeOfStartLevel == 0) {
-                        timeOfStartLevel = System.nanoTime();
-                        timeLimitHandler.postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                if (checkCorrectnessOfDrawing(true)) {
-                                    delayCheckingHandler.removeCallbacksAndMessages(null);
-                                    readVerbalPraises();
-                                    //loadNextLevel(false);
-                                    startAnimationAndLoadNextLevel();
-                                } else {
-                                    resetCurrentLevel();
-                                }
-                                timeLimitHandler.removeCallbacksAndMessages(null);
-                            }}, configuration.timeLimit * 1000);
-                    }
-                } else if (motionEvent.getAction() == MotionEvent.ACTION_MOVE) {
-                    if (timeOfStartLevel == 0) {
-                        drawingInGameView.isTouchScreenEnabled = false;
-                    }
-                } else if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
-                    if (timeOfStartLevel == 0) {
-                        drawingInGameView.isTouchScreenEnabled = true;
-                    } else {
+                if (drawingInGameView.isTouchScreenEnabled) {
+                    if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
+                        delayCheckingHandler.removeCallbacksAndMessages(null);
+                        delayResetHandler.removeCallbacksAndMessages(null);
+                        if (timeOfStartLevel == 0) {
+                            timeOfStartLevel = System.nanoTime();
+                            timeLimitHandler.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    if (checkCorrectnessOfDrawing(true)) {
+                                        delayCheckingHandler.removeCallbacksAndMessages(null);
+                                        readVerbalPraises();
+                                        startAnimationAndLoadNextLevel();
+                                    } else {
+                                        resetCurrentLevel();
+                                    }
+                                    timeLimitHandler.removeCallbacksAndMessages(null);
+                                }}, configuration.timeLimit * 1000);
+                        }
+                    } else if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
                         delayCheckingHandler.postDelayed(new Runnable() {
                             @Override
                             public void run() {
                                 if (checkCorrectnessOfDrawing(false)) {
                                     timeLimitHandler.removeCallbacksAndMessages(null);
                                     readVerbalPraises();
-                                    //loadNextLevel(false);
                                     startAnimationAndLoadNextLevel();
                                 } else {
                                     delayResetHandler.postDelayed(new Runnable() {
@@ -679,7 +671,6 @@ public class GameMainActivity extends BaseActivity {
 
     private void readCommand() {
         if (configuration.commandsReading && currentCommands.trim().length() > 1) {
-            //TODO
             if (!audioPlayer.playCommand(currentCommands))
             {
                 textReader.readCommand(currentCommands);
@@ -702,6 +693,11 @@ public class GameMainActivity extends BaseActivity {
     }
 
     private void startAnimationAndLoadNextLevel() {
+        if (configuration.testMode) {
+            loadNextLevel(false);
+            return;
+        }
+
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
 
@@ -781,6 +777,7 @@ public class GameMainActivity extends BaseActivity {
             animation.setAnimationListener(new Animation.AnimationListener() {
                 @Override
                 public void onAnimationStart(Animation animation) {
+                    drawingInGameView.isTouchScreenEnabled = false;
                     Button previousMaterialButton = findViewById(R.id.game_previous_material);
                     Button nextMaterialButton = findViewById(R.id.game_next_material);
                     previousMaterialButton.setEnabled(false);
@@ -798,6 +795,8 @@ public class GameMainActivity extends BaseActivity {
                     Button nextMaterialButton = findViewById(R.id.game_next_material);
                     previousMaterialButton.setEnabled(true);
                     nextMaterialButton.setEnabled(true);
+
+                    drawingInGameView.isTouchScreenEnabled = true;
                 }
 
                 @Override
