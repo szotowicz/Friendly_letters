@@ -233,10 +233,12 @@ public class TabMenuMaterial {
                                 Toast.makeText(activity,
                                         R.string.information_message_least_one_element_must_be_available,
                                         Toast.LENGTH_SHORT).show();
+                                sortedSelectedMaterials.get(i).cloneOfBackground.setBackground(
+                                        ContextCompat.getDrawable(activity, R.drawable.settings_resources_of_materials_enabled));
                             } else {
+                                enabledMaterials.remove(enabledMaterialsID);
                                 sortedSelectedMaterials.get(i).cloneOfBackground.setBackground(
                                         ContextCompat.getDrawable(activity, R.drawable.settings_resources_of_materials_disabled));
-                                enabledMaterials.remove(enabledMaterialsID);
                             }
                         } else {
                             sortedSelectedMaterials.get(i).cloneOfBackground.setBackground(
@@ -264,27 +266,26 @@ public class TabMenuMaterial {
     }
 
     private void removeSelectedMaterials() {
-        if (selectedMaterials.size() >= FileHelper.getNumberOfAllFilesInAppFolder(activity)) {
-            Toast.makeText(activity,
-                    R.string.information_message_least_one_element_must_be_available,
-                    Toast.LENGTH_SHORT).show();
-        } else {
-            boolean showMessageAboutRemovingEnabledMaterials = false;
-            for (int i = 0; i < selectedMaterials.size(); i++) {
-                ImageView materialToRemove = selectedMaterials.get(i).material;
+        boolean showMessageAboutRemovingEnabledMaterials = false;
+        for (int i = 0; i < selectedMaterials.size(); i++) {
+            ImageView materialToRemove = selectedMaterials.get(i).material;
 
-                boolean isEnabled = false;
-                for (int j = 0; j < enabledMaterials.size(); j++) {
-                    if (enabledMaterials.get(j).material == materialToRemove) {
-                        isEnabled = true;
-                        showMessageAboutRemovingEnabledMaterials = true;
-                        break;
-                    }
+            boolean isEnabled = false;
+            for (int j = 0; j < enabledMaterials.size(); j++) {
+                if (enabledMaterials.get(j).material == materialToRemove) {
+                    isEnabled = true;
+                    showMessageAboutRemovingEnabledMaterials = true;
+                    break;
                 }
+            }
 
-                if (!isEnabled) {
+            if (!isEnabled) {
+                if (FileHelper.getNumberOfAllFilesInAppFolder(activity) <= 1) {
+                    Toast.makeText(activity,
+                            R.string.information_message_least_one_element_must_be_available,
+                            Toast.LENGTH_SHORT).show();
+                } else {
                     String backgroundFilePath = materialToRemove.getTag().toString();
-
                     if (!(new File(backgroundFilePath).delete())) {
                         Toast.makeText(activity,
                                 R.string.information_message_removing_material_failed,
@@ -292,17 +293,16 @@ public class TabMenuMaterial {
                     }
                 }
             }
-
-            if (showMessageAboutRemovingEnabledMaterials) {
-                Toast.makeText(activity,
-                        R.string.information_message_removing_is_possible_for_disabled_materials,
-                        Toast.LENGTH_LONG).show();
-            }
-
-            selectedMaterials.clear();
-            enabledMaterials.clear();
-            createViewElements();
         }
+        if (showMessageAboutRemovingEnabledMaterials) {
+            Toast.makeText(activity,
+                    R.string.information_message_removing_is_possible_for_disabled_materials,
+                    Toast.LENGTH_LONG).show();
+        }
+
+        selectedMaterials.clear();
+        enabledMaterials.clear();
+        createViewElements();
     }
 
     private void selectMaterialInTabMaterial(Material material) {

@@ -329,7 +329,7 @@ public class SettingsMainActivity extends BaseActivity {
             return false;
         }
 
-        Pattern pattern = Pattern.compile("[^a-z0-9ąćęłóśźż]", Pattern.CASE_INSENSITIVE);
+        Pattern pattern = Pattern.compile("[^a-z0-9ąćęłóśźż ]", Pattern.CASE_INSENSITIVE);
         if (pattern.matcher(nameForConfiguration).find()) {
             Toast.makeText(getBaseContext(),
                     R.string.information_message_provided_incorrect_configuration_name,
