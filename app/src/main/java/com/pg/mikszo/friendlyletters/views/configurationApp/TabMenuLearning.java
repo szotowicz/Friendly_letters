@@ -164,26 +164,26 @@ public class TabMenuLearning {
         seekBarAttemptCount.setMax(attemptCountMax - attemptCountMin);
         seekBarAttemptCount.setProgress(configuration.numberOfRepetitions - attemptCountMin);
         attemptCountMonitor.setText(String.valueOf(seekBarAttemptCount.getProgress() + attemptCountMin));
+        seekBarAttemptCount.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
+
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                attemptCountMonitor.setText(String.valueOf(seekBarAttemptCount.getProgress() + attemptCountMin));
+
+                configuration.numberOfRepetitions = seekBarAttemptCount.getProgress() + attemptCountMin;
+                settingsManager.updateFileWithConfigurations(configuration, configurationID);
+            }
+        });
+
         if (configuration.testMode) {
             seekBarAttemptCount.setEnabled(false);
-        } else {
-            seekBarAttemptCount.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-                @Override
-                public void onStopTrackingTouch(SeekBar seekBar) {
-                }
-
-                @Override
-                public void onStartTrackingTouch(SeekBar seekBar) {
-                }
-
-                @Override
-                public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                    attemptCountMonitor.setText(String.valueOf(seekBarAttemptCount.getProgress() + attemptCountMin));
-
-                    configuration.numberOfRepetitions = seekBarAttemptCount.getProgress() + attemptCountMin;
-                    settingsManager.updateFileWithConfigurations(configuration, configurationID);
-                }
-            });
         }
     }
 
