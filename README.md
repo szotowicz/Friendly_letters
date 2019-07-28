@@ -2,7 +2,7 @@
 
 The application is part of the [Friendly Apps](http://autyzm.eti.pg.gda.pl) project. This is a set of educational applications aimed at supporting behavioral therapy of children with autism. Applications are dedicated to mobile devices with Android.
 
-//TODO : four photos on one
+![App screenshots](https://github.com/szotowicz/Friendly_letters/blob/master/screenshots/multi.jpg)
 
 ## Getting Started
 
@@ -47,3 +47,6 @@ This project is licensed under the GPLv3 License - see the [LICENSE](https://git
 - [GSON](https://github.com/google/gson): library to convert Java Objects into JSON and back. Released under the Apache 2.0 license.
 - [Picasso](https://square.github.io/picasso/): library to positioning and scaling images. Released under the Apache 2.0 license.
 - [AutoFitTextView](https://github.com/grantland/android-autofittextview): library to automatically resizes text to fit perfectly within its bounds. Released under the Apache 2.0 license.
+- [Flaticon](https://www.flaticon.com/): source of icons and pictures. The authors have been marked in the file code.
+- [Freesound](https://freesound.org/): source of sound files. The authors have been marked in the code. Files are licensed under the Attribution License (CC).
+- [dr inż. Agnieszka Landowska](http://pg.edu.pl/nailie): the author of recorded commands and praises in Polish.
