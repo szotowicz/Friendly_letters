@@ -32,6 +32,8 @@ import java.util.Locale;
 public class LoggerCSV {
 
     private File csvFile;
+    private final boolean IS_LOGGER_ENABLED = true;
+
     public enum loggerStatus {
         CHECK_TRUE, CHECK_FALSE,
         TIMEOUT_CHECK_TRUE, TIMEOUT_CHECK_FALSE,
@@ -49,15 +51,17 @@ public class LoggerCSV {
     public void addNewRecord(loggerStatus status, GameMaterial material, Configuration settings,
                              int materialPixelsOnStart, int retainedMaterialPixels, int tracePixels,
                              int currentStep, int currentRepetition, long time) {
-        try {
-            Writer writer = new BufferedWriter(new FileWriter(csvFile, true));
-            writer.write(getRecordContent(status, material, settings,
-                    materialPixelsOnStart, retainedMaterialPixels, tracePixels,
-                    currentStep, currentRepetition, time));
-            ((BufferedWriter)writer).newLine();
-            writer.close();
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (IS_LOGGER_ENABLED) {
+            try {
+                Writer writer = new BufferedWriter(new FileWriter(csvFile, true));
+                writer.write(getRecordContent(status, material, settings,
+                        materialPixelsOnStart, retainedMaterialPixels, tracePixels,
+                        currentStep, currentRepetition, time));
+                ((BufferedWriter)writer).newLine();
+                writer.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 

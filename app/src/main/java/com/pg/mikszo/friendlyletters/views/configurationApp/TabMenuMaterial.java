@@ -48,12 +48,12 @@ public class TabMenuMaterial {
         this.configuration = settingsManager.getConfigurationById(configurationID);
 
         createViewElements();
-        ((TextView)activity.findViewById(R.id.settings_configuration_name_label))
-                .setText(configuration.configurationName);
     }
 
     private void createViewElements() {
         activity.setContentView(R.layout.activity_settings_tab_material);
+        ((TextView)activity.findViewById(R.id.settings_configuration_name_label))
+                .setText(configuration.configurationName);
 
         setOnClickActions();
         selectedMaterials.clear();
