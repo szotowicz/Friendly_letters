@@ -25,10 +25,6 @@ There are three installation options:
 
 
 
-## Running the tests
-
-TODO
-
 
 ## Authors
 
