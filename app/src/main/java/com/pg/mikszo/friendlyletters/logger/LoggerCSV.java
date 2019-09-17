@@ -12,9 +12,6 @@ package com.pg.mikszo.friendlyletters.logger;
 
 import android.content.Context;
 
-import java.io.FileOutputStream;
-import java.io.OutputStreamWriter;
-import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 
 import com.pg.mikszo.friendlyletters.FileHelper;
@@ -32,7 +29,7 @@ import java.util.Locale;
 public class LoggerCSV {
 
     private File csvFile;
-    private final boolean IS_LOGGER_ENABLED = true;
+    private final boolean IS_LOGGER_ENABLED = false;
 
     public enum loggerStatus {
         CHECK_TRUE, CHECK_FALSE,

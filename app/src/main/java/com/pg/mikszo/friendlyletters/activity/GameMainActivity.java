@@ -542,12 +542,12 @@ public class GameMainActivity extends BaseActivity {
             reportChangeOfMaterial(LoggerCSV.loggerStatus.CLICK_NEXT);
         }
 
-        drawingInGameView.cleanScreen();
         timeOfStartLevel = 0;
 
         if (currentStep == configuration.numberOfSteps) {
             gameOver();
         } else {
+            drawingInGameView.cleanScreen();
             currentRepetition = 1;
             if (currentStep == generatedMaterials.size()) {
                 generateNewGameMaterial();
@@ -601,6 +601,15 @@ public class GameMainActivity extends BaseActivity {
     }
 
     private void gameOver() {
+        if (!audioPlayer.playEndOfGame()) {
+            textReader.readPraise("The end");
+        }
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         if (configuration.testMode) {
             int correctlySolved = 0;
             for (GameMaterial gameMaterial : generatedMaterials) {
@@ -613,10 +622,6 @@ public class GameMainActivity extends BaseActivity {
             startActivity(gameReport);
             finish();
         } else {
-            if (audioPlayer.playEndOfTest()) {
-                //TODO
-                //textReader...
-            }
             audioPlayer.playRandomFanfare();
             startActivity(new Intent(getBaseContext(), GameStartActivity.class));
             finish();

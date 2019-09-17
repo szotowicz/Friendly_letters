@@ -31,18 +31,20 @@ public class AudioPlayer {
     private final String[] availablePraises_swietnie = {"swietnie1.mp3", "swietnie2.mp3", "swietnie3.mp3", "swietnie4.mp3"};
     private final String[] availablePraises_dobrze = {"dobrze1.mp3", "dobrze2.mp3", "dobrze3.mp3", "dobrze4.mp3"};
     private final String[] availablePraises_super = {"super1.mp3", "super2.mp3", "super3.mp3", "super4.mp3"};
+    private final String[] availableEndgamePraises = {"koniec1.mp3", "koniec2.mp3", "koniec_zadania1.mp3", "koniec_zadania2.mp3"};
 
     public AudioPlayer(Context context) {
         this.context = context;
     }
 
-    public boolean playEndOfTest() {
+    public boolean playEndOfGame() {
         if (!Locale.getDefault().getDisplayLanguage().equals("polski")) {
             return false;
         }
 
-        //TODO
-        return false;
+        int randomEndgamePraiseId = new Random().nextInt(availableEndgamePraises.length);
+        playAssetSound("endgame/" + availableEndgamePraises[randomEndgamePraiseId]);
+        return true;
     }
 
     public void playRandomFanfare() {
@@ -237,7 +239,6 @@ public class AudioPlayer {
         }
 
         try {
-            // TODO : dotykanie ekranu przerywa czytanie poleceń
             playAssetSound("commands/" + commandFragments[0]);
             Thread.sleep(800);
             playAssetSound("commands/" + commandFragments[1]);
