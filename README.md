@@ -17,7 +17,7 @@ The project was created using Android Studio.
 
 There are three installation options:
 
-1. Use [Google Play](https://play.google.com/store/apps/TODO)
+1. Use [Google Play](https://play.google.com/store/apps/details?id=com.pg.mikszo.friendlyletters)
 
 2. Use the latest .apk file created on [release tab](https://github.com/szotowicz/Friendly_letters/releases)
 
